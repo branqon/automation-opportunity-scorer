@@ -9,7 +9,7 @@ import {
 
 export type DashboardFocus = "all" | "quick-wins" | "strategic-bets";
 
-export type DashboardFilters = {
+export type DashboardFilterState = {
   team: string;
   automationType: AutomationType | "all";
   focus: DashboardFocus;
@@ -21,7 +21,7 @@ function readValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export function parseDashboardFilters(searchParams: RawSearchParams): DashboardFilters {
+export function parseDashboardFilters(searchParams: RawSearchParams): DashboardFilterState {
   const requestedTeam = readValue(searchParams.team);
   const requestedAutomationType = readValue(searchParams.automationType);
   const requestedFocus = readValue(searchParams.focus);
@@ -68,7 +68,7 @@ function sortByOpportunityScore(left: EnrichedOpportunity, right: EnrichedOpport
 
 function applyFilters(
   opportunities: RankedOpportunity[],
-  filters: DashboardFilters,
+  filters: DashboardFilterState,
 ) {
   return opportunities.filter((opportunity) => {
     if (filters.team !== "all" && opportunity.team.slug !== filters.team) {
@@ -97,7 +97,7 @@ function applyFilters(
   });
 }
 
-export async function getDashboardData(filters: DashboardFilters) {
+export async function getDashboardData(filters: DashboardFilterState) {
   const rows = await prisma.opportunity.findMany({
     include: { team: true },
     orderBy: {

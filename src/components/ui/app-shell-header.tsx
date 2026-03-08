@@ -1,8 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { Plus } from "lucide-react";
-import { SettingsModal } from "@/components/ui/settings-modal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function AppShellHeader() {
@@ -24,15 +20,7 @@ export function AppShellHeader() {
         </Link>
 
         <div className="hidden items-center gap-2 text-xs text-muted-foreground md:flex">
-          <Link
-            href="/opportunities/new"
-            className="flex items-center gap-1.5 rounded-full border border-line/70 bg-surface px-3 py-1.5 transition hover:border-accent hover:text-foreground"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            New Opportunity
-          </Link>
           <ThemeToggle />
-          <SettingsModal />
         </div>
       </div>
     </header>

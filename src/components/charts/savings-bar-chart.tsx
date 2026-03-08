@@ -29,6 +29,14 @@ type TooltipProps = {
   }>;
 };
 
+const CHART_COLORS = {
+  axis: "var(--chart-axis)",
+  barEnd: "var(--chart-bar-end)",
+  barStart: "var(--chart-bar-start)",
+  cursorFill: "var(--chart-cursor-fill)",
+  grid: "var(--chart-grid)",
+} as const;
+
 function CustomTooltip({ active, payload }: TooltipProps) {
   if (!active || !payload?.[0]) {
     return null;
@@ -66,12 +74,12 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           height={size.height}
           margin={{ top: 8, right: 12, left: 0, bottom: 8 }}
         >
-          <CartesianGrid stroke="rgba(130, 145, 140, 0.18)" vertical={false} />
+          <CartesianGrid stroke={CHART_COLORS.grid} vertical={false} />
           <XAxis
             axisLine={false}
             tickLine={false}
             dataKey="name"
-            tick={{ fill: "#60716c", fontSize: 12 }}
+            tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
             interval={0}
             angle={-24}
             textAnchor="end"
@@ -80,10 +88,10 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           <YAxis
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#60716c", fontSize: 12 }}
+            tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
             tickFormatter={(value) => compactCurrencyFormatter.format(Number(value))}
           />
-          <Tooltip cursor={{ fill: "rgba(16, 102, 92, 0.07)" }} content={<CustomTooltip />} />
+          <Tooltip cursor={{ fill: CHART_COLORS.cursorFill }} content={<CustomTooltip />} />
           <Bar
             dataKey="annualCostSavings"
             fill="url(#savingsGradient)"
@@ -91,8 +99,8 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           />
           <defs>
             <linearGradient id="savingsGradient" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#147869" />
-              <stop offset="100%" stopColor="#71b7ab" />
+              <stop offset="0%" stopColor={CHART_COLORS.barStart} />
+              <stop offset="100%" stopColor={CHART_COLORS.barEnd} />
             </linearGradient>
           </defs>
         </BarChart>

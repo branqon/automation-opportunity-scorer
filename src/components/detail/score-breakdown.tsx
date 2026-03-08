@@ -63,7 +63,15 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
               </div>
             </div>
 
-            <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-line/50">
+            <div
+              className="mt-4 h-2.5 overflow-hidden rounded-full bg-line/50"
+              role="progressbar"
+              aria-label={`${factor.label} score contribution`}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(factor.normalizedScore * 100)}
+              aria-valuetext={`${Math.round(factor.normalizedScore * 100)} percent of factor range`}
+            >
               <div
                 className="h-full rounded-full bg-gradient-to-r from-accent to-accent-strong"
                 style={{ width: `${factor.normalizedScore * 100}%` }}

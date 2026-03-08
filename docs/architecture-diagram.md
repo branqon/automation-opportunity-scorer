@@ -13,7 +13,7 @@ flowchart TD
 
     subgraph DataLayer[Data layer]
       Prisma[Prisma client]
-      PostgreSQL[(PostgreSQL seeded dataset)]
+      SQLite[(SQLite seeded dataset)]
       Seed[Seed script]
     end
 
@@ -24,12 +24,12 @@ flowchart TD
     Dashboard --> Scoring
     Detail --> Scoring
     Scoring --> Prisma
-    Prisma --> PostgreSQL
-    Seed --> PostgreSQL
+    Prisma --> SQLite
+    Seed --> SQLite
 ```
 
 ## Notes
 
 - The browser only consumes rendered analytics views.
 - The scoring engine runs on the server and transforms seeded opportunity records into ranked portfolio outputs.
-- Prisma provides the typed boundary between the app and the PostgreSQL database.
+- Prisma provides the typed boundary between the app and the SQLite database file.

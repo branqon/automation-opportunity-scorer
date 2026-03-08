@@ -5,31 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { compactCurrencyFormatter, formatHours, formatScore } from "@/lib/formatters";
 import { getAutomationTypeLabel } from "@/lib/metadata";
+import {
+  getEffortBadgeVariant,
+  getValueBadgeVariant,
+} from "@/lib/opportunity-badges";
 import type { RankedOpportunity } from "@/lib/scoring";
-
-function getEffortVariant(tier: RankedOpportunity["effortTier"]) {
-  if (tier === "Quick win") {
-    return "success";
-  }
-
-  if (tier === "Strategic bet") {
-    return "critical";
-  }
-
-  return "warning";
-}
-
-function getValueVariant(valueBand: RankedOpportunity["valueBand"]) {
-  if (valueBand === "Automate now") {
-    return "accent";
-  }
-
-  if (valueBand === "Validate next") {
-    return "warning";
-  }
-
-  return "neutral";
-}
 
 type TopCandidatesProps = {
   opportunities: RankedOpportunity[];
@@ -78,10 +58,10 @@ export function TopCandidates({ opportunities }: TopCandidatesProps) {
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2">
-              <Badge variant={getValueVariant(opportunity.valueBand)}>
+              <Badge variant={getValueBadgeVariant(opportunity.valueBand)}>
                 {opportunity.valueBand}
               </Badge>
-              <Badge variant={getEffortVariant(opportunity.effortTier)}>
+              <Badge variant={getEffortBadgeVariant(opportunity.effortTier)}>
                 {opportunity.effortTier}
               </Badge>
               <Badge

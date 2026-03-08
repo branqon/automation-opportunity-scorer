@@ -8,13 +8,13 @@ Next.js with the App Router keeps the project small while still feeling producti
 - Route-level loading, error, and not-found states are straightforward.
 - The app stays easy to explain and easy to run locally.
 
-## Why Prisma + PostgreSQL
+## Why Prisma + SQLite
 
-PostgreSQL is production-grade and Vercel-compatible, making the project deployable beyond local development.
+SQLite is the current database choice for this repo because it keeps the setup minimal and fits the portfolio goal better than a separate database service.
 
-- PostgreSQL provides full relational support including advanced constraints and indexing.
+- SQLite keeps the project local-first and removes Docker or external database setup from the getting-started flow.
 - Prisma provides a typed schema, seed workflow, and maintainable data access.
-- The same database engine runs locally and in production, eliminating environment drift.
+- The data model remains easy to port later if someone wants to swap in Postgres for a larger deployment.
 
 ## Why a seeded aggregated dataset instead of raw ticket ingestion
 
@@ -47,6 +47,8 @@ For this repo, keeping the assumptions visible in code is the better tradeoff:
 
 Authentication would add setup overhead without strengthening the portfolio story. The app behaves like an internal prototype or decision-support tool shared in a controlled environment.
 
+The shipped app is intentionally read-only. That keeps the public deployment safe and the portfolio story focused on prioritization instead of CRUD.
+
 ## Why there is no workflow execution layer
 
 Execution is intentionally out of scope.
@@ -76,6 +78,7 @@ The interface uses restrained neutrals, a single teal accent, and internal-tool 
 - Scoring caps are fixed benchmarks, not team-specific calibrations.
 - Savings are labor-based estimates, not full financial models.
 - Charts focus on clarity over configurability.
+- The app does not expose public write paths.
 
 ## Future extensions
 
@@ -83,9 +86,5 @@ Reasonable follow-on work after v1:
 
 - historical trend views
 - confidence notes by opportunity
+- exportable stakeholder snapshots
 - ingesting categorized operational data from a source system
-
-### Delivered
-
-- side-by-side comparison mode
-- exportable summary snapshots

@@ -1,8 +1,9 @@
 import { Prisma, PrismaClient, AutomationType } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaBetterSQLite3 } from "@prisma/adapter-better-sqlite3";
 
+const url = process.env["DATABASE_URL"] ?? "file:./prisma/dev.db";
 const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env["DATABASE_URL"]! }),
+  adapter: new PrismaBetterSQLite3({ url }),
 });
 
 const teams: Prisma.TeamCreateManyInput[] = [

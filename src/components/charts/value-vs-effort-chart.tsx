@@ -36,10 +36,16 @@ type TooltipProps = {
 };
 
 const DOT_COLORS: Record<EffortTier, string> = {
-  "Quick win": "#147869",
-  "Foundation build": "#d39324",
-  "Strategic bet": "#c45f4d",
+  "Quick win": "var(--chart-quick-win)",
+  "Foundation build": "var(--chart-foundation)",
+  "Strategic bet": "var(--chart-strategic)",
 };
+
+const CHART_COLORS = {
+  axis: "var(--chart-axis)",
+  grid: "var(--chart-grid)",
+  reference: "var(--chart-reference)",
+} as const;
 
 function CustomTooltip({ active, payload }: TooltipProps) {
   if (!active || !payload?.[0]) {
@@ -79,15 +85,24 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
     >
       <div className="pointer-events-none absolute right-4 top-3 z-10 hidden gap-3 rounded-full border border-line/70 bg-background/70 px-3 py-2 text-xs text-muted-foreground backdrop-blur sm:flex">
         <span className="inline-flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#147869]" />
+          <span
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: DOT_COLORS["Quick win"] }}
+          />
           Quick win
         </span>
         <span className="inline-flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#d39324]" />
+          <span
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: DOT_COLORS["Foundation build"] }}
+          />
           Foundation build
         </span>
         <span className="inline-flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#c45f4d]" />
+          <span
+            className="h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: DOT_COLORS["Strategic bet"] }}
+          />
           Strategic bet
         </span>
       </div>
@@ -98,7 +113,7 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
           height={size.height}
           margin={{ top: 16, right: 18, left: 0, bottom: 10 }}
         >
-          <CartesianGrid stroke="rgba(130, 145, 140, 0.18)" />
+          <CartesianGrid stroke={CHART_COLORS.grid} />
           <XAxis
             type="number"
             dataKey="implementationDifficulty"
@@ -106,12 +121,12 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
             ticks={[1, 2, 3, 4, 5]}
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#60716c", fontSize: 12 }}
+            tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
             label={{
               value: "Implementation difficulty",
               position: "insideBottom",
               offset: -6,
-              fill: "#60716c",
+              fill: CHART_COLORS.axis,
               fontSize: 12,
             }}
           />
@@ -121,18 +136,18 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
             domain={[40, 95]}
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#60716c", fontSize: 12 }}
+            tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
             label={{
               value: "Opportunity score",
               angle: -90,
               position: "insideLeft",
-              fill: "#60716c",
+              fill: CHART_COLORS.axis,
               fontSize: 12,
             }}
           />
           <ZAxis type="number" dataKey="monthlyHoursSaved" range={[120, 540]} />
-          <ReferenceLine x={2.5} stroke="rgba(130, 145, 140, 0.32)" />
-          <ReferenceLine y={70} stroke="rgba(130, 145, 140, 0.32)" />
+          <ReferenceLine x={2.5} stroke={CHART_COLORS.reference} />
+          <ReferenceLine y={70} stroke={CHART_COLORS.reference} />
           <Tooltip cursor={{ strokeDasharray: "4 4" }} content={<CustomTooltip />} />
           <Scatter data={quickWins} fill={DOT_COLORS["Quick win"]} />
           <Scatter

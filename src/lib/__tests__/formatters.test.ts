@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   formatHours,
   formatPercent,
+  formatRatePercent,
   formatScore,
-  currencyFormatter,
   compactCurrencyFormatter,
 } from "@/lib/formatters";
 
@@ -35,18 +35,19 @@ describe("formatPercent", () => {
   });
 });
 
+describe("formatRatePercent", () => {
+  it("shows one decimal place for rate values", () => {
+    expect(formatRatePercent(0.85)).toBe("85.0%");
+    expect(formatRatePercent(0.772)).toBe("77.2%");
+    expect(formatRatePercent(0.25)).toBe("25.0%");
+  });
+});
+
 describe("formatScore", () => {
   it("shows one decimal place", () => {
     expect(formatScore(72)).toBe("72.0");
     expect(formatScore(85.37)).toBe("85.4");
     expect(formatScore(0)).toBe("0.0");
-  });
-});
-
-describe("currencyFormatter", () => {
-  it("formats as USD with no decimals", () => {
-    const result = currencyFormatter.format(1234);
-    expect(result).toBe("$1,234");
   });
 });
 

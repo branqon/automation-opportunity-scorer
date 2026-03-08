@@ -44,8 +44,6 @@ function makeOpportunity(
     implementationConsiderations: "Test considerations",
     riskNotes: "Test risk notes",
     recommendedNextStep: "Test next step",
-    source: "SEED",
-    aiAnalysis: null,
     createdAt: new Date("2025-01-01T00:00:00Z"),
     updatedAt: new Date("2025-01-01T00:00:00Z"),
     ...opportunityOverrides,
@@ -158,7 +156,7 @@ describe("enrichOpportunity", () => {
   });
 
   it("clamps automation rate between 0.25 and 0.85", () => {
-    // Low scores should still have at least 0.25 (rounded to one decimal)
+    // Low scores should still clamp to the 0.25 floor.
     const lowResult = enrichOpportunity(
       makeOpportunity({
         repeatabilityScore: 1,
@@ -167,11 +165,9 @@ describe("enrichOpportunity", () => {
         approvalComplexityScore: 5,
       }),
     );
-    expect(lowResult.estimatedAutomationRate).toBeGreaterThanOrEqual(0.3);
+    expect(lowResult.estimatedAutomationRate).toBeCloseTo(0.25, 10);
 
-    // High scores: automationFit=1.0, multiplier=0.95, clamped to 0.85,
-    // then roundToOneDecimal(0.85) = 0.9 (Math.round(8.5) = 9)
-    // This confirms the clamp at 0.85 is applied before rounding
+    // High scores should cap at the 0.85 ceiling instead of rounding up past it.
     const highResult = enrichOpportunity(
       makeOpportunity({
         repeatabilityScore: 5,
@@ -180,10 +176,7 @@ describe("enrichOpportunity", () => {
         approvalComplexityScore: 1,
       }),
     );
-    // Without clamping, 1.0 * 0.95 = 0.95 would round to 1.0
-    // With clamping at 0.85, it rounds to 0.9 -- confirming the clamp works
-    expect(highResult.estimatedAutomationRate).toBeLessThanOrEqual(0.9);
-    expect(highResult.estimatedAutomationRate).toBeLessThan(1.0);
+    expect(highResult.estimatedAutomationRate).toBeCloseTo(0.85, 10);
   });
 
   it("generates whyNow narrative", () => {

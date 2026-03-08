@@ -5,7 +5,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Team {
@@ -25,12 +26,6 @@ enum AutomationType {
   AI_ASSISTED_TRIAGE
   SCHEDULED_FOLLOW_UP
   SYSTEM_INTEGRATION
-}
-
-enum OpportunitySource {
-  SEED
-  MANUAL
-  AI_ASSISTED
 }
 
 model Opportunity {
@@ -54,8 +49,6 @@ model Opportunity {
   implementationConsiderations  String
   riskNotes                     String
   recommendedNextStep           String
-  source                        OpportunitySource @default(SEED)
-  aiAnalysis                    String?
   createdAt                     DateTime          @default(now())
   updatedAt                     DateTime          @updatedAt
 }

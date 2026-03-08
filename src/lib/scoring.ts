@@ -127,6 +127,37 @@ function roundToOneDecimal(value: number) {
   return Math.round(value * 10) / 10;
 }
 
+function roundToThreeDecimals(value: number) {
+  return Math.round(value * 1000) / 1000;
+}
+
+function getDisplayValue(
+  key: ScoreFactorKey,
+  opportunity: Opportunity,
+  laborHoursPerMonth: number,
+) {
+  switch (key) {
+    case "volume":
+      return `${opportunity.monthlyVolume} requests/month`;
+    case "laborIntensity":
+      return `${roundToOneDecimal(laborHoursPerMonth)} analyst hours/month`;
+    case "implementationEase":
+      return `${6 - opportunity.implementationDifficultyScore}/5 implementation ease`;
+    case "approvalEase":
+      return `${6 - opportunity.approvalComplexityScore}/5 approval ease`;
+    case "repeatability":
+      return `${opportunity.repeatabilityScore}/5`;
+    case "standardization":
+      return `${opportunity.standardizationScore}/5`;
+    case "rework":
+      return `${opportunity.reworkRateScore}/5`;
+    case "slaRisk":
+      return `${opportunity.slaRiskScore}/5`;
+    case "customerImpact":
+      return `${opportunity.customerImpactScore}/5`;
+  }
+}
+
 function joinNarratives(items: string[]) {
   if (items.length === 1) {
     return items[0] ?? "";
@@ -209,25 +240,6 @@ export function enrichOpportunity(opportunity: Opportunity & { team: Team }): En
   const scoreBreakdown: ScoreBreakdownEntry[] = (
     Object.entries(SCORE_WEIGHTS) as Array<[ScoreFactorKey, number]>
   ).map(([key, weight]) => {
-    const displayValue =
-      key === "volume"
-        ? `${opportunity.monthlyVolume} requests/month`
-        : key === "laborIntensity"
-          ? `${roundToOneDecimal(laborHoursPerMonth)} analyst hours/month`
-          : key === "implementationEase"
-            ? `${6 - opportunity.implementationDifficultyScore}/5 implementation ease`
-            : key === "approvalEase"
-              ? `${6 - opportunity.approvalComplexityScore}/5 approval ease`
-              : key === "repeatability"
-                ? `${opportunity.repeatabilityScore}/5`
-                : key === "standardization"
-                  ? `${opportunity.standardizationScore}/5`
-                  : key === "rework"
-                    ? `${opportunity.reworkRateScore}/5`
-                    : key === "slaRisk"
-                      ? `${opportunity.slaRiskScore}/5`
-                      : `${opportunity.customerImpactScore}/5`;
-
     return {
       key,
       label: FACTOR_METADATA[key].label,
@@ -235,7 +247,7 @@ export function enrichOpportunity(opportunity: Opportunity & { team: Team }): En
       weight,
       normalizedScore: normalizedScores[key],
       contribution: normalizedScores[key] * weight * 100,
-      displayValue,
+      displayValue: getDisplayValue(key, opportunity, laborHoursPerMonth),
     };
   });
 
@@ -250,10 +262,12 @@ export function enrichOpportunity(opportunity: Opportunity & { team: Team }): En
       (1 - normalizeFivePointScore(opportunity.approvalComplexityScore))) /
     4;
 
-  const estimatedAutomationRate = clamp(
+  const estimatedAutomationRate = roundToThreeDecimals(
+    clamp(
     automationFit * AUTOMATION_TYPE_MULTIPLIERS[opportunity.suggestedAutomationType],
     0.25,
     0.85,
+    ),
   );
 
   const monthlyMinutesSaved = monthlyMinutes * estimatedAutomationRate;
@@ -273,7 +287,7 @@ export function enrichOpportunity(opportunity: Opportunity & { team: Team }): En
     monthlyHoursSaved: roundToOneDecimal(monthlyHoursSaved),
     annualHoursSaved: roundToOneDecimal(annualHoursSaved),
     annualCostSavings: Math.round(annualCostSavings),
-    estimatedAutomationRate: roundToOneDecimal(estimatedAutomationRate),
+    estimatedAutomationRate,
     laborHoursPerMonth: roundToOneDecimal(laborHoursPerMonth),
     effortTier: getEffortTier(opportunity),
     valueBand: getValueBand(score),

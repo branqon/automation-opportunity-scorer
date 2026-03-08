@@ -31,7 +31,7 @@ The shipped scope is intentionally narrow.
 - One detail page per opportunity
 - A seeded aggregated dataset
 - A deterministic scoring engine
-- Local and deployed setup with Prisma and PostgreSQL
+- Read-only portfolio experience with Prisma and SQLite
 
 ## Seeded dataset
 
@@ -66,6 +66,7 @@ These were intentionally excluded from v1:
 
 - ticket ingestion
 - CSV import
+- public data entry
 - authentication
 - multi-tenant architecture
 - workflow execution

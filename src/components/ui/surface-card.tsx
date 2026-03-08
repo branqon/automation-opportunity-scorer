@@ -10,10 +10,10 @@ export function SurfaceCard({
   className = "",
 }: SurfaceCardProps) {
   return (
-    <section
+    <div
       className={`rounded-card border border-line/80 bg-surface/95 p-6 shadow-card backdrop-blur ${className}`}
     >
       {children}
-    </section>
+    </div>
   );
 }

@@ -1,190 +1,140 @@
-# Automation Opportunity Scorer
+# automation-opportunity-scorer
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-7-2D3748?logo=prisma)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
-![Claude API](https://img.shields.io/badge/Claude_API-Anthropic-D4A574?logo=anthropic)
-![OpenAI API](https://img.shields.io/badge/OpenAI-GPT--4o-412991?logo=openai&logoColor=white)
+Focused internal-tool style application that ranks recurring operational work and answers one question well: what should we automate next?
 
-AI-powered tool that ranks operational automation opportunities by business value, implementation fit, and transparent ROI assumptions.
+![Dashboard overview](./docs/screenshots/dashboard-overview.png)
+![Opportunity detail](./docs/screenshots/opportunity-detail.png)
 
-![Dashboard](docs/screenshots/dashboard-overview.png)
+## Why this project matters
 
-## Features
+Automation programs often jump straight into building workflows without a clear prioritization model. This project demonstrates the upstream skill that matters first: identifying recurring operational work, estimating ROI, and deciding where automation investment should go next.
 
-- **9-factor weighted scoring model** with transparent weights
-- **AI-powered process intake** — paste a description, AI extracts scoring fields
-- **AI implementation plans** per opportunity
-- **AI portfolio insights** and roadmap generation
-- **Configurable LLM providers** (Claude + OpenAI, BYOK)
-- **Interactive dashboard** with filters, charts, and ranked table
-- **Side-by-side opportunity comparison**
-- **CSV export** of ranked opportunities
-- **Dark mode** with system preference detection
-- **Responsive design** — mobile cards + desktop table
+The portfolio story is simple:
 
-## Architecture
+> I can analyze real operational patterns, estimate automation ROI, and build tools that help organizations prioritize automation work.
+
+## Key features
+
+- Seeded MSP and service-operations dataset modeled as recurring categories, not raw ticket ingestion.
+- Deterministic 9-factor scoring model with visible weights and ROI assumptions.
+- Dashboard with top candidates, quick wins vs strategic bets, charts, and a ranked table.
+- Opportunity detail pages with score breakdowns, implementation considerations, risk notes, and concrete next steps.
+- Read-only portfolio surface designed for screenshots, demos, and interview walkthroughs.
+
+## How this differs from an automation platform
+
+This repo is intentionally not a workflow runner, chatbot, ticketing system, or orchestration layer.
+
+- It does not ingest raw tickets.
+- It does not execute automations.
+- It does not simulate approvals.
+- It does not let users reconfigure the scoring model from the UI.
+
+It is a prioritization product, not an execution product.
+
+## Architecture overview
 
 ```mermaid
-graph TB
-    subgraph Frontend
-        Dashboard[Dashboard Page]
-        Detail[Detail Page]
-        Create[Create Opportunity]
-        Settings[AI Settings Modal]
-    end
-
-    subgraph API Layer
-        CRUD["/api/opportunities"]
-        AI1["/api/ai/analyze-process"]
-        AI2["/api/ai/implementation-plan"]
-        AI3["/api/ai/portfolio-summary"]
-    end
-
-    subgraph AI Providers
-        Claude[Anthropic Claude]
-        GPT[OpenAI GPT-4o]
-    end
-
-    subgraph Data
-        Prisma[Prisma ORM]
-        Postgres[(PostgreSQL)]
-    end
-
-    Dashboard --> CRUD
-    Detail --> AI2
-    Create --> AI1
-    Create --> CRUD
-    Dashboard --> AI3
-    CRUD --> Prisma
-    AI1 --> Claude
-    AI1 --> GPT
-    AI2 --> Claude
-    AI2 --> GPT
-    AI3 --> Claude
-    AI3 --> GPT
-    AI2 --> Prisma
-    Prisma --> Postgres
+flowchart LR
+    A[Seeded opportunity dataset] --> B[Prisma + SQLite]
+    B --> C[Next.js server components]
+    C --> D[Deterministic scoring engine]
+    D --> E[Dashboard ranking]
+    D --> F[Opportunity detail pages]
+    E --> G[Charts + ranked table]
+    F --> H[Score breakdown + next step]
 ```
 
-## How the Scoring Model Works
+More detail: [docs/architecture-diagram.md](./docs/architecture-diagram.md)
 
-Each opportunity is evaluated against **9 weighted factors** that produce a deterministic 100-point score:
+## Scoring methodology summary
 
-| Factor | Weight |
-|--------|--------|
-| Monthly volume | 18% |
-| Analyst time load | 18% |
-| Repeatability | 15% |
-| Standardization | 12% |
-| Rework pressure | 10% |
-| SLA risk | 10% |
-| Customer impact | 10% |
-| Implementation ease | 5% |
-| Approval ease | 2% |
+Each opportunity is scored against 9 weighted factors:
 
-The scoring model is **deterministic and fixed in code** — AI augments the intake and planning stages but never replaces the scoring itself.
+- monthly volume
+- analyst time load
+- repeatability
+- standardization
+- rework pressure
+- SLA risk
+- customer impact
+- implementation ease
+- approval ease
 
-Each opportunity is categorized by:
-- **Effort tier**: Quick win / Foundation build / Strategic bet
-- **Value band**: Automate now / Validate next / Monitor
+Savings use a visible ROI model in code:
 
-## AI Features
+```text
+monthly_minutes_saved = monthly_volume * avg_handle_time_minutes * estimated_automation_rate
+annual_cost_savings = annual_hours_saved * hourly_rate
+```
 
-This project uses a **BYOK (Bring Your Own Key)** pattern for AI capabilities:
+Current hourly-rate assumption: `$48/hr`
 
-- Users configure their API keys in the browser settings modal
-- Keys are stored in the browser only and **never touch server storage**
-- Both Anthropic Claude and OpenAI GPT-4o are supported as providers
+Full methodology: [docs/scoring-methodology.md](./docs/scoring-methodology.md)
 
-Three AI capabilities are available:
+## Demo walkthrough
 
-1. **Intake analysis** — paste a process description and the AI extracts structured scoring fields
-2. **Implementation plans** — generate a detailed implementation plan for any opportunity
-3. **Portfolio insights** — AI analyzes the full portfolio to surface themes, quick wins, and a recommended roadmap
+1. Open the dashboard to review the seeded portfolio of recurring operational categories.
+2. Filter by team, automation pattern, or focus area.
+3. Review top candidates and the quick-win vs higher-effort chart.
+4. Review ranked opportunities by score, hours saved, and annual savings.
+5. Open a detail page to inspect the score breakdown, ROI assumptions, and recommended next step.
 
-## Getting Started
+## Local setup
 
-### Local Development
+This repo ships with a seeded local SQLite file and generated Prisma client, so no separate database bootstrap is required for the default path.
+The dev script uses webpack mode for a more reliable local startup path.
 
 ```bash
-git clone <repo-url>
-cd automation-opportunity-scorer
 npm install
-
-# Set up PostgreSQL and add DATABASE_URL to .env
-npx prisma generate
-npx prisma db push
-npx prisma db seed
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open `http://localhost:3000`
 
-### Docker
+If you want to refresh the seeded dataset locally:
 
 ```bash
-docker-compose up
-# Then seed:
-docker-compose exec app npx prisma db push && docker-compose exec app npx prisma db seed
+npm run db:reset
 ```
 
-### Vercel
+These Prisma commands use `npx` on demand rather than a pinned local Prisma CLI dependency.
 
-1. Connect this repo to [Vercel](https://vercel.com)
-2. Add `DATABASE_URL` as an environment variable ([Neon Postgres](https://neon.tech) recommended)
-3. Deploy
+If you remove `prisma/dev.db` and want to recreate it without starting the app:
 
-## Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript 5 (strict mode) |
-| Database | PostgreSQL via Prisma 7 |
-| AI | Anthropic Claude + OpenAI GPT-4o |
-| Styling | Tailwind CSS 4 |
-| Charts | Recharts |
-| Testing | Vitest |
-| CI/CD | GitHub Actions |
-| Deployment | Vercel + Docker |
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── api/
-│   │   ├── ai/
-│   │   │   ├── analyze-process/     # AI intake analysis
-│   │   │   ├── implementation-plan/  # AI implementation plans
-│   │   │   └── portfolio-summary/   # AI portfolio insights
-│   │   └── opportunities/           # CRUD routes
-│   ├── opportunities/
-│   │   ├── [slug]/                  # Detail page
-│   │   └── new/                     # Create page
-│   ├── layout.tsx
-│   └── page.tsx                     # Dashboard
-├── components/
-│   ├── charts/                      # Recharts visualizations
-│   ├── dashboard/                   # Dashboard widgets
-│   ├── detail/                      # Detail page components
-│   ├── opportunities/               # Opportunity cards and tables
-│   ├── providers/                   # React context providers
-│   └── ui/                          # Shared UI primitives
-├── lib/
-│   ├── __tests__/                   # Vitest unit tests
-│   ├── ai-prompts.ts               # Prompt templates
-│   ├── llm.ts                      # LLM abstraction layer
-│   ├── scoring.ts                  # Deterministic scoring engine
-│   └── prisma.ts                   # Database client
-prisma/
-├── schema.prisma                    # Database schema
-└── seed.ts                          # Seed data
+```bash
+npm run db:ensure
 ```
 
-## License
+Optional environment override:
 
-MIT
+```bash
+DATABASE_URL="file:./prisma/dev.db"
+```
+
+Useful commands:
+
+```bash
+npm run test
+npm run lint
+npm run build
+```
+
+## Docs
+
+- [docs/project-overview.md](./docs/project-overview.md)
+- [docs/scoring-methodology.md](./docs/scoring-methodology.md)
+- [docs/engineering-decisions.md](./docs/engineering-decisions.md)
+- [docs/architecture-diagram.md](./docs/architecture-diagram.md)
+- [docs/resume-bullets.md](./docs/resume-bullets.md)
+- [docs/screenshots/README.md](./docs/screenshots/README.md)
+
+## Roadmap
+
+Reasonable future extensions after v1:
+
+- historical trend views
+- confidence notes by opportunity
+- exportable stakeholder snapshots
+- authenticated data management
+- source-system ingestion for categorized operational data

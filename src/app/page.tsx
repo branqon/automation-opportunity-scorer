@@ -9,8 +9,6 @@ import {
 
 import { SavingsBarChart } from "@/components/charts/savings-bar-chart";
 import { ValueVsEffortChart } from "@/components/charts/value-vs-effort-chart";
-import { AiInsightsCard } from "@/components/dashboard/ai-insights-card";
-import { CsvExportButton } from "@/components/dashboard/csv-export-button";
 import { DashboardFilters } from "@/components/dashboard/filters";
 import { OpportunityTable } from "@/components/dashboard/opportunity-table";
 import { TopCandidates } from "@/components/dashboard/top-candidates";
@@ -175,8 +173,6 @@ export default async function Home({ searchParams }: DashboardPageProps) {
           automationTypes={data.filterOptions.automationTypes}
         />
 
-        <AiInsightsCard />
-
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {summaryCards.map((card) => (
             <SurfaceCard key={card.label} className="space-y-4">
@@ -233,10 +229,6 @@ export default async function Home({ searchParams }: DashboardPageProps) {
                 </div>
               </SurfaceCard>
             </section>
-
-            <div className="flex items-center justify-end">
-              <CsvExportButton opportunities={data.opportunities} />
-            </div>
 
             <OpportunityTable opportunities={data.opportunities} />
           </>

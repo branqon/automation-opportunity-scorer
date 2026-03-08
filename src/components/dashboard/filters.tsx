@@ -5,10 +5,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { AutomationType } from "@/generated/prisma/enums";
 import { FOCUS_OPTIONS, getAutomationTypeLabel } from "@/lib/metadata";
-import type { DashboardFilters } from "@/lib/opportunities";
+import type { DashboardFilterState } from "@/lib/opportunities";
 
 type DashboardFiltersProps = {
-  filters: DashboardFilters;
+  filters: DashboardFilterState;
   teams: { id: string; slug: string; name: string }[];
   automationTypes: AutomationType[];
 };
@@ -37,7 +37,7 @@ export function DashboardFilters({
     getAutomationTypeLabel,
   );
 
-  function updateFilter(key: keyof DashboardFilters, value: string) {
+  function updateFilter(key: keyof DashboardFilterState, value: string) {
     const nextParams = new URLSearchParams(searchParams.toString());
 
     if (!value || value === "all") {

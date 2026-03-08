@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import { AiImplementationPlan } from "@/components/detail/ai-implementation-plan";
 import { ScoreBreakdown } from "@/components/detail/score-breakdown";
 import { Badge } from "@/components/ui/badge";
 import { AppShell } from "@/components/ui/app-shell";
@@ -18,13 +17,14 @@ import { SurfaceCard } from "@/components/ui/surface-card";
 import {
   compactCurrencyFormatter,
   formatHours,
-  formatPercent,
+  formatRatePercent,
   formatScore,
 } from "@/lib/formatters";
 import {
   AUTOMATION_TYPE_DESCRIPTIONS,
   getAutomationTypeLabel,
 } from "@/lib/metadata";
+import { getEffortBadgeVariant } from "@/lib/opportunity-badges";
 import { getOpportunityDetail } from "@/lib/opportunities";
 import { HOURLY_RATE_USD } from "@/lib/scoring";
 
@@ -52,18 +52,6 @@ export async function generateMetadata({
     title: detail.opportunity.name,
     description: detail.opportunity.summary,
   };
-}
-
-function getEffortVariant(tier: "Quick win" | "Foundation build" | "Strategic bet") {
-  if (tier === "Quick win") {
-    return "success";
-  }
-
-  if (tier === "Strategic bet") {
-    return "critical";
-  }
-
-  return "warning";
 }
 
 export default async function OpportunityPage({ params }: OpportunityPageProps) {
@@ -96,7 +84,7 @@ export default async function OpportunityPage({ params }: OpportunityPageProps) 
               <Badge variant="accent">
                 {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
               </Badge>
-              <Badge variant={getEffortVariant(opportunity.effortTier)}>
+              <Badge variant={getEffortBadgeVariant(opportunity.effortTier)}>
                 {opportunity.effortTier}
               </Badge>
             </div>
@@ -264,7 +252,7 @@ export default async function OpportunityPage({ params }: OpportunityPageProps) 
                     </p>
                   </div>
                   <p className="mt-3 font-display text-4xl font-semibold text-foreground">
-                    {formatPercent(opportunity.estimatedAutomationRate)}
+                    {formatRatePercent(opportunity.estimatedAutomationRate)}
                   </p>
                   <p className="mt-2 text-sm text-muted-foreground">
                     Based on repeatability, standardization, implementation
@@ -343,17 +331,12 @@ export default async function OpportunityPage({ params }: OpportunityPageProps) 
                 href="/"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:text-accent-strong"
               >
-                Compare against the rest of the portfolio
+                Return to the ranked portfolio view
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </SurfaceCard>
           </div>
         </section>
-
-        <AiImplementationPlan
-          slug={opportunity.slug}
-          cachedPlan={opportunity.aiAnalysis}
-        />
       </div>
     </AppShell>
   );

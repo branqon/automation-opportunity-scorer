@@ -21,7 +21,7 @@ export function AppShell({ children }: AppShellProps) {
             automate next?
           </p>
           <p>
-            AI-powered analysis with transparent deterministic scoring.
+            Deterministic scoring with visible ROI assumptions.
           </p>
         </div>
       </footer>
