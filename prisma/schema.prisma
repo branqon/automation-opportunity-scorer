@@ -1,0 +1,54 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "../src/generated/prisma"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Team {
+  SERVICE_DESK
+  SECURITY_OPS
+  IT_OPS
+  PEOPLE_OPS
+  PROCUREMENT
+  SERVICE_DELIVERY
+  REVOPS
+  APPLICATION_SUPPORT
+  FINANCE_OPS
+}
+
+enum AutomationType {
+  SELF_SERVICE_WORKFLOW
+  API_WORKFLOW
+  APPROVAL_GATED_PROVISIONING
+  AI_ASSISTED_TRIAGE
+  SCHEDULED_FOLLOW_UP
+  SYSTEM_INTEGRATION
+}
+
+model Opportunity {
+  id                               String         @id @default(cuid())
+  slug                             String         @unique
+  name                             String
+  team                             Team
+  monthlyVolume                    Int
+  avgHandleTimeMinutes             Int
+  repeatabilityScore               Int
+  standardizationScore             Int
+  approvalComplexityScore          Int
+  reworkRateScore                  Int
+  slaRiskScore                     Int
+  customerImpactScore              Int
+  implementationDifficultyScore    Int
+  suggestedAutomationType          AutomationType
+  summary                          String
+  suggestedApproach                String
+  implementationConsiderations     String
+  riskNotes                        String
+  recommendedNextStep              String
+  createdAt                        DateTime       @default(now())
+  updatedAt                        DateTime       @updatedAt
+}
