@@ -45,7 +45,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   const dataPoint = payload[0].payload;
 
   return (
-    <div className="rounded-2xl border border-line/80 bg-surface px-4 py-3 shadow-card">
+    <div className="rounded-lg border border-line/80 bg-surface px-4 py-3 shadow-sm">
       <p className="font-semibold text-foreground">{dataPoint.name}</p>
       <p className="mt-2 text-sm text-muted-foreground">
         {compactCurrencyFormatter.format(dataPoint.annualCostSavings)} annual
@@ -65,7 +65,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
   return (
     <div
       ref={containerRef}
-      className="h-[320px] w-full min-w-0 rounded-3xl"
+      className="h-[320px] w-full min-w-0 rounded-xl"
     >
       {isReady ? (
         <BarChart
@@ -95,7 +95,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           <Bar
             dataKey="annualCostSavings"
             fill="url(#savingsGradient)"
-            radius={[14, 14, 0, 0]}
+            radius={[6, 6, 0, 0]}
           />
           <defs>
             <linearGradient id="savingsGradient" x1="0" x2="0" y1="0" y2="1">
@@ -105,7 +105,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           </defs>
         </BarChart>
       ) : (
-        <div className="flex h-full w-full items-center justify-center rounded-3xl border border-line/70 bg-surface-subtle/40 text-sm text-muted-foreground">
+        <div className="flex h-full w-full items-center justify-center rounded-xl border border-line bg-surface-subtle text-sm text-muted-foreground">
           Loading savings view...
         </div>
       )}

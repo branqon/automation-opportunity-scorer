@@ -55,7 +55,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   const dataPoint = payload[0].payload;
 
   return (
-    <div className="rounded-2xl border border-line/80 bg-surface px-4 py-3 shadow-card">
+    <div className="rounded-lg border border-line/80 bg-surface px-4 py-3 shadow-sm">
       <p className="font-semibold text-foreground">{dataPoint.name}</p>
       <p className="mt-2 text-sm text-muted-foreground">
         Score {formatScore(dataPoint.score)} | Difficulty{" "}
@@ -81,9 +81,9 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
   return (
     <div
       ref={containerRef}
-      className="relative h-[320px] w-full min-w-0 rounded-3xl"
+      className="relative h-[320px] w-full min-w-0 rounded-xl"
     >
-      <div className="pointer-events-none absolute right-4 top-3 z-10 hidden gap-3 rounded-full border border-line/70 bg-background/70 px-3 py-2 text-xs text-muted-foreground backdrop-blur sm:flex">
+      <div className="pointer-events-none absolute right-4 top-3 z-10 hidden gap-3 rounded-lg border border-line bg-surface px-3 py-2 text-xs text-muted-foreground sm:flex">
         <span className="inline-flex items-center gap-2">
           <span
             className="h-2.5 w-2.5 rounded-full"
@@ -157,7 +157,7 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
           <Scatter data={strategicBets} fill={DOT_COLORS["Strategic bet"]} />
         </ScatterChart>
       ) : (
-        <div className="flex h-full w-full items-center justify-center rounded-3xl border border-line/70 bg-surface-subtle/40 text-sm text-muted-foreground">
+        <div className="flex h-full w-full items-center justify-center rounded-xl border border-line bg-surface-subtle text-sm text-muted-foreground">
           Loading opportunity map...
         </div>
       )}
