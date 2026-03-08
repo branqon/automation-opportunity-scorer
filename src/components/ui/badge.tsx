@@ -8,7 +8,7 @@ type BadgeVariant =
   | "critical";
 
 const VARIANT_STYLES: Record<BadgeVariant, string> = {
-  neutral: "border-line/80 bg-surface-subtle text-muted-foreground",
+  neutral: "border-line bg-surface-subtle text-muted-foreground",
   accent: "border-accent/20 bg-accent-soft text-accent-strong",
   success:
     "border-[color:var(--semantic-success-border)] bg-[color:var(--semantic-success-bg)] text-[color:var(--semantic-success-text)]",
@@ -31,7 +31,7 @@ export function Badge({
 }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold tracking-[0.12em] uppercase ${VARIANT_STYLES[variant]} ${className}`}
+      className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${VARIANT_STYLES[variant]} ${className}`}
     >
       {children}
     </span>
