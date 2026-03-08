@@ -1,12 +1,18 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, GitCompareArrows } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { ComparisonView } from "@/components/dashboard/comparison-view";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import { compactCurrencyFormatter, formatHours, formatScore } from "@/lib/formatters";
 import { getAutomationTypeLabel } from "@/lib/metadata";
 import type { RankedOpportunity } from "@/lib/scoring";
 import type { OpportunitySource } from "@/generated/prisma/enums";
+
+const MAX_COMPARE = 3;
 
 const SOURCE_LABELS: Partial<Record<OpportunitySource, string>> = {
   MANUAL: "Manual",
@@ -42,163 +48,254 @@ type OpportunityTableProps = {
 };
 
 export function OpportunityTable({ opportunities }: OpportunityTableProps) {
+  const [selectedSlugs, setSelectedSlugs] = useState<Set<string>>(new Set());
+  const [showComparison, setShowComparison] = useState(false);
+
+  function toggleSelection(slug: string) {
+    setSelectedSlugs((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) {
+        next.delete(slug);
+      } else if (next.size < MAX_COMPARE) {
+        next.add(slug);
+      }
+      return next;
+    });
+  }
+
+  const selectedOpportunities = opportunities.filter((o) =>
+    selectedSlugs.has(o.slug),
+  );
+
   return (
-    <SurfaceCard className="overflow-hidden p-0">
-      <div className="border-b border-line/80 px-6 py-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          Ranked opportunity table
-        </p>
-        <h2 className="mt-1 font-display text-2xl font-semibold text-foreground">
-          Deterministic ranking with business value and implementation fit
-        </h2>
-      </div>
+    <>
+      <SurfaceCard className="overflow-hidden p-0">
+        <div className="border-b border-line/80 px-6 py-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Ranked opportunity table
+          </p>
+          <h2 className="mt-1 font-display text-2xl font-semibold text-foreground">
+            Deterministic ranking with business value and implementation fit
+          </h2>
+        </div>
 
-      <div className="md:hidden">
-        {opportunities.map((opportunity) => (
-          <div
-            key={opportunity.slug}
-            className="border-b border-line/70 px-6 py-5 last:border-b-0"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                  Rank #{opportunity.rank}
-                </p>
-                <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
-                  {opportunity.name}
-                  {opportunity.source !== "SEED" && (
-                    <SourceBadge source={opportunity.source} />
-                  )}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {opportunity.team.name} |{" "}
-                  {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-surface-subtle px-4 py-3 text-right">
-                <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                  Score
-                </p>
-                <p className="font-display text-2xl font-semibold">
-                  {formatScore(opportunity.score)}
-                </p>
-              </div>
-            </div>
+        {/* Mobile view */}
+        <div className="md:hidden">
+          {opportunities.map((opportunity) => {
+            const isSelected = selectedSlugs.has(opportunity.slug);
+            const isDisabled =
+              !isSelected && selectedSlugs.size >= MAX_COMPARE;
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Badge variant={getEffortVariant(opportunity.effortTier)}>
-                {opportunity.effortTier}
-              </Badge>
-              <Badge variant="accent">{opportunity.valueBand}</Badge>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <div className="rounded-2xl bg-surface-subtle p-4">
-                <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                  Monthly hours
-                </p>
-                <p className="mt-2 font-semibold text-foreground">
-                  {formatHours(opportunity.monthlyHoursSaved)}
-                </p>
-              </div>
-              <div className="rounded-2xl bg-surface-subtle p-4">
-                <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                  Annual savings
-                </p>
-                <p className="mt-2 font-semibold text-foreground">
-                  {compactCurrencyFormatter.format(opportunity.annualCostSavings)}
-                </p>
-              </div>
-            </div>
-
-            <Link
-              href={`/opportunities/${opportunity.slug}`}
-              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:text-accent-strong"
-            >
-              Open detail view
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        ))}
-      </div>
-
-      <div className="hidden overflow-x-auto md:block">
-        <table className="min-w-full border-collapse text-left">
-          <thead>
-            <tr className="border-b border-line/80 bg-surface-subtle/80 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-              <th className="px-6 py-4 font-semibold">Rank</th>
-              <th className="px-6 py-4 font-semibold">Opportunity</th>
-              <th className="px-6 py-4 font-semibold">Automation type</th>
-              <th className="px-6 py-4 font-semibold">Score</th>
-              <th className="px-6 py-4 font-semibold">Monthly hours</th>
-              <th className="px-6 py-4 font-semibold">Annual savings</th>
-              <th className="px-6 py-4 font-semibold">Effort</th>
-              <th className="px-6 py-4 font-semibold">Detail</th>
-            </tr>
-          </thead>
-          <tbody>
-            {opportunities.map((opportunity) => (
-              <tr
+            return (
+              <div
                 key={opportunity.slug}
-                className="border-b border-line/70 transition hover:bg-surface-subtle/50"
+                className="border-b border-line/70 px-6 py-5 last:border-b-0"
               >
-                <td className="px-6 py-5 align-top">
-                  <div className="text-lg font-semibold text-foreground">
-                    #{opportunity.rank}
+                <div className="flex items-start gap-3">
+                  <label className="mt-1 flex shrink-0 cursor-pointer items-center">
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      disabled={isDisabled}
+                      onChange={() => toggleSelection(opportunity.slug)}
+                      className="h-4 w-4 cursor-pointer rounded border-line accent-accent disabled:cursor-not-allowed disabled:opacity-40"
+                    />
+                  </label>
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                          Rank #{opportunity.rank}
+                        </p>
+                        <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
+                          {opportunity.name}
+                          {opportunity.source !== "SEED" && (
+                            <SourceBadge source={opportunity.source} />
+                          )}
+                        </h3>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {opportunity.team.name} |{" "}
+                          {getAutomationTypeLabel(
+                            opportunity.suggestedAutomationType,
+                          )}
+                        </p>
+                      </div>
+                      <div className="rounded-2xl bg-surface-subtle px-4 py-3 text-right">
+                        <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                          Score
+                        </p>
+                        <p className="font-display text-2xl font-semibold">
+                          {formatScore(opportunity.score)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <Badge variant={getEffortVariant(opportunity.effortTier)}>
+                        {opportunity.effortTier}
+                      </Badge>
+                      <Badge variant="accent">{opportunity.valueBand}</Badge>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                      <div className="rounded-2xl bg-surface-subtle p-4">
+                        <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                          Monthly hours
+                        </p>
+                        <p className="mt-2 font-semibold text-foreground">
+                          {formatHours(opportunity.monthlyHoursSaved)}
+                        </p>
+                      </div>
+                      <div className="rounded-2xl bg-surface-subtle p-4">
+                        <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                          Annual savings
+                        </p>
+                        <p className="mt-2 font-semibold text-foreground">
+                          {compactCurrencyFormatter.format(
+                            opportunity.annualCostSavings,
+                          )}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/opportunities/${opportunity.slug}`}
+                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:text-accent-strong"
+                    >
+                      Open detail view
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
                   </div>
-                </td>
-                <td className="px-6 py-5 align-top">
-                  <div className="max-w-[20rem]">
-                    <p className="font-semibold text-foreground">
-                      {opportunity.name}
-                      {opportunity.source !== "SEED" && (
-                        <SourceBadge source={opportunity.source} />
-                      )}
-                    </p>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {opportunity.team.name}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      {opportunity.summary}
-                    </p>
-                  </div>
-                </td>
-                <td className="px-6 py-5 align-top text-sm text-muted-foreground">
-                  {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
-                </td>
-                <td className="px-6 py-5 align-top">
-                  <div className="font-display text-2xl font-semibold text-foreground">
-                    {formatScore(opportunity.score)}
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {opportunity.valueBand}
-                  </p>
-                </td>
-                <td className="px-6 py-5 align-top text-sm font-semibold text-foreground">
-                  {formatHours(opportunity.monthlyHoursSaved)}
-                </td>
-                <td className="px-6 py-5 align-top text-sm font-semibold text-foreground">
-                  {compactCurrencyFormatter.format(opportunity.annualCostSavings)}
-                </td>
-                <td className="px-6 py-5 align-top">
-                  <Badge variant={getEffortVariant(opportunity.effortTier)}>
-                    {opportunity.effortTier}
-                  </Badge>
-                </td>
-                <td className="px-6 py-5 align-top">
-                  <Link
-                    href={`/opportunities/${opportunity.slug}`}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:text-accent-strong"
-                  >
-                    View
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </td>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop view */}
+        <div className="hidden overflow-x-auto md:block">
+          <table className="min-w-full border-collapse text-left">
+            <thead>
+              <tr className="border-b border-line/80 bg-surface-subtle/80 text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                <th className="w-10 px-4 py-4 font-semibold">
+                  <span className="sr-only">Select</span>
+                </th>
+                <th className="px-6 py-4 font-semibold">Rank</th>
+                <th className="px-6 py-4 font-semibold">Opportunity</th>
+                <th className="px-6 py-4 font-semibold">Automation type</th>
+                <th className="px-6 py-4 font-semibold">Score</th>
+                <th className="px-6 py-4 font-semibold">Monthly hours</th>
+                <th className="px-6 py-4 font-semibold">Annual savings</th>
+                <th className="px-6 py-4 font-semibold">Effort</th>
+                <th className="px-6 py-4 font-semibold">Detail</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </SurfaceCard>
+            </thead>
+            <tbody>
+              {opportunities.map((opportunity) => {
+                const isSelected = selectedSlugs.has(opportunity.slug);
+                const isDisabled =
+                  !isSelected && selectedSlugs.size >= MAX_COMPARE;
+
+                return (
+                  <tr
+                    key={opportunity.slug}
+                    className={`border-b border-line/70 transition hover:bg-surface-subtle/50 ${
+                      isSelected ? "bg-accent-soft/30" : ""
+                    }`}
+                  >
+                    <td className="px-4 py-5 align-top">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={() => toggleSelection(opportunity.slug)}
+                        className="h-4 w-4 cursor-pointer rounded border-line accent-accent disabled:cursor-not-allowed disabled:opacity-40"
+                      />
+                    </td>
+                    <td className="px-6 py-5 align-top">
+                      <div className="text-lg font-semibold text-foreground">
+                        #{opportunity.rank}
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 align-top">
+                      <div className="max-w-[20rem]">
+                        <p className="font-semibold text-foreground">
+                          {opportunity.name}
+                          {opportunity.source !== "SEED" && (
+                            <SourceBadge source={opportunity.source} />
+                          )}
+                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {opportunity.team.name}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                          {opportunity.summary}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 align-top text-sm text-muted-foreground">
+                      {getAutomationTypeLabel(
+                        opportunity.suggestedAutomationType,
+                      )}
+                    </td>
+                    <td className="px-6 py-5 align-top">
+                      <div className="font-display text-2xl font-semibold text-foreground">
+                        {formatScore(opportunity.score)}
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {opportunity.valueBand}
+                      </p>
+                    </td>
+                    <td className="px-6 py-5 align-top text-sm font-semibold text-foreground">
+                      {formatHours(opportunity.monthlyHoursSaved)}
+                    </td>
+                    <td className="px-6 py-5 align-top text-sm font-semibold text-foreground">
+                      {compactCurrencyFormatter.format(
+                        opportunity.annualCostSavings,
+                      )}
+                    </td>
+                    <td className="px-6 py-5 align-top">
+                      <Badge variant={getEffortVariant(opportunity.effortTier)}>
+                        {opportunity.effortTier}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-5 align-top">
+                      <Link
+                        href={`/opportunities/${opportunity.slug}`}
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:text-accent-strong"
+                      >
+                        View
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </SurfaceCard>
+
+      {/* Floating compare button */}
+      {selectedSlugs.size >= 2 && (
+        <div className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2">
+          <button
+            onClick={() => setShowComparison(true)}
+            className="flex items-center gap-2 rounded-full border border-accent bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-accent-strong"
+          >
+            <GitCompareArrows className="h-4 w-4" />
+            Compare ({selectedSlugs.size})
+          </button>
+        </div>
+      )}
+
+      {/* Comparison modal */}
+      {showComparison && selectedOpportunities.length >= 2 && (
+        <ComparisonView
+          selectedOpportunities={selectedOpportunities}
+          onClose={() => setShowComparison(false)}
+        />
+      )}
+    </>
   );
 }
