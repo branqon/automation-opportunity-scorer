@@ -4,6 +4,7 @@
 
 - `dashboard-overview.png`
 - `opportunity-detail.png`
+- `score-breakdown.png`
 - `dashboard-mobile.png`
 
 ## Capture context

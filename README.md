@@ -4,6 +4,7 @@ Focused internal-tool style application that ranks recurring operational work an
 
 ![Dashboard overview](./docs/screenshots/dashboard-overview.png)
 ![Opportunity detail](./docs/screenshots/opportunity-detail.png)
+![Score breakdown](./docs/screenshots/score-breakdown.png)
 
 ## Why this project matters
 
@@ -83,7 +84,6 @@ Full methodology: [docs/scoring-methodology.md](./docs/scoring-methodology.md)
 ## Local setup
 
 This repo ships with a seeded local SQLite file and generated Prisma client, so no separate database bootstrap is required for the default path.
-The dev script uses webpack mode for a more reliable local startup path.
 
 ```bash
 npm install
