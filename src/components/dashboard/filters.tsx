@@ -53,10 +53,10 @@ export function DashboardFilters({
   }
 
   return (
-    <div className="rounded-card border border-line/80 bg-surface/80 p-4 shadow-card backdrop-blur">
+    <div className="rounded-xl border border-line bg-surface p-4 shadow-card">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Filter the ranked view
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -66,10 +66,10 @@ export function DashboardFilters({
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Team
             <select
-              className="min-h-11 rounded-2xl border border-line bg-surface px-4 py-3 text-sm font-medium text-foreground outline-none ring-0 transition focus:border-accent focus-visible:border-accent"
+              className="min-h-10 rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.team}
               onChange={(event) => updateFilter("team", event.target.value)}
             >
@@ -82,10 +82,10 @@ export function DashboardFilters({
             </select>
           </label>
 
-          <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Automation type
             <select
-              className="min-h-11 rounded-2xl border border-line bg-surface px-4 py-3 text-sm font-medium text-foreground outline-none ring-0 transition focus:border-accent focus-visible:border-accent"
+              className="min-h-10 rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.automationType}
               onChange={(event) =>
                 updateFilter("automationType", event.target.value)
@@ -100,10 +100,10 @@ export function DashboardFilters({
             </select>
           </label>
 
-          <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Focus
             <select
-              className="min-h-11 rounded-2xl border border-line bg-surface px-4 py-3 text-sm font-medium text-foreground outline-none ring-0 transition focus:border-accent focus-visible:border-accent"
+              className="min-h-10 rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.focus}
               onChange={(event) => updateFilter("focus", event.target.value)}
             >
