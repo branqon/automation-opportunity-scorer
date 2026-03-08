@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { SettingsModal } from "@/components/ui/settings-modal";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function AppShellHeader() {
   return (
@@ -30,6 +31,7 @@ export function AppShellHeader() {
             <Plus className="h-3.5 w-3.5" />
             New Opportunity
           </Link>
+          <ThemeToggle />
           <SettingsModal />
         </div>
       </div>

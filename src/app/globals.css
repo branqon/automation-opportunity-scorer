@@ -13,6 +13,26 @@
   --shadow-card-soft: 0 24px 56px rgba(19, 32, 28, 0.08);
 }
 
+[data-theme="dark"] {
+  --background: #0f1a17;
+  --surface: #162220;
+  --surface-subtle: #1c2e29;
+  --foreground: #e4ebe8;
+  --muted-foreground: #8fa39c;
+  --line: #2a3f38;
+  --accent: #2dd4a8;
+  --accent-soft: #1a3d34;
+  --accent-strong: #5eead4;
+  --shadow-card-soft: 0 24px 56px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top left, rgba(45, 212, 168, 0.08), transparent 24%),
+    radial-gradient(circle at top right, rgba(94, 234, 212, 0.05), transparent 22%),
+    linear-gradient(180deg, #0f1a17 0%, #111f1b 100%);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
