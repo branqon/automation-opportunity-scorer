@@ -36,24 +36,26 @@ const STORAGE_KEYS = {
   provider: "aos-provider",
 } as const;
 
+function readStoredKeys() {
+  if (typeof window === "undefined") {
+    return { anthropicKey: "", openaiKey: "", provider: "anthropic" as LLMProvider };
+  }
+  return {
+    anthropicKey: localStorage.getItem(STORAGE_KEYS.anthropicKey) ?? "",
+    openaiKey: localStorage.getItem(STORAGE_KEYS.openaiKey) ?? "",
+    provider:
+      (localStorage.getItem(STORAGE_KEYS.provider) as LLMProvider) || "anthropic",
+  };
+}
+
 export function ApiKeyProvider({ children }: { children: ReactNode }) {
-  const [anthropicKey, setAnthropicKeyState] = useState("");
-  const [openaiKey, setOpenaiKeyState] = useState("");
-  const [provider, setProviderState] = useState<LLMProvider>("anthropic");
+  const [anthropicKey, setAnthropicKeyState] = useState(() => readStoredKeys().anthropicKey);
+  const [openaiKey, setOpenaiKeyState] = useState(() => readStoredKeys().openaiKey);
+  const [provider, setProviderState] = useState<LLMProvider>(() => readStoredKeys().provider);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const storedAnthropicKey =
-      localStorage.getItem(STORAGE_KEYS.anthropicKey) ?? "";
-    const storedOpenaiKey =
-      localStorage.getItem(STORAGE_KEYS.openaiKey) ?? "";
-    const storedProvider =
-      (localStorage.getItem(STORAGE_KEYS.provider) as LLMProvider) || "anthropic";
-
-    setAnthropicKeyState(storedAnthropicKey);
-    setOpenaiKeyState(storedOpenaiKey);
-    setProviderState(storedProvider);
-    setMounted(true);
+    setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect -- mount detection is a standard pattern
   }, []);
 
   const setAnthropicKey = useCallback((key: string) => {

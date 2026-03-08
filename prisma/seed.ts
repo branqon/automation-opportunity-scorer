@@ -1,6 +1,9 @@
-import { Prisma, PrismaClient } from "../src/generated/prisma/client";
+import { Prisma, PrismaClient, AutomationType } from "../src/generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env["DATABASE_URL"]! }),
+});
 
 const teams: Prisma.TeamCreateManyInput[] = [
   {
@@ -392,7 +395,7 @@ async function main() {
   const allTeams = await prisma.team.findMany();
   const teamsBySlug = new Map(allTeams.map((team) => [team.slug, team.id]));
 
-  for (const { teamSlug, ...rest } of opportunities) {
+  for (const { teamSlug, suggestedAutomationType, ...rest } of opportunities) {
     const teamId = teamsBySlug.get(teamSlug);
     if (!teamId) {
       throw new Error(`Unknown team slug: ${teamSlug}`);
@@ -400,6 +403,7 @@ async function main() {
     await prisma.opportunity.create({
       data: {
         ...rest,
+        suggestedAutomationType: suggestedAutomationType as AutomationType,
         teamId,
       },
     });

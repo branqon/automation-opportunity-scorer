@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   enrichOpportunity,
   SCORE_WEIGHTS,
-  type ScoreFactorKey,
 } from "@/lib/scoring";
 import type { Opportunity, Team } from "@/generated/prisma/client";
 

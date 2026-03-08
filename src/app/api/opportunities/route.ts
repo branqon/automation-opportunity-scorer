@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { enrichOpportunity, type RankedOpportunity } from "@/lib/scoring";
-import { AutomationType } from "@/generated/prisma/enums";
+import { AutomationType, OpportunitySource } from "@/generated/prisma/enums";
 
 const VALID_AUTOMATION_TYPES = Object.values(AutomationType);
 
@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
       implementationConsiderations: body.implementationConsiderations as string,
       riskNotes: body.riskNotes as string,
       recommendedNextStep: body.recommendedNextStep as string,
-      source: (body.source as string) ?? "MANUAL",
+      source: (body.source as OpportunitySource) ?? "MANUAL",
     },
     include: { team: true },
   });
