@@ -9,6 +9,7 @@ import {
 
 import { SavingsBarChart } from "@/components/charts/savings-bar-chart";
 import { ValueVsEffortChart } from "@/components/charts/value-vs-effort-chart";
+import { AiInsightsCard } from "@/components/dashboard/ai-insights-card";
 import { DashboardFilters } from "@/components/dashboard/filters";
 import { OpportunityTable } from "@/components/dashboard/opportunity-table";
 import { TopCandidates } from "@/components/dashboard/top-candidates";
@@ -172,6 +173,8 @@ export default async function Home({ searchParams }: DashboardPageProps) {
           teams={data.filterOptions.teams}
           automationTypes={data.filterOptions.automationTypes}
         />
+
+        <AiInsightsCard />
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {summaryCards.map((card) => (

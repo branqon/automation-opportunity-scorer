@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 
+import { AiImplementationPlan } from "@/components/detail/ai-implementation-plan";
 import { ScoreBreakdown } from "@/components/detail/score-breakdown";
 import { Badge } from "@/components/ui/badge";
 import { AppShell } from "@/components/ui/app-shell";
@@ -348,6 +349,11 @@ export default async function OpportunityPage({ params }: OpportunityPageProps) 
             </SurfaceCard>
           </div>
         </section>
+
+        <AiImplementationPlan
+          slug={opportunity.slug}
+          cachedPlan={opportunity.aiAnalysis}
+        />
       </div>
     </AppShell>
   );

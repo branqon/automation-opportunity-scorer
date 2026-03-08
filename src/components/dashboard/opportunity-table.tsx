@@ -6,6 +6,24 @@ import { SurfaceCard } from "@/components/ui/surface-card";
 import { compactCurrencyFormatter, formatHours, formatScore } from "@/lib/formatters";
 import { getAutomationTypeLabel } from "@/lib/metadata";
 import type { RankedOpportunity } from "@/lib/scoring";
+import type { OpportunitySource } from "@/generated/prisma/enums";
+
+const SOURCE_LABELS: Partial<Record<OpportunitySource, string>> = {
+  MANUAL: "Manual",
+  AI_ASSISTED: "AI",
+};
+
+const SOURCE_VARIANTS: Partial<Record<OpportunitySource, "neutral" | "accent">> = {
+  MANUAL: "neutral",
+  AI_ASSISTED: "accent",
+};
+
+function SourceBadge({ source }: { source: OpportunitySource }) {
+  const label = SOURCE_LABELS[source];
+  const variant = SOURCE_VARIANTS[source];
+  if (!label || !variant) return null;
+  return <Badge variant={variant} className="ml-2 align-middle">{label}</Badge>;
+}
 
 function getEffortVariant(tier: RankedOpportunity["effortTier"]) {
   if (tier === "Quick win") {
@@ -48,6 +66,9 @@ export function OpportunityTable({ opportunities }: OpportunityTableProps) {
                 </p>
                 <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
                   {opportunity.name}
+                  {opportunity.source !== "SEED" && (
+                    <SourceBadge source={opportunity.source} />
+                  )}
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   {opportunity.team.name} |{" "}
@@ -128,7 +149,12 @@ export function OpportunityTable({ opportunities }: OpportunityTableProps) {
                 </td>
                 <td className="px-6 py-5 align-top">
                   <div className="max-w-[20rem]">
-                    <p className="font-semibold text-foreground">{opportunity.name}</p>
+                    <p className="font-semibold text-foreground">
+                      {opportunity.name}
+                      {opportunity.source !== "SEED" && (
+                        <SourceBadge source={opportunity.source} />
+                      )}
+                    </p>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {opportunity.team.name}
                     </p>
