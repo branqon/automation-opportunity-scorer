@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
+import { ApiKeyProvider } from "@/components/providers/api-key-provider";
 import "./globals.css";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -16,11 +17,11 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "automation-opportunity-scorer",
-    template: "%s | automation-opportunity-scorer",
+    default: "Automation Opportunity Scorer",
+    template: "%s | Automation Opportunity Scorer",
   },
   description:
-    "A focused internal-tool style app that ranks operational automation opportunities by business value and implementation fit.",
+    "AI-powered internal tool that ranks operational automation opportunities by business value and implementation fit.",
 };
 
 export default function RootLayout({
@@ -33,7 +34,7 @@ export default function RootLayout({
       <body
         className={`${ibmPlexSans.variable} ${spaceGrotesk.variable} bg-background font-sans text-foreground antialiased`}
       >
-        {children}
+        <ApiKeyProvider>{children}</ApiKeyProvider>
       </body>
     </html>
   );
