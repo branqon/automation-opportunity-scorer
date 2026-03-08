@@ -7,16 +7,19 @@
   "private": true,
   "scripts": {
     "db:ensure": "node scripts/ensure-local-db.mjs",
-    "dev": "next dev --webpack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "db:generate": "npx prisma generate",
-    "db:push": "npx prisma db push",
-    "db:seed": "npx prisma db seed",
-    "db:reset": "npx prisma db push --force-reset && npx prisma db seed"
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
+    "db:reset": "prisma db push --force-reset && prisma db seed",
+    "predev": "node scripts/ensure-local-db.mjs",
+    "prestart": "node scripts/ensure-local-db.mjs",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^6.19.2",

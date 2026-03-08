@@ -1,6 +1,37 @@
 @import "tailwindcss";
 
 :root {
+  --background: #0e0e11;
+  --surface: #18181b;
+  --surface-subtle: #1e1e23;
+  --foreground: #f0f0f3;
+  --muted-foreground: #8b8b96;
+  --line: #2a2a30;
+  --accent: #a78bfa;
+  --accent-soft: #1e1733;
+  --accent-strong: #c4b5fd;
+  --shadow-card-soft: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --semantic-success-bg: rgba(74, 222, 128, 0.1);
+  --semantic-success-border: rgba(74, 222, 128, 0.2);
+  --semantic-success-text: #4ade80;
+  --semantic-warning-bg: rgba(251, 191, 36, 0.1);
+  --semantic-warning-border: rgba(251, 191, 36, 0.2);
+  --semantic-warning-text: #fbbf24;
+  --semantic-critical-bg: rgba(248, 113, 113, 0.1);
+  --semantic-critical-border: rgba(248, 113, 113, 0.2);
+  --semantic-critical-text: #f87171;
+  --chart-axis: #8b8b96;
+  --chart-grid: rgba(139, 139, 150, 0.12);
+  --chart-reference: rgba(139, 139, 150, 0.25);
+  --chart-cursor-fill: rgba(167, 139, 250, 0.08);
+  --chart-bar-start: #4ade80;
+  --chart-bar-end: #16a34a;
+  --chart-quick-win: #a78bfa;
+  --chart-foundation: #fbbf24;
+  --chart-strategic: #f87171;
+}
+
+[data-theme="light"] {
   --background: #ffffff;
   --surface: #f8f8fa;
   --surface-subtle: #f1f1f4;
@@ -24,8 +55,8 @@
   --chart-grid: rgba(107, 114, 128, 0.12);
   --chart-reference: rgba(107, 114, 128, 0.25);
   --chart-cursor-fill: rgba(124, 58, 237, 0.06);
-  --chart-bar-start: #7c3aed;
-  --chart-bar-end: #a78bfa;
+  --chart-bar-start: #22c55e;
+  --chart-bar-end: #16a34a;
   --chart-quick-win: #7c3aed;
   --chart-foundation: #d97706;
   --chart-strategic: #dc2626;
@@ -65,7 +96,7 @@ body {
 }
 
 ::selection {
-  background: rgba(124, 58, 237, 0.14);
+  background: rgba(167, 139, 250, 0.2);
   color: var(--foreground);
 }
 
@@ -86,6 +117,6 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid rgba(124, 58, 237, 0.4);
+  outline: 2px solid rgba(167, 139, 250, 0.4);
   outline-offset: 2px;
 }

@@ -24,6 +24,6 @@
 
 ## Suggested screenshot subjects
 
-- Dashboard hero plus top candidates
+- Dashboard overview with filters and top candidates
 - Opportunity detail with score breakdown visible
-- Mobile dashboard hero for responsive proof
+- Mobile dashboard with responsive filter controls

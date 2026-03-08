@@ -30,7 +30,7 @@ export function TopCandidates({ opportunities }: TopCandidatesProps) {
         {opportunities.map((opportunity) => (
           <div
             key={opportunity.slug}
-            className="rounded-xl border border-line bg-surface p-4 shadow-card border-l-4 border-l-accent"
+            className="rounded-xl border border-line bg-surface p-4 shadow-card"
           >
             <div className="flex items-start justify-between gap-3">
               <div>

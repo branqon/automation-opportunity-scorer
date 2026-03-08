@@ -70,7 +70,7 @@ It is not about:
 
 Visual direction: `Operational editorial`
 
-The interface uses restrained neutrals, a single teal accent, and internal-tool density rather than glossy AI branding. The layout is designed to read well in screenshots for public GitHub and interview walkthroughs.
+The interface uses clinical white with a purple accent, tight spacing, and internal-tool density rather than glossy AI branding. The layout is designed to read well in screenshots for public GitHub and interview walkthroughs.
 
 ## Tradeoffs accepted in v1
 
