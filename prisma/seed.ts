@@ -2,11 +2,64 @@ import { Prisma, PrismaClient } from "../src/generated/prisma/client";
 
 const prisma = new PrismaClient();
 
+const teams: Prisma.TeamCreateManyInput[] = [
+  {
+    slug: "service-desk",
+    name: "Service Desk",
+    description:
+      "Front-line IT support handling incidents, requests, and user-facing issues.",
+  },
+  {
+    slug: "security-ops",
+    name: "Security Ops",
+    description: "Identity, access, and threat response operations.",
+  },
+  {
+    slug: "it-ops",
+    name: "IT Operations",
+    description: "Infrastructure, licensing, and platform management.",
+  },
+  {
+    slug: "people-ops",
+    name: "People Operations",
+    description:
+      "HR workflows including onboarding, offboarding, and employee lifecycle.",
+  },
+  {
+    slug: "procurement",
+    name: "Procurement",
+    description: "Purchasing, vendor management, and procurement intake.",
+  },
+  {
+    slug: "service-delivery",
+    name: "Service Delivery",
+    description:
+      "SLA management, ticket lifecycle, and delivery coordination.",
+  },
+  {
+    slug: "revops",
+    name: "Revenue Operations",
+    description: "Quote-to-cash, CRM processes, and revenue lifecycle.",
+  },
+  {
+    slug: "application-support",
+    name: "Application Support",
+    description:
+      "Line-of-business app triage, classification, and issue resolution.",
+  },
+  {
+    slug: "finance-ops",
+    name: "Finance Operations",
+    description:
+      "Approval chains, reconciliation, and financial process automation.",
+  },
+];
+
 const opportunities = [
   {
     slug: "password-reset",
     name: "Password reset",
-    team: "SERVICE_DESK",
+    teamSlug: "service-desk",
     monthlyVolume: 780,
     avgHandleTimeMinutes: 9,
     repeatabilityScore: 5,
@@ -31,7 +84,7 @@ const opportunities = [
   {
     slug: "mfa-reset",
     name: "MFA reset",
-    team: "SECURITY_OPS",
+    teamSlug: "security-ops",
     monthlyVolume: 240,
     avgHandleTimeMinutes: 14,
     repeatabilityScore: 5,
@@ -56,7 +109,7 @@ const opportunities = [
   {
     slug: "new-user-onboarding",
     name: "New user onboarding",
-    team: "PEOPLE_OPS",
+    teamSlug: "people-ops",
     monthlyVolume: 35,
     avgHandleTimeMinutes: 110,
     repeatabilityScore: 4,
@@ -81,7 +134,7 @@ const opportunities = [
   {
     slug: "procurement-request",
     name: "Procurement request",
-    team: "PROCUREMENT",
+    teamSlug: "procurement",
     monthlyVolume: 60,
     avgHandleTimeMinutes: 75,
     repeatabilityScore: 4,
@@ -106,7 +159,7 @@ const opportunities = [
   {
     slug: "vpn-issue",
     name: "VPN issue",
-    team: "SERVICE_DESK",
+    teamSlug: "service-desk",
     monthlyVolume: 210,
     avgHandleTimeMinutes: 27,
     repeatabilityScore: 3,
@@ -131,7 +184,7 @@ const opportunities = [
   {
     slug: "printer-troubleshooting",
     name: "Printer troubleshooting",
-    team: "SERVICE_DESK",
+    teamSlug: "service-desk",
     monthlyVolume: 150,
     avgHandleTimeMinutes: 22,
     repeatabilityScore: 4,
@@ -156,7 +209,7 @@ const opportunities = [
   {
     slug: "email-access-issue",
     name: "Email access issue",
-    team: "SERVICE_DESK",
+    teamSlug: "service-desk",
     monthlyVolume: 190,
     avgHandleTimeMinutes: 19,
     repeatabilityScore: 4,
@@ -181,7 +234,7 @@ const opportunities = [
   {
     slug: "stale-ticket-follow-up",
     name: "Stale ticket follow-up",
-    team: "SERVICE_DELIVERY",
+    teamSlug: "service-delivery",
     monthlyVolume: 420,
     avgHandleTimeMinutes: 6,
     repeatabilityScore: 5,
@@ -206,7 +259,7 @@ const opportunities = [
   {
     slug: "quote-to-procurement-handoff",
     name: "Quote-to-procurement handoff",
-    team: "REVOPS",
+    teamSlug: "revops",
     monthlyVolume: 48,
     avgHandleTimeMinutes: 90,
     repeatabilityScore: 3,
@@ -231,7 +284,7 @@ const opportunities = [
   {
     slug: "recurring-approval-chain",
     name: "Recurring approval chain",
-    team: "FINANCE_OPS",
+    teamSlug: "finance-ops",
     monthlyVolume: 95,
     avgHandleTimeMinutes: 32,
     repeatabilityScore: 4,
@@ -256,7 +309,7 @@ const opportunities = [
   {
     slug: "license-assignment",
     name: "License assignment",
-    team: "IT_OPS",
+    teamSlug: "it-ops",
     monthlyVolume: 180,
     avgHandleTimeMinutes: 18,
     repeatabilityScore: 4,
@@ -281,7 +334,7 @@ const opportunities = [
   {
     slug: "lob-app-issue-classification",
     name: "Line-of-business app issue classification",
-    team: "APPLICATION_SUPPORT",
+    teamSlug: "application-support",
     monthlyVolume: 130,
     avgHandleTimeMinutes: 34,
     repeatabilityScore: 2,
@@ -306,7 +359,7 @@ const opportunities = [
   {
     slug: "access-revocation-offboarding",
     name: "Access revocation offboarding",
-    team: "SECURITY_OPS",
+    teamSlug: "security-ops",
     monthlyVolume: 28,
     avgHandleTimeMinutes: 95,
     repeatabilityScore: 4,
@@ -328,13 +381,29 @@ const opportunities = [
     recommendedNextStep:
       "Build an HR-triggered deprovisioning workflow that revokes core access by API, logs each action, and pauses for legal-hold exceptions.",
   },
-] satisfies Prisma.OpportunityCreateManyInput[];
+];
 
 async function main() {
   await prisma.opportunity.deleteMany();
-  await prisma.opportunity.createMany({
-    data: opportunities,
-  });
+  await prisma.team.deleteMany();
+
+  await prisma.team.createMany({ data: teams });
+
+  const allTeams = await prisma.team.findMany();
+  const teamsBySlug = new Map(allTeams.map((team) => [team.slug, team.id]));
+
+  for (const { teamSlug, ...rest } of opportunities) {
+    const teamId = teamsBySlug.get(teamSlug);
+    if (!teamId) {
+      throw new Error(`Unknown team slug: ${teamSlug}`);
+    }
+    await prisma.opportunity.create({
+      data: {
+        ...rest,
+        teamId,
+      },
+    });
+  }
 }
 
 main()

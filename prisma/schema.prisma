@@ -8,16 +8,14 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Team {
-  SERVICE_DESK
-  SECURITY_OPS
-  IT_OPS
-  PEOPLE_OPS
-  PROCUREMENT
-  SERVICE_DELIVERY
-  REVOPS
-  APPLICATION_SUPPORT
-  FINANCE_OPS
+model Team {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  name          String
+  description   String        @default("")
+  opportunities Opportunity[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 enum AutomationType {
@@ -29,26 +27,35 @@ enum AutomationType {
   SYSTEM_INTEGRATION
 }
 
+enum OpportunitySource {
+  SEED
+  MANUAL
+  AI_ASSISTED
+}
+
 model Opportunity {
-  id                               String         @id @default(cuid())
-  slug                             String         @unique
-  name                             String
-  team                             Team
-  monthlyVolume                    Int
-  avgHandleTimeMinutes             Int
-  repeatabilityScore               Int
-  standardizationScore             Int
-  approvalComplexityScore          Int
-  reworkRateScore                  Int
-  slaRiskScore                     Int
-  customerImpactScore              Int
-  implementationDifficultyScore    Int
-  suggestedAutomationType          AutomationType
-  summary                          String
-  suggestedApproach                String
-  implementationConsiderations     String
-  riskNotes                        String
-  recommendedNextStep              String
-  createdAt                        DateTime       @default(now())
-  updatedAt                        DateTime       @updatedAt
+  id                            String            @id @default(cuid())
+  slug                          String            @unique
+  name                          String
+  team                          Team              @relation(fields: [teamId], references: [id])
+  teamId                        String
+  monthlyVolume                 Int
+  avgHandleTimeMinutes          Int
+  repeatabilityScore            Int
+  standardizationScore          Int
+  approvalComplexityScore       Int
+  reworkRateScore               Int
+  slaRiskScore                  Int
+  customerImpactScore           Int
+  implementationDifficultyScore Int
+  suggestedAutomationType       AutomationType
+  summary                       String
+  suggestedApproach             String
+  implementationConsiderations  String
+  riskNotes                     String
+  recommendedNextStep           String
+  source                        OpportunitySource @default(SEED)
+  aiAnalysis                    String?
+  createdAt                     DateTime          @default(now())
+  updatedAt                     DateTime          @updatedAt
 }
