@@ -10,7 +10,7 @@
 
 AI-powered tool that ranks operational automation opportunities by business value, implementation fit, and transparent ROI assumptions.
 
-![Dashboard](docs/screenshots/dashboard.png)
+![Dashboard](docs/screenshots/dashboard-overview.png)
 
 ## Features
 

@@ -31,7 +31,7 @@ The shipped scope is intentionally narrow.
 - One detail page per opportunity
 - A seeded aggregated dataset
 - A deterministic scoring engine
-- Local-only setup with Prisma and SQLite
+- Local and deployed setup with Prisma and PostgreSQL
 
 ## Seeded dataset
 

@@ -8,13 +8,13 @@ Next.js with the App Router keeps the project small while still feeling producti
 - Route-level loading, error, and not-found states are straightforward.
 - The app stays easy to explain and easy to run locally.
 
-## Why Prisma + SQLite
+## Why Prisma + PostgreSQL
 
-The goal is zero-friction local setup for a public portfolio project.
+PostgreSQL is production-grade and Vercel-compatible, making the project deployable beyond local development.
 
-- SQLite keeps the project self-contained.
+- PostgreSQL provides full relational support including advanced constraints and indexing.
 - Prisma provides a typed schema, seed workflow, and maintainable data access.
-- The seeded database makes the repo usable immediately after install.
+- The same database engine runs locally and in production, eliminating environment drift.
 
 ## Why a seeded aggregated dataset instead of raw ticket ingestion
 
@@ -83,6 +83,9 @@ Reasonable follow-on work after v1:
 
 - historical trend views
 - confidence notes by opportunity
+- ingesting categorized operational data from a source system
+
+### Delivered
+
 - side-by-side comparison mode
 - exportable summary snapshots
-- ingesting categorized operational data from a source system
