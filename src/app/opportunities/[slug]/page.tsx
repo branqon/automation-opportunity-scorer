@@ -25,10 +25,15 @@ import {
   getAutomationTypeLabel,
 } from "@/lib/metadata";
 import { getEffortBadgeVariant } from "@/lib/opportunity-badges";
-import { getOpportunityDetail } from "@/lib/opportunities";
+import { getAllSlugs, getOpportunityDetail } from "@/lib/opportunities";
 import { HOURLY_RATE_USD } from "@/lib/scoring";
 
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
+}
 
 type OpportunityPageProps = {
   params: Promise<{
