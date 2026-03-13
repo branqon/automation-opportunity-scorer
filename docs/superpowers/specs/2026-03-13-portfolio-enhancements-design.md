@@ -10,6 +10,8 @@ Convert the app from server-rendered with SQLite to statically exported at build
 
 - Set `output: 'export'` in `next.config.ts`
 - Add `generateStaticParams` to `opportunities/[slug]/page.tsx` to pre-render all detail pages
+- Set `dynamicParams = false` on the detail page — unknown slugs get a 404 automatically, no runtime rendering needed
+- Remove `export const dynamic = "force-dynamic"` from both pages
 - Convert dashboard to a client component — filtering moves client-side against pre-built data
 - Remove or skip API routes (incompatible with static export)
 - Embed all raw opportunity data as static JSON for client-side scoring
@@ -40,8 +42,8 @@ A button near the existing filters toggles the sidebar open/closed. Panel appear
 
 ### Slider Mechanics
 
-- 9 sliders, one per scoring factor, each on a 1-10 importance scale
-- Defaults map to current weight proportions: Volume 7, Labor 7, Repeatability 6, Standardization 5, Rework/SLA/Customer Impact 4 each, Implementation Ease 2, Approval Ease 1
+- 9 sliders, one per scoring factor, each on a 1-20 importance scale
+- Defaults match the exact current weight percentages: Volume 18, Labor 18, Repeatability 15, Standardization 12, Rework 10, SLA Risk 10, Customer Impact 10, Implementation Ease 5, Approval Ease 2
 - Normalization is invisible: each slider value is divided by the sum of all values to produce the actual weight percentage
 - Normalized percentage displays as a subtle secondary label on each slider
 - Reset button restores defaults
@@ -53,8 +55,13 @@ A button near the existing filters toggles the sidebar open/closed. Panel appear
 - On any slider change: recalculate all scores with new weights, re-sort table, update charts, recalculate summary cards
 - Default slider positions produce the exact same ranking as the current static scoring
 
+### Detail Page Behavior
+
+Detail pages always show base-case scoring. Custom weights apply only to the dashboard. A user who adjusts weights and clicks into a detail page will see the original score, breakdown, and ranking. This is intentional — the slider is a dashboard exploration tool, not a global mode.
+
 ### Explicit Non-Goals
 
 - No URL persistence of custom weights
 - No before/after comparison view
 - No save/load presets
+- No custom weight propagation to detail pages
