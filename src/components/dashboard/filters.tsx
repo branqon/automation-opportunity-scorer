@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { AutomationType } from "@/generated/prisma/enums";
 import { FOCUS_OPTIONS, getAutomationTypeLabel } from "@/lib/metadata";
-import type { DashboardFilterState } from "@/lib/opportunities";
+import type { DashboardFilterState } from "@/lib/dashboard";
 
 type DashboardFiltersProps = {
   filters: DashboardFilterState;
