@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import {
   enrichOpportunity,
   SCORE_WEIGHTS,
+  DEFAULT_IMPORTANCE,
+  normalizeWeights,
 } from "@/lib/scoring";
+import type { ScoreFactorKey } from "@/lib/scoring";
 import type { Opportunity, Team } from "@/generated/prisma/client";
 
 type OpportunityWithTeam = Opportunity & { team: Team };
@@ -183,5 +186,81 @@ describe("enrichOpportunity", () => {
     const result = enrichOpportunity(makeOpportunity());
     expect(result.whyNow).toContain("This opportunity ranks well because");
     expect(result.whyNow.length).toBeGreaterThan(40);
+  });
+
+  it("uses SCORE_WEIGHTS when no custom weights provided", () => {
+    const opp = makeOpportunity();
+    const defaultResult = enrichOpportunity(opp);
+    const explicitResult = enrichOpportunity(opp, SCORE_WEIGHTS);
+    expect(explicitResult.score).toBe(defaultResult.score);
+    expect(explicitResult.scoreBreakdown).toEqual(defaultResult.scoreBreakdown);
+  });
+
+  it("produces different scores with different custom weights", () => {
+    const opp = makeOpportunity({
+      monthlyVolume: 800,
+      repeatabilityScore: 5,
+      slaRiskScore: 1,
+    });
+
+    // Heavy weight on volume/repeatability
+    const volumeHeavy: Record<ScoreFactorKey, number> = {
+      volume: 50,
+      laborIntensity: 10,
+      repeatability: 20,
+      standardization: 5,
+      rework: 5,
+      slaRisk: 1,
+      customerImpact: 1,
+      implementationEase: 5,
+      approvalEase: 3,
+    };
+
+    // Heavy weight on slaRisk
+    const slaHeavy: Record<ScoreFactorKey, number> = {
+      volume: 1,
+      laborIntensity: 1,
+      repeatability: 1,
+      standardization: 1,
+      rework: 1,
+      slaRisk: 90,
+      customerImpact: 1,
+      implementationEase: 1,
+      approvalEase: 3,
+    };
+
+    const volumeResult = enrichOpportunity(opp, normalizeWeights(volumeHeavy));
+    const slaResult = enrichOpportunity(opp, normalizeWeights(slaHeavy));
+
+    // With high volume and repeatability, volumeHeavy should score higher
+    expect(volumeResult.score).toBeGreaterThan(slaResult.score);
+  });
+});
+
+describe("normalizeWeights", () => {
+  it("normalizes importance values to sum to 1.0", () => {
+    const raw: Record<ScoreFactorKey, number> = {
+      volume: 50,
+      laborIntensity: 50,
+      repeatability: 0,
+      standardization: 0,
+      rework: 0,
+      slaRisk: 0,
+      customerImpact: 0,
+      implementationEase: 0,
+      approvalEase: 0,
+    };
+    const normalized = normalizeWeights(raw);
+    const sum = Object.values(normalized).reduce((total, w) => total + w, 0);
+    expect(sum).toBeCloseTo(1.0, 10);
+    expect(normalized.volume).toBeCloseTo(0.5, 10);
+    expect(normalized.laborIntensity).toBeCloseTo(0.5, 10);
+  });
+
+  it("DEFAULT_IMPORTANCE normalizes to SCORE_WEIGHTS", () => {
+    const normalized = normalizeWeights(DEFAULT_IMPORTANCE);
+    for (const key of Object.keys(SCORE_WEIGHTS) as ScoreFactorKey[]) {
+      expect(normalized[key]).toBeCloseTo(SCORE_WEIGHTS[key], 10);
+    }
   });
 });

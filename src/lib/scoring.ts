@@ -1,6 +1,9 @@
 import type { Opportunity, Team } from "@/generated/prisma/client";
 import type { AutomationType } from "@/generated/prisma/enums";
 
+type OpportunityInput = Omit<Opportunity, 'createdAt' | 'updatedAt'>;
+type TeamInput = Omit<Team, 'createdAt' | 'updatedAt'>;
+
 export const HOURLY_RATE_USD = 48;
 
 export const SCORE_WEIGHTS = {
@@ -16,6 +19,27 @@ export const SCORE_WEIGHTS = {
 } as const;
 
 export type ScoreFactorKey = keyof typeof SCORE_WEIGHTS;
+
+export const DEFAULT_IMPORTANCE: Record<ScoreFactorKey, number> = {
+  volume: 18,
+  laborIntensity: 18,
+  repeatability: 15,
+  standardization: 12,
+  rework: 10,
+  slaRisk: 10,
+  customerImpact: 10,
+  implementationEase: 5,
+  approvalEase: 2,
+};
+
+export function normalizeWeights(
+  importance: Record<ScoreFactorKey, number>,
+): Record<ScoreFactorKey, number> {
+  const total = Object.values(importance).reduce((sum, v) => sum + v, 0);
+  return Object.fromEntries(
+    Object.entries(importance).map(([key, value]) => [key, value / total]),
+  ) as Record<ScoreFactorKey, number>;
+}
 
 export type EffortTier = "Quick win" | "Foundation build" | "Strategic bet";
 export type ValueBand = "Automate now" | "Validate next" | "Monitor";
@@ -45,7 +69,7 @@ export type OpportunityAnalytics = {
   keyConstraint: string;
 };
 
-export type EnrichedOpportunity = Opportunity & { team: Team } & OpportunityAnalytics;
+export type EnrichedOpportunity = OpportunityInput & { team: TeamInput } & OpportunityAnalytics;
 export type RankedOpportunity = EnrichedOpportunity & { rank: number };
 
 const VOLUME_CAP = 800;
@@ -133,7 +157,7 @@ function roundToThreeDecimals(value: number) {
 
 function getDisplayValue(
   key: ScoreFactorKey,
-  opportunity: Opportunity,
+  opportunity: OpportunityInput,
   laborHoursPerMonth: number,
 ) {
   switch (key) {
@@ -170,7 +194,7 @@ function joinNarratives(items: string[]) {
   return `${items[0]}, ${items[1]}, and ${items[2]}`;
 }
 
-function buildConstraint(opportunity: Opportunity) {
+function buildConstraint(opportunity: OpportunityInput) {
   if (opportunity.implementationDifficultyScore >= 4) {
     return "Implementation difficulty is the main drag on this opportunity, so integration design and exception handling should be narrowed before delivery.";
   }
@@ -190,7 +214,7 @@ function buildConstraint(opportunity: Opportunity) {
   return "The remaining constraints are manageable within a scoped v1 if exception handling and ownership are clearly defined.";
 }
 
-function getEffortTier(opportunity: Opportunity): EffortTier {
+function getEffortTier(opportunity: OpportunityInput): EffortTier {
   if (
     opportunity.implementationDifficultyScore <= 2 &&
     opportunity.approvalComplexityScore <= 2
@@ -220,7 +244,11 @@ function getValueBand(score: number): ValueBand {
   return "Monitor";
 }
 
-export function enrichOpportunity(opportunity: Opportunity & { team: Team }): EnrichedOpportunity {
+export function enrichOpportunity(
+  opportunity: OpportunityInput & { team: TeamInput },
+  customWeights?: Record<ScoreFactorKey, number>,
+): EnrichedOpportunity {
+  const weights = customWeights ?? SCORE_WEIGHTS;
   const monthlyMinutes = opportunity.monthlyVolume * opportunity.avgHandleTimeMinutes;
   const laborHoursPerMonth = monthlyMinutes / 60;
 
@@ -238,7 +266,7 @@ export function enrichOpportunity(opportunity: Opportunity & { team: Team }): En
   };
 
   const scoreBreakdown: ScoreBreakdownEntry[] = (
-    Object.entries(SCORE_WEIGHTS) as Array<[ScoreFactorKey, number]>
+    Object.entries(weights) as Array<[ScoreFactorKey, number]>
   ).map(([key, weight]) => {
     return {
       key,
