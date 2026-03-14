@@ -73,7 +73,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
               aria-valuetext={`${Math.round(factor.normalizedScore * 100)} percent of factor range`}
             >
               <div
-                className="h-full bg-accent shadow-[0_0_24px_var(--accent-glow)]"
+                className="h-full bg-accent"
                 style={{ width: `${factor.normalizedScore * 100}%` }}
               />
             </div>

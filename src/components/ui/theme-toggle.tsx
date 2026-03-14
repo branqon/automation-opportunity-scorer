@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
 
 function getInitialTheme(): "light" | "dark" {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
   const stored = localStorage.getItem("theme") as "light" | "dark" | null;
-  return stored ?? "dark";
+  return stored ?? "light";
 }
 
 export function ThemeToggle() {
