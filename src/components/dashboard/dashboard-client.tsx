@@ -158,7 +158,8 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
               />
 
               <details className="group">
-                <summary className="cursor-pointer text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground">
+                <summary className="flex cursor-pointer items-center gap-2 list-none text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden">
+                  <span className="text-[10px] group-open:rotate-90 transition-transform">▶</span>
                   Analytics
                 </summary>
                 <div className="mt-4 grid gap-6 xl:grid-cols-2">

@@ -280,7 +280,7 @@ export function OpportunityDetailClient({
         </SurfaceCard>
       </section>
 
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)] xl:items-start">
+      <section className="space-y-5">
 
         <div className="space-y-5">
           <div className="space-y-4">
