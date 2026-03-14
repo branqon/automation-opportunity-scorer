@@ -83,11 +83,11 @@ export function DashboardFilters({
         </div>
 
         <div className="flex items-end gap-3">
-          <div className="grid flex-1 gap-3 sm:grid-cols-3">
+          <div className="grid flex-1 gap-3 sm:grid-cols-[1fr_1fr_auto]">
             <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Team
               <select
-                className="min-h-10 rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+                className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
                 value={filters.team}
                 onChange={(event) => updateFilter("team", event.target.value)}
               >
@@ -103,7 +103,7 @@ export function DashboardFilters({
             <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Automation type
               <select
-                className="min-h-10 rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+                className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
                 value={filters.automationType}
                 onChange={(event) =>
                   updateFilter("automationType", event.target.value)
@@ -121,7 +121,7 @@ export function DashboardFilters({
             <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Focus
               <select
-                className="min-h-10 rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+                className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
                 value={filters.focus}
                 onChange={(event) => updateFilter("focus", event.target.value)}
               >

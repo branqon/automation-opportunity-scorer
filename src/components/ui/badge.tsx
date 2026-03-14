@@ -31,7 +31,7 @@ export function Badge({
 }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${VARIANT_STYLES[variant]} ${className}`}
+      className={`inline-flex items-center whitespace-nowrap rounded-md border px-2 py-0.5 text-xs font-medium ${VARIANT_STYLES[variant]} ${className}`}
     >
       {children}
     </span>
