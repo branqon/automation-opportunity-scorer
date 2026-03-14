@@ -1,11 +1,11 @@
 import type { NextConfig } from "next";
 
+const isGithubPagesBuild = process.env.BUILD_FOR_GITHUB_PAGES === "true";
+
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: process.env.GITHUB_ACTIONS ? "/automation-opportunity-scorer" : "",
-  assetPrefix: process.env.GITHUB_ACTIONS
-    ? "/automation-opportunity-scorer/"
-    : "",
+  basePath: isGithubPagesBuild ? "/automation-opportunity-scorer" : "",
+  assetPrefix: isGithubPagesBuild ? "/automation-opportunity-scorer/" : "",
 };
 
 export default nextConfig;
