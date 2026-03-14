@@ -30,7 +30,11 @@ export function ThemeToggle() {
         className="flex items-center justify-center rounded-lg border border-line bg-surface p-1.5 text-muted-foreground"
         aria-label="Toggle theme"
       >
-        <Moon className="h-3.5 w-3.5" />
+        {theme === "dark" ? (
+          <Sun className="h-3.5 w-3.5" />
+        ) : (
+          <Moon className="h-3.5 w-3.5" />
+        )}
       </button>
     );
   }

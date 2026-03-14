@@ -9,7 +9,7 @@ export default defineConfig({
     headless: true,
   },
   webServer: {
-    command: "npm run build && npx serve out -l 3000",
+    command: process.env.CI ? "npx serve out -l 3000" : "npm run build && npx serve out -l 3000",
     port: 3000,
     reuseExistingServer: !process.env.CI,
   },
