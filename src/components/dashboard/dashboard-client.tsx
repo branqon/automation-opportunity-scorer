@@ -1,7 +1,6 @@
 "use client";
 
 import { startTransition, useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   BarChart3,
   BriefcaseBusiness,
@@ -26,6 +25,7 @@ import {
 } from "@/lib/dashboard";
 import { compactCurrencyFormatter, formatHours } from "@/lib/formatters";
 import { normalizeWeights } from "@/lib/scoring";
+import { useClientSearchParams } from "@/lib/use-client-search-params";
 
 type DashboardClientProps = {
   rawOpportunities: RawOpportunity[];
@@ -36,10 +36,7 @@ export function DashboardClient({
   rawOpportunities,
   teams,
 }: DashboardClientProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const searchParamsKey = searchParams.toString();
+  const { searchParams, searchString: searchParamsKey, replace: replaceUrl } = useClientSearchParams();
   const urlImportance = useMemo(() => parseImportance(searchParams), [searchParams]);
   const [draftState, setDraftState] = useState(() => ({
     sourceKey: searchParamsKey,
@@ -90,10 +87,7 @@ export function DashboardClient({
     );
 
     startTransition(() => {
-      const query = nextParams.toString();
-      router.replace(query ? `${pathname}?${query}` : pathname, {
-        scroll: false,
-      });
+      replaceUrl(nextParams.toString(), { scroll: false });
     });
   }
 
@@ -235,6 +229,8 @@ export function DashboardClient({
             teams={data.filterOptions.teams}
             automationTypes={data.filterOptions.automationTypes}
             importance={importance}
+            searchParams={searchParams}
+            onSearchChange={replaceUrl}
             sliderOpen={sliderOpen}
             onToggleSlider={() => setSliderOpen((prev) => !prev)}
           />

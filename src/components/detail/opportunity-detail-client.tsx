@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -34,6 +33,7 @@ import {
 } from "@/lib/metadata";
 import { getEffortBadgeVariant, getScoreColorClass } from "@/lib/opportunity-badges";
 import { HOURLY_RATE_USD, normalizeWeights } from "@/lib/scoring";
+import { useClientSearchParams } from "@/lib/use-client-search-params";
 
 type OpportunityDetailClientProps = {
   slug: string;
@@ -46,7 +46,7 @@ export function OpportunityDetailClient({
   rawOpportunities,
   teams,
 }: OpportunityDetailClientProps) {
-  const searchParams = useSearchParams();
+  const { searchParams, searchString: searchQuery } = useClientSearchParams();
 
   const importance = useMemo(() => parseImportance(searchParams), [searchParams]);
   const isCustom = useMemo(
@@ -88,7 +88,6 @@ export function OpportunityDetailClient({
   }
 
   const { opportunity, neighboring, totalCount } = detail;
-  const searchQuery = searchParams.toString();
   const dashboardHref = searchQuery ? `/?${searchQuery}` : "/";
 
   function buildOpportunityHref(nextSlug: string) {

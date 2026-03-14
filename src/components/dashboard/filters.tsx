@@ -1,7 +1,6 @@
 "use client";
 
 import { startTransition } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 
 import { AutomationType } from "@/generated/prisma/enums";
@@ -16,6 +15,8 @@ type DashboardFiltersProps = {
   teams: { id: string; slug: string; name: string }[];
   automationTypes: AutomationType[];
   importance: Record<ScoreFactorKey, number>;
+  searchParams: URLSearchParams;
+  onSearchChange: (query: string, options?: { scroll?: boolean }) => void;
   sliderOpen: boolean;
   onToggleSlider: () => void;
 };
@@ -35,12 +36,11 @@ export function DashboardFilters({
   teams,
   automationTypes,
   importance,
+  searchParams,
+  onSearchChange,
   sliderOpen,
   onToggleSlider,
 }: DashboardFiltersProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const automationTypeOptions = buildOptions(
     automationTypes,
@@ -62,10 +62,7 @@ export function DashboardFilters({
     );
 
     startTransition(() => {
-      const query = nextParamsWithImportance.toString();
-      router.replace(query ? `${pathname}?${query}` : pathname, {
-        scroll: false,
-      });
+      onSearchChange(nextParamsWithImportance.toString(), { scroll: false });
     });
   }
 
