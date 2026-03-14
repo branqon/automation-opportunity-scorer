@@ -1,40 +1,6 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f1115;
-  --background-strong: #0a0c10;
-  --surface: #151920;
-  --surface-subtle: #10141a;
-  --surface-elevated: #1a2029;
-  --foreground: #f3f5f8;
-  --muted-foreground: #8d96a4;
-  --line: rgba(151, 163, 182, 0.16);
-  --line-strong: rgba(151, 163, 182, 0.26);
-  --accent: #7f9bb8;
-  --accent-soft: rgba(127, 155, 184, 0.12);
-  --accent-strong: #d3deea;
-  --shadow-card-soft: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --semantic-success-bg: rgba(74, 222, 128, 0.12);
-  --semantic-success-border: rgba(74, 222, 128, 0.2);
-  --semantic-success-text: #5ce38c;
-  --semantic-warning-bg: rgba(251, 191, 36, 0.12);
-  --semantic-warning-border: rgba(251, 191, 36, 0.2);
-  --semantic-warning-text: #f8c956;
-  --semantic-critical-bg: rgba(248, 113, 113, 0.12);
-  --semantic-critical-border: rgba(248, 113, 113, 0.2);
-  --semantic-critical-text: #ff8a8a;
-  --chart-axis: #8d96a4;
-  --chart-grid: rgba(141, 150, 164, 0.12);
-  --chart-reference: rgba(141, 150, 164, 0.25);
-  --chart-cursor-fill: rgba(127, 155, 184, 0.08);
-  --chart-bar-start: #58d38e;
-  --chart-bar-end: #239c62;
-  --chart-quick-win: #7f9bb8;
-  --chart-foundation: #f0bc41;
-  --chart-strategic: #ea7676;
-}
-
-[data-theme="light"] {
   --background: #f5f6f8;
   --background-strong: #ebedf2;
   --surface: #ffffff;
@@ -66,6 +32,40 @@
   --chart-quick-win: #5e7f9f;
   --chart-foundation: #c88812;
   --chart-strategic: #cf4545;
+}
+
+[data-theme="dark"] {
+  --background: #0f1115;
+  --background-strong: #0a0c10;
+  --surface: #151920;
+  --surface-subtle: #10141a;
+  --surface-elevated: #1a2029;
+  --foreground: #f3f5f8;
+  --muted-foreground: #8d96a4;
+  --line: rgba(151, 163, 182, 0.16);
+  --line-strong: rgba(151, 163, 182, 0.26);
+  --accent: #7f9bb8;
+  --accent-soft: rgba(127, 155, 184, 0.12);
+  --accent-strong: #d3deea;
+  --shadow-card-soft: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --semantic-success-bg: rgba(74, 222, 128, 0.12);
+  --semantic-success-border: rgba(74, 222, 128, 0.2);
+  --semantic-success-text: #5ce38c;
+  --semantic-warning-bg: rgba(251, 191, 36, 0.12);
+  --semantic-warning-border: rgba(251, 191, 36, 0.2);
+  --semantic-warning-text: #f8c956;
+  --semantic-critical-bg: rgba(248, 113, 113, 0.12);
+  --semantic-critical-border: rgba(248, 113, 113, 0.2);
+  --semantic-critical-text: #ff8a8a;
+  --chart-axis: #8d96a4;
+  --chart-grid: rgba(141, 150, 164, 0.12);
+  --chart-reference: rgba(141, 150, 164, 0.25);
+  --chart-cursor-fill: rgba(127, 155, 184, 0.08);
+  --chart-bar-start: #58d38e;
+  --chart-bar-end: #239c62;
+  --chart-quick-win: #7f9bb8;
+  --chart-foundation: #f0bc41;
+  --chart-strategic: #ea7676;
 }
 
 @theme inline {
