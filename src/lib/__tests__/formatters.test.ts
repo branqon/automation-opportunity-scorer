@@ -52,9 +52,23 @@ describe("formatScore", () => {
 });
 
 describe("compactCurrencyFormatter", () => {
-  it("uses compact notation for large values", () => {
-    const result = compactCurrencyFormatter.format(150000);
-    // maximumFractionDigits: 1 may produce "$150.0K" or "$150K" depending on runtime
-    expect(result).toMatch(/^\$150(\.0)?K$/);
+  it("formats thousands with K suffix", () => {
+    expect(compactCurrencyFormatter.format(150000)).toBe("$150K");
+    expect(compactCurrencyFormatter.format(57300)).toBe("$57.3K");
+    expect(compactCurrencyFormatter.format(1000)).toBe("$1K");
+  });
+
+  it("formats millions with M suffix", () => {
+    expect(compactCurrencyFormatter.format(1500000)).toBe("$1.5M");
+    expect(compactCurrencyFormatter.format(2000000)).toBe("$2M");
+  });
+
+  it("formats values under 1000 without suffix", () => {
+    expect(compactCurrencyFormatter.format(500)).toBe("$500");
+    expect(compactCurrencyFormatter.format(84)).toBe("$84");
+  });
+
+  it("handles negative values", () => {
+    expect(compactCurrencyFormatter.format(-50000)).toBe("-$50K");
   });
 });
