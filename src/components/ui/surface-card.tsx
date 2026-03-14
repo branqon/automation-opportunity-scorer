@@ -11,7 +11,7 @@ export function SurfaceCard({
 }: SurfaceCardProps) {
   return (
     <div
-      className={`relative overflow-hidden rounded-card border border-line bg-surface p-5 shadow-card backdrop-blur-sm sm:p-6 ${className}`}
+      className={`rounded-card border border-line bg-surface p-5 shadow-card sm:p-6 ${className}`}
     >
       {children}
     </div>

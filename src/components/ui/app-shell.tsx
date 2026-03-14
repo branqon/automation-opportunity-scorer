@@ -14,7 +14,7 @@ export function AppShell({ children }: AppShellProps) {
         {children}
       </main>
 
-      <footer className="border-t border-line bg-background/65 backdrop-blur-sm">
+      <footer className="border-t border-line bg-background">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs text-muted-foreground sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <p>
             Built to answer one decision-support question well: what should we
