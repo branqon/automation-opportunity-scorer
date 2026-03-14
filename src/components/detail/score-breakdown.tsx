@@ -1,4 +1,3 @@
-import { SurfaceCard } from "@/components/ui/surface-card";
 import { formatPercent, formatScore } from "@/lib/formatters";
 import type { RankedOpportunity } from "@/lib/scoring";
 
@@ -8,7 +7,7 @@ type ScoreBreakdownProps = {
 
 export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
   return (
-    <SurfaceCard className="space-y-5">
+    <div className="space-y-5">
       <div>
         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
           Score breakdown
@@ -21,7 +20,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
         </p>
       </div>
 
-      <div className="rounded-xl border border-line bg-surface-subtle p-4">
+      <div className="border border-line bg-surface-subtle p-4">
         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
           Composite score
         </p>
@@ -37,7 +36,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
         {opportunity.scoreBreakdown.map((factor) => (
           <div
             key={factor.key}
-            className="rounded-xl border border-line bg-surface p-3"
+            className="border border-line bg-surface p-3"
           >
             <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
               <div className="max-w-xl">
@@ -63,7 +62,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
             </div>
 
             <div
-              className="mt-3 h-1 overflow-hidden rounded-full bg-surface-subtle"
+              className="mt-3 h-1 overflow-hidden bg-surface-subtle"
               role="progressbar"
               aria-label={`${factor.label} score contribution`}
               aria-valuemin={0}
@@ -72,13 +71,13 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
               aria-valuetext={`${Math.round(factor.normalizedScore * 100)} percent of factor range`}
             >
               <div
-                className="h-full rounded-full bg-accent"
+                className="h-full bg-accent"
                 style={{ width: `${factor.normalizedScore * 100}%` }}
               />
             </div>
           </div>
         ))}
       </div>
-    </SurfaceCard>
+    </div>
   );
 }

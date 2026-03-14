@@ -108,7 +108,7 @@ export function OpportunityDetailClient({
       </Link>
 
       {isCustom ? (
-        <div className="rounded-xl border border-accent/15 bg-accent-soft p-4">
+        <div className="border-l-2 border-line bg-surface-subtle p-4">
           <p className="text-xs font-medium uppercase tracking-wider text-accent-strong">
             What-if scenario active
           </p>
@@ -140,7 +140,7 @@ export function OpportunityDetailClient({
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+              <div className="border border-line bg-surface-subtle p-4">
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Opportunity score
                 </p>
@@ -152,7 +152,7 @@ export function OpportunityDetailClient({
                 </p>
               </div>
 
-              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+              <div className="border border-line bg-surface-subtle p-4">
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Monthly hours saved
                 </p>
@@ -164,7 +164,7 @@ export function OpportunityDetailClient({
                 </p>
               </div>
 
-              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+              <div className="border border-line bg-surface-subtle p-4">
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Annual cost savings
                 </p>
@@ -193,7 +193,7 @@ export function OpportunityDetailClient({
             </h2>
           </div>
 
-          <div className="rounded-xl border border-line bg-surface-subtle p-4">
+          <div className="border border-line bg-surface-subtle p-4">
             <div className="flex items-start gap-2.5">
               <Gauge className="mt-0.5 h-4 w-4 text-accent" />
               <div>
@@ -207,7 +207,7 @@ export function OpportunityDetailClient({
             </div>
           </div>
 
-          <div className="rounded-xl border border-line bg-surface-subtle p-4">
+          <div className="border border-line bg-surface-subtle p-4">
             <div className="flex items-start gap-2.5">
               <ShieldCheck className="mt-0.5 h-4 w-4 text-accent" />
               <div>
@@ -221,11 +221,11 @@ export function OpportunityDetailClient({
             </div>
           </div>
 
-          <div className="rounded-xl border border-accent/15 bg-accent-soft p-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-accent-strong">
+          <div className="border border-line bg-surface-subtle p-4">
+            <p className="text-xs font-medium uppercase tracking-wider text-foreground">
               Recommended next step
             </p>
-            <p className="mt-1.5 text-sm leading-relaxed text-accent-strong">
+            <p className="mt-1.5 text-sm leading-relaxed text-foreground">
               {opportunity.recommendedNextStep}
             </p>
           </div>
@@ -234,7 +234,7 @@ export function OpportunityDetailClient({
             {neighboring.higher ? (
               <Link
                 href={buildOpportunityHref(neighboring.higher.slug)}
-                className="rounded-xl border border-line bg-surface-subtle p-3 transition hover:border-accent/25 hover:bg-surface"
+                className="border border-line bg-surface-subtle p-3 transition hover:border-accent/25 hover:bg-surface"
               >
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">
                   Ranked higher
@@ -244,7 +244,7 @@ export function OpportunityDetailClient({
                 </p>
               </Link>
             ) : (
-              <div className="rounded-xl border border-dashed border-line bg-surface-subtle/40 p-3">
+              <div className="border border-dashed border-line bg-surface-subtle/40 p-3">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground/60">
                   Ranked higher
                 </p>
@@ -257,7 +257,7 @@ export function OpportunityDetailClient({
             {neighboring.lower ? (
               <Link
                 href={buildOpportunityHref(neighboring.lower.slug)}
-                className="rounded-xl border border-line bg-surface-subtle p-3 transition hover:border-accent/25 hover:bg-surface"
+                className="border border-line bg-surface-subtle p-3 transition hover:border-accent/25 hover:bg-surface"
               >
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">
                   Ranked lower
@@ -267,7 +267,7 @@ export function OpportunityDetailClient({
                 </p>
               </Link>
             ) : (
-              <div className="rounded-xl border border-dashed border-line bg-surface-subtle/40 p-3">
+              <div className="border border-dashed border-line bg-surface-subtle/40 p-3">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground/60">
                   Ranked lower
                 </p>
@@ -283,7 +283,7 @@ export function OpportunityDetailClient({
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)] xl:items-start">
 
         <div className="space-y-5">
-          <SurfaceCard className="space-y-4">
+          <div className="space-y-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 ROI assumptions
@@ -294,7 +294,7 @@ export function OpportunityDetailClient({
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+              <div className="border border-line bg-surface-subtle p-4">
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <Clock3 className="h-3.5 w-3.5" />
                   <p className="text-xs uppercase tracking-wider">
@@ -310,7 +310,7 @@ export function OpportunityDetailClient({
                 </p>
               </div>
 
-              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+              <div className="border border-line bg-surface-subtle p-4">
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <DollarSign className="h-3.5 w-3.5" />
                   <p className="text-xs uppercase tracking-wider">
@@ -328,7 +328,7 @@ export function OpportunityDetailClient({
               </div>
             </div>
 
-            <div className="rounded-xl border border-line bg-surface p-4">
+            <div className="border border-line bg-surface p-4">
               <p className="text-sm font-semibold text-foreground">Formula used</p>
               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                 Monthly minutes saved = monthly volume x average handle time x
@@ -336,9 +336,9 @@ export function OpportunityDetailClient({
                 saved x hourly rate.
               </p>
             </div>
-          </SurfaceCard>
+          </div>
 
-          <SurfaceCard className="space-y-4">
+          <div className="space-y-4">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 Suggested approach
@@ -351,7 +351,7 @@ export function OpportunityDetailClient({
               </p>
             </div>
 
-            <div className="rounded-xl border border-line bg-surface-subtle p-4">
+            <div className="border border-line bg-surface-subtle p-4">
               <p className="text-sm font-semibold text-foreground">
                 Implementation approach
               </p>
@@ -360,7 +360,7 @@ export function OpportunityDetailClient({
               </p>
             </div>
 
-            <div className="rounded-xl border border-line bg-surface-subtle p-4">
+            <div className="border border-line bg-surface-subtle p-4">
               <p className="text-sm font-semibold text-foreground">
                 Implementation considerations
               </p>
@@ -369,7 +369,7 @@ export function OpportunityDetailClient({
               </p>
             </div>
 
-            <div className="rounded-xl border border-line bg-surface-subtle p-4">
+            <div className="border border-line bg-surface-subtle p-4">
               <p className="text-sm font-semibold text-foreground">
                 Risk and complexity notes
               </p>
@@ -385,7 +385,7 @@ export function OpportunityDetailClient({
               Return to the ranked portfolio view
               <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
-          </SurfaceCard>
+          </div>
         </div>
       </section>
     </div>
