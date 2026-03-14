@@ -109,7 +109,7 @@ export function OpportunityDetailClient({
 
       {isCustom ? (
         <div className="border-l-2 border-line bg-surface-subtle p-4">
-          <p className="text-xs font-medium uppercase tracking-wider text-accent-strong">
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent-strong">
             What-if scenario active
           </p>
           <p className="mt-1.5 text-sm leading-relaxed text-accent-strong">
@@ -141,7 +141,7 @@ export function OpportunityDetailClient({
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <div className="border border-line bg-surface-subtle p-4">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                   Opportunity score
                 </p>
                 <p className={`mt-2 text-2xl font-semibold ${getScoreColorClass(opportunity.valueBand)}`}>
@@ -153,7 +153,7 @@ export function OpportunityDetailClient({
               </div>
 
               <div className="border border-line bg-surface-subtle p-4">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                   Monthly hours saved
                 </p>
                 <p className="mt-2 text-2xl font-semibold text-foreground">
@@ -165,7 +165,7 @@ export function OpportunityDetailClient({
               </div>
 
               <div className="border border-line bg-surface-subtle p-4">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                   Annual cost savings
                 </p>
                 <p className="mt-2 text-2xl font-semibold text-foreground">
@@ -185,7 +185,7 @@ export function OpportunityDetailClient({
 
         <SurfaceCard className="space-y-4">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
               Why this ranked here
             </p>
             <h2 className="mt-1 text-lg font-semibold text-foreground">
@@ -222,7 +222,7 @@ export function OpportunityDetailClient({
           </div>
 
           <div className="border border-line bg-surface-subtle p-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-foreground">
+            <p className="text-xs font-medium uppercase tracking-[0.14em] text-foreground">
               Recommended next step
             </p>
             <p className="mt-1.5 text-sm leading-relaxed text-foreground">
@@ -234,9 +234,10 @@ export function OpportunityDetailClient({
             {neighboring.higher ? (
               <Link
                 href={buildOpportunityHref(neighboring.higher.slug)}
+                prefetch={false}
                 className="border border-line bg-surface-subtle p-3 transition hover:border-accent/25 hover:bg-surface"
               >
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   Ranked higher
                 </p>
                 <p className="mt-1 text-sm font-semibold text-foreground">
@@ -245,7 +246,7 @@ export function OpportunityDetailClient({
               </Link>
             ) : (
               <div className="border border-dashed border-line bg-surface-subtle/40 p-3">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground/60">
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground/60">
                   Ranked higher
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground/60">
@@ -257,9 +258,10 @@ export function OpportunityDetailClient({
             {neighboring.lower ? (
               <Link
                 href={buildOpportunityHref(neighboring.lower.slug)}
+                prefetch={false}
                 className="border border-line bg-surface-subtle p-3 transition hover:border-accent/25 hover:bg-surface"
               >
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   Ranked lower
                 </p>
                 <p className="mt-1 text-sm font-semibold text-foreground">
@@ -268,7 +270,7 @@ export function OpportunityDetailClient({
               </Link>
             ) : (
               <div className="border border-dashed border-line bg-surface-subtle/40 p-3">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground/60">
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground/60">
                   Ranked lower
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground/60">
@@ -285,7 +287,7 @@ export function OpportunityDetailClient({
         <div className="space-y-5">
           <div className="space-y-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                 ROI assumptions
               </p>
               <h2 className="mt-1 text-lg font-semibold text-foreground">
@@ -297,7 +299,7 @@ export function OpportunityDetailClient({
               <div className="border border-line bg-surface-subtle p-4">
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <Clock3 className="h-3.5 w-3.5" />
-                  <p className="text-xs uppercase tracking-wider">
+                  <p className="text-xs uppercase tracking-[0.14em]">
                     Automation rate
                   </p>
                 </div>
@@ -313,7 +315,7 @@ export function OpportunityDetailClient({
               <div className="border border-line bg-surface-subtle p-4">
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <DollarSign className="h-3.5 w-3.5" />
-                  <p className="text-xs uppercase tracking-wider">
+                  <p className="text-xs uppercase tracking-[0.14em]">
                     Annual savings
                   </p>
                 </div>
@@ -340,7 +342,7 @@ export function OpportunityDetailClient({
 
           <div className="space-y-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                 Suggested approach
               </p>
               <h2 className="mt-1 text-lg font-semibold text-foreground">
