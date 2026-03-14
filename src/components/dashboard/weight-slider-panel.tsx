@@ -56,7 +56,7 @@ export function WeightSliderPanel({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-lg p-1.5 text-muted-foreground transition hover:bg-surface-subtle hover:text-foreground"
+          className="p-1.5 text-muted-foreground transition hover:bg-surface-subtle hover:text-foreground"
           aria-label="Close weight panel"
         >
           <X className="h-4 w-4" />
@@ -98,7 +98,7 @@ export function WeightSliderPanel({
         type="button"
         onClick={onReset}
         disabled={!isCustom}
-        className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-line bg-background px-3 py-2 text-sm font-medium transition ${
+        className={`mt-4 inline-flex w-full items-center justify-center gap-2 border border-line bg-background px-3 py-2 text-sm font-medium transition ${
           isCustom
             ? "text-muted-foreground hover:text-foreground"
             : "cursor-default text-muted-foreground/40"

@@ -69,7 +69,7 @@ export function DashboardFilters({
   }
 
   return (
-    <div className="rounded-xl border border-line bg-surface p-4 shadow-card">
+    <div className="border-b border-line pb-4">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -86,7 +86,7 @@ export function DashboardFilters({
           <label className="flex min-w-[14rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Team
             <select
-              className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-10 w-full border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.team}
               onChange={(event) => updateFilter("team", event.target.value)}
             >
@@ -102,7 +102,7 @@ export function DashboardFilters({
           <label className="flex min-w-[14rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Type
             <select
-              className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-10 w-full border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.automationType}
               onChange={(event) =>
                 updateFilter("automationType", event.target.value)
@@ -120,7 +120,7 @@ export function DashboardFilters({
           <label className="flex min-w-[14rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             Focus
             <select
-              className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-10 w-full border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.focus}
               onChange={(event) => updateFilter("focus", event.target.value)}
             >
@@ -135,7 +135,7 @@ export function DashboardFilters({
           <button
             type="button"
             onClick={onToggleSlider}
-            className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition ${
+            className={`inline-flex items-center gap-2 border px-3 py-2 text-sm font-medium transition ${
               sliderOpen
                 ? "border-accent bg-accent-soft text-accent-strong"
                 : "border-line bg-background text-muted-foreground hover:text-foreground"
