@@ -32,16 +32,14 @@ The point of the project is credibility and explainability.
 - Fixed weights make the ranking inspectable.
 - The detail page can show exactly why an item ranked where it did.
 
-## Why the scoring model is not configurable in the UI
+## Why the scoring model uses fixed weights with a what-if explorer
 
-User-configurable scoring would create a larger product surface than the portfolio needs.
+The base scoring model uses fixed weights in code so the ranking is deterministic and auditable. The dashboard includes a what-if weight slider for exploratory analysis — users can adjust factor importance and watch rankings shift in real time. This is framed as exploration, not configuration:
 
-For this repo, keeping the assumptions visible in code is the better tradeoff:
-
-- easier to review
-- easier to document
-- harder to misuse
-- faster to ship as a tight v1
+- The base case is always reproducible from code.
+- Detail pages always show the fixed-weight score.
+- Custom weights are not persisted or shared.
+- The slider demonstrates interactive data thinking without creating a configuration surface.
 
 ## Why there is no auth
 

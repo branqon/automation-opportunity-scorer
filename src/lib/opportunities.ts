@@ -3,15 +3,13 @@ import type { Opportunity, Team } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import {
   computeDashboardData,
-  parseDashboardFilters,
   type DashboardFilterState,
-  type DashboardFocus,
   type RawOpportunity,
   type RawTeam,
 } from "@/lib/dashboard";
 
-export type { DashboardFilterState, DashboardFocus, RawOpportunity, RawTeam };
-export { parseDashboardFilters, computeDashboardData };
+export type { DashboardFilterState, RawOpportunity, RawTeam };
+export { computeDashboardData };
 
 export function toRawTeam(team: Team): RawTeam {
   return {
@@ -62,11 +60,6 @@ export async function getAllRawData() {
     rawOpportunities: rows.map(toRawOpportunity),
     teams: teams.map(toRawTeam),
   };
-}
-
-export async function getDashboardData(filters: DashboardFilterState) {
-  const { rawOpportunities, teams } = await getAllRawData();
-  return computeDashboardData(rawOpportunities, teams, filters);
 }
 
 export async function getOpportunityDetail(slug: string) {

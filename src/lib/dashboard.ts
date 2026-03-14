@@ -149,7 +149,6 @@ export function computeDashboardData(
     },
     stats: {
       totalCategories: rankedAll.length,
-      visibleCategories: opportunities.length,
       totalMonthlyHoursSaved: opportunities.reduce(
         (total, opportunity) => total + opportunity.monthlyHoursSaved,
         0,

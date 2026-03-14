@@ -20,6 +20,8 @@ The portfolio story is simple:
 - Deterministic 9-factor scoring model with visible weights and ROI assumptions.
 - Dashboard with top candidates, quick wins vs strategic bets, charts, and a ranked table.
 - Opportunity detail pages with score breakdowns, implementation considerations, risk notes, and concrete next steps.
+- Interactive what-if weight slider for exploring how different factor priorities change the ranking.
+- Statically exported and deployed to GitHub Pages — no server required.
 - Read-only portfolio surface designed for screenshots, demos, and interview walkthroughs.
 
 ## How this differs from an automation platform
@@ -29,20 +31,19 @@ This repo is intentionally not a workflow runner, chatbot, ticketing system, or 
 - It does not ingest raw tickets.
 - It does not execute automations.
 - It does not simulate approvals.
-- It does not let users reconfigure the scoring model from the UI.
-
-It is a prioritization product, not an execution product.
+It is a prioritization product, not an execution product. The dashboard includes a what-if weight slider for exploratory analysis, but the base scoring model is fixed and auditable in code.
 
 ## Architecture overview
 
 ```mermaid
 flowchart LR
     A[Seeded opportunity dataset] --> B[Prisma + SQLite]
-    B --> C[Next.js server components]
+    B --> C[Static export at build time]
     C --> D[Deterministic scoring engine]
     D --> E[Dashboard ranking]
     D --> F[Opportunity detail pages]
     E --> G[Charts + ranked table]
+    E --> I[What-if weight slider]
     F --> H[Score breakdown + next step]
 ```
 
@@ -77,7 +78,8 @@ Full methodology: [docs/scoring-methodology.md](./docs/scoring-methodology.md)
 
 1. Open the dashboard to review the seeded portfolio of recurring operational categories.
 2. Filter by team, automation pattern, or focus area.
-3. Review top candidates and the quick-win vs higher-effort chart.
+3. Open the what-if weight slider to explore how different factor priorities change the ranking.
+4. Review top candidates and the quick-win vs higher-effort chart.
 4. Review ranked opportunities by score, hours saved, and annual savings.
 5. Open a detail page to inspect the score breakdown, ROI assumptions, and recommended next step.
 
