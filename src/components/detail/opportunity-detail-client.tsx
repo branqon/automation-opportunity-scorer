@@ -32,7 +32,7 @@ import {
   AUTOMATION_TYPE_DESCRIPTIONS,
   getAutomationTypeLabel,
 } from "@/lib/metadata";
-import { getEffortBadgeVariant } from "@/lib/opportunity-badges";
+import { getEffortBadgeVariant, getScoreColorClass } from "@/lib/opportunity-badges";
 import { HOURLY_RATE_USD, normalizeWeights } from "@/lib/scoring";
 
 type OpportunityDetailClientProps = {
@@ -144,7 +144,7 @@ export function OpportunityDetailClient({
                 <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Opportunity score
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-foreground">
+                <p className={`mt-2 text-2xl font-semibold ${getScoreColorClass(opportunity.valueBand)}`}>
                   {formatScore(opportunity.score)}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">

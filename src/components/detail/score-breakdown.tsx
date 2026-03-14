@@ -1,4 +1,5 @@
 import { formatPercent, formatScore } from "@/lib/formatters";
+import { getScoreColorClass } from "@/lib/opportunity-badges";
 import type { RankedOpportunity } from "@/lib/scoring";
 
 type ScoreBreakdownProps = {
@@ -25,7 +26,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
           Composite score
         </p>
         <div className="mt-2 flex items-end gap-2">
-          <p className="text-3xl font-semibold text-foreground">
+          <p className={`text-3xl font-semibold ${getScoreColorClass(opportunity.valueBand)}`}>
             {formatScore(opportunity.score)}
           </p>
           <p className="pb-0.5 text-sm text-muted-foreground">out of 100</p>

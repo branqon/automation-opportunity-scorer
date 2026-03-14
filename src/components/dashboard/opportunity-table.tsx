@@ -8,7 +8,7 @@ import {
   formatScore,
 } from "@/lib/formatters";
 import { getAutomationTypeLabel } from "@/lib/metadata";
-import { getEffortBadgeVariant } from "@/lib/opportunity-badges";
+import { getEffortBadgeVariant, getScoreColorClass } from "@/lib/opportunity-badges";
 import type { RankedOpportunity } from "@/lib/scoring";
 
 type OpportunityTableProps = {
@@ -60,7 +60,7 @@ export function OpportunityTable({
                 <p className="text-xs uppercase tracking-wider text-accent-strong">
                   Score
                 </p>
-                <p className="text-xl font-semibold text-accent-strong">
+                <p className={`text-xl font-semibold ${getScoreColorClass(opportunity.valueBand)}`}>
                   {formatScore(opportunity.score)}
                 </p>
               </div>
@@ -148,7 +148,7 @@ export function OpportunityTable({
                   {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
                 </td>
                 <td className="px-4 py-3 align-top">
-                  <span className="text-lg font-semibold text-foreground">
+                  <span className={`text-lg font-semibold ${getScoreColorClass(opportunity.valueBand)}`}>
                     {formatScore(opportunity.score)}
                   </span>
                 </td>
