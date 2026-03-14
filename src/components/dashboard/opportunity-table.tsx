@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { SurfaceCard } from "@/components/ui/surface-card";
 import {
   compactCurrencyFormatter,
   formatHours,
@@ -28,7 +27,7 @@ export function OpportunityTable({
   }
 
   return (
-    <SurfaceCard className="overflow-hidden p-0">
+    <div className="overflow-hidden">
       <div className="border-b border-line px-4 py-3">
         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
           Ranked opportunity table
@@ -57,7 +56,7 @@ export function OpportunityTable({
                   {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
                 </p>
               </div>
-              <div className="rounded-lg bg-accent-soft px-3 py-2 text-right">
+              <div className="bg-accent-soft px-3 py-2 text-right">
                 <p className="text-xs uppercase tracking-wider text-accent-strong">
                   Score
                 </p>
@@ -75,7 +74,7 @@ export function OpportunityTable({
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
-              <div className="rounded-lg bg-surface-subtle p-3">
+              <div className="bg-surface-subtle p-3">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">
                   Monthly hours
                 </p>
@@ -83,7 +82,7 @@ export function OpportunityTable({
                   {formatHours(opportunity.monthlyHoursSaved)}
                 </p>
               </div>
-              <div className="rounded-lg bg-surface-subtle p-3">
+              <div className="bg-surface-subtle p-3">
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">
                   Annual savings
                 </p>
@@ -178,6 +177,6 @@ export function OpportunityTable({
           </tbody>
         </table>
       </div>
-    </SurfaceCard>
+    </div>
   );
 }
