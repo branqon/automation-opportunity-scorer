@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0e0e11;
+  --background: #111113;
   --surface: #18181b;
   --surface-subtle: #1e1e23;
   --foreground: #f0f0f3;
   --muted-foreground: #8b8b96;
   --line: #2a2a30;
-  --accent: #a78bfa;
-  --accent-soft: #1e1733;
-  --accent-strong: #c4b5fd;
+  --accent: #64748b;
+  --accent-soft: rgba(100,116,139,0.1);
+  --accent-strong: #94a3b8;
   --shadow-card-soft: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
   --semantic-success-bg: rgba(74, 222, 128, 0.1);
   --semantic-success-border: rgba(74, 222, 128, 0.2);
@@ -23,10 +23,10 @@
   --chart-axis: #8b8b96;
   --chart-grid: rgba(139, 139, 150, 0.12);
   --chart-reference: rgba(139, 139, 150, 0.25);
-  --chart-cursor-fill: rgba(167, 139, 250, 0.08);
+  --chart-cursor-fill: rgba(100,116,139,0.08);
   --chart-bar-start: #4ade80;
   --chart-bar-end: #16a34a;
-  --chart-quick-win: #a78bfa;
+  --chart-quick-win: #64748b;
   --chart-foundation: #fbbf24;
   --chart-strategic: #f87171;
 }
@@ -38,9 +38,9 @@
   --foreground: #111111;
   --muted-foreground: #6b7280;
   --line: #e5e7eb;
-  --accent: #7c3aed;
-  --accent-soft: #f3f0ff;
-  --accent-strong: #5b21b6;
+  --accent: #475569;
+  --accent-soft: rgba(71,85,105,0.08);
+  --accent-strong: #334155;
   --shadow-card-soft: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --semantic-success-bg: rgba(21, 128, 61, 0.08);
   --semantic-success-border: rgba(21, 128, 61, 0.16);
@@ -54,10 +54,10 @@
   --chart-axis: #6b7280;
   --chart-grid: rgba(107, 114, 128, 0.12);
   --chart-reference: rgba(107, 114, 128, 0.25);
-  --chart-cursor-fill: rgba(124, 58, 237, 0.06);
+  --chart-cursor-fill: rgba(71,85,105,0.06);
   --chart-bar-start: #22c55e;
   --chart-bar-end: #16a34a;
-  --chart-quick-win: #7c3aed;
+  --chart-quick-win: #475569;
   --chart-foundation: #d97706;
   --chart-strategic: #dc2626;
 }
@@ -74,7 +74,7 @@
   --color-accent-strong: var(--accent-strong);
   --font-sans: var(--font-inter);
   --shadow-card: var(--shadow-card-soft);
-  --radius-card: 0.75rem;
+  --radius-card: 0;
 }
 
 * {
