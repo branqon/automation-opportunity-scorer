@@ -72,21 +72,21 @@ export function DashboardFilters({
   return (
     <SurfaceCard>
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-        <div>
+        <div className="xl:max-w-sm">
           <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Filter the ranked view
           </p>
           <h2 className="mt-1 text-lg font-semibold text-foreground">
             Slice the portfolio without losing the model context
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             Slice the model by team, automation pattern, or delivery effort
             and optionally carry a what-if weighting scenario into linked detail
             views.
           </p>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-2 xl:min-w-[40rem] xl:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-[repeat(3,minmax(11rem,1fr))_auto]">
           <label className="flex min-w-0 flex-col gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Team
             <select
@@ -140,7 +140,7 @@ export function DashboardFilters({
             type="button"
             onClick={onToggleSlider}
             aria-label="Adjust weights"
-            className={`inline-flex min-h-11 items-center justify-center gap-2 border px-4 py-2 text-sm font-medium shadow-card transition ${
+            className={`inline-flex min-h-11 items-center justify-center gap-2 self-end whitespace-nowrap border px-4 py-2 text-sm font-medium transition ${
               sliderOpen
                 ? "border-accent/40 bg-accent-soft text-accent-strong"
                 : "border-line bg-surface-subtle text-muted-foreground hover:border-accent/25 hover:text-foreground"
