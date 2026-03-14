@@ -4,14 +4,20 @@ import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
 
 function resolveTheme(): "light" | "dark" {
-  const stored = localStorage.getItem("theme") as "light" | "dark" | null;
-  if (stored) {
-    return stored;
+  try {
+    const stored = localStorage.getItem("theme") as "light" | "dark" | null;
+    if (stored) return stored;
+  } catch {
+    // localStorage unavailable (private browsing, storage denied, etc.)
   }
 
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  try {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+  } catch {
+    // matchMedia unavailable
+  }
+
+  return "light";
 }
 
 function applyTheme(theme: "light" | "dark") {
@@ -19,6 +25,14 @@ function applyTheme(theme: "light" | "dark") {
     document.documentElement.setAttribute("data-theme", "dark");
   } else {
     document.documentElement.removeAttribute("data-theme");
+  }
+}
+
+function persistTheme(theme: "light" | "dark") {
+  try {
+    localStorage.setItem("theme", theme);
+  } catch {
+    // Storage unavailable — theme still works for the current session
   }
 }
 
@@ -37,7 +51,7 @@ export function ThemeToggle() {
     const next = theme === "light" ? "dark" : "light";
     setTheme(next);
     applyTheme(next);
-    localStorage.setItem("theme", next);
+    persistTheme(next);
   }
 
   if (!mounted) {
