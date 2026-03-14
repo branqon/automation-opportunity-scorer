@@ -53,9 +53,10 @@ export function DashboardClient({
     importanceRef.current = importance;
   }, [importance]);
 
+  const validTeamSlugs = useMemo(() => new Set(teams.map((t) => t.slug)), [teams]);
   const filters = useMemo(
-    () => parseDashboardFilters(Object.fromEntries(searchParams.entries())),
-    [searchParams],
+    () => parseDashboardFilters(Object.fromEntries(searchParams.entries()), validTeamSlugs),
+    [searchParams, validTeamSlugs],
   );
 
   const customWeights = useMemo(() => normalizeWeights(importance), [importance]);

@@ -80,7 +80,10 @@ function parseImportanceValue(value: string | null, fallback: number) {
   return clampImportance(Math.round(parsed));
 }
 
-export function parseDashboardFilters(searchParams: RawSearchParams): DashboardFilterState {
+export function parseDashboardFilters(
+  searchParams: RawSearchParams,
+  validTeamSlugs?: Set<string>,
+): DashboardFilterState {
   const requestedTeam = readValue(searchParams.team);
   const requestedAutomationType = readValue(searchParams.automationType);
   const requestedFocus = readValue(searchParams.focus);
@@ -94,7 +97,11 @@ export function parseDashboardFilters(searchParams: RawSearchParams): DashboardF
   ]);
 
   return {
-    team: requestedTeam ?? "all",
+    team:
+      requestedTeam && requestedTeam !== "all" &&
+      (!validTeamSlugs || validTeamSlugs.has(requestedTeam))
+        ? requestedTeam
+        : "all",
     automationType:
       requestedAutomationType &&
       validAutomationTypes.has(requestedAutomationType as AutomationType)
