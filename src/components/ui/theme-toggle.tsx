@@ -22,20 +22,15 @@ function applyTheme(theme: "light" | "dark") {
   }
 }
 
-function getInitialTheme(): "light" | "dark" {
-  if (typeof window === "undefined") return "light";
-  return resolveTheme();
-}
-
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">(getInitialTheme);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect -- hydration guard
-    const nextTheme = resolveTheme();
-    setTheme(nextTheme);
-    applyTheme(nextTheme);
+    const resolved = resolveTheme();
+    setTheme(resolved); // eslint-disable-line react-hooks/set-state-in-effect -- sync with browser preference after hydration
+    setMounted(true);
+    applyTheme(resolved);
   }, []);
 
   function toggle() {
@@ -49,13 +44,9 @@ export function ThemeToggle() {
     return (
       <button
         className="flex h-10 w-10 items-center justify-center border border-line bg-surface text-muted-foreground shadow-card"
-        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+        aria-label="Toggle theme"
       >
-        {theme === "dark" ? (
-          <Sun className="h-3.5 w-3.5" />
-        ) : (
-          <Moon className="h-3.5 w-3.5" />
-        )}
+        <Moon className="h-3.5 w-3.5" />
       </button>
     );
   }
