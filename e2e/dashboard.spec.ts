@@ -40,7 +40,7 @@ test("weight slider re-ranks opportunities", async ({ page }) => {
 
   await page.getByRole("button", { name: /reset to defaults/i }).click();
 
-  await expect(page.getByRole("button", { name: /reset to defaults/i })).not.toBeVisible();
+  await expect(page.getByRole("button", { name: /reset to defaults/i })).toBeDisabled();
   await expect(page).not.toHaveURL(/w_slaRisk=20/);
   await expect(page).not.toHaveURL(/w_volume=1/);
   await expect
