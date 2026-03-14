@@ -72,6 +72,12 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
   const { containerRef, size } = useChartSize();
   const isReady = size.width > 0 && size.height > 0;
 
+  const scores = data.map((item) => item.score);
+  const minScore = Math.min(...scores);
+  const maxScore = Math.max(...scores);
+  const yMin = Math.max(0, Math.floor((minScore - 5) / 5) * 5);
+  const yMax = Math.min(100, Math.ceil((maxScore + 5) / 5) * 5);
+
   const quickWins = data.filter((item) => item.effortTier === "Quick win");
   const foundationBuilds = data.filter(
     (item) => item.effortTier === "Foundation build",
@@ -135,7 +141,7 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
           <YAxis
             type="number"
             dataKey="score"
-            domain={[35, 95]}
+            domain={[yMin, yMax]}
             axisLine={false}
             tickLine={false}
             tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
