@@ -209,13 +209,22 @@ export function computeDashboardData(
   filters: DashboardFilterState,
   customWeights?: Record<ScoreFactorKey, number>,
 ) {
+  const validTeamSlugs = new Set(teams.map((t) => t.slug));
+  const validatedFilters: DashboardFilterState = {
+    ...filters,
+    team:
+      filters.team === "all" || validTeamSlugs.has(filters.team)
+        ? filters.team
+        : "all",
+  };
+
   const rankedAll = rankOpportunities(
     rawOpportunities
       .map((row) => enrichOpportunity(row, customWeights))
       .sort(sortByOpportunityScore),
   );
 
-  const opportunities = applyFilters(rankedAll, filters);
+  const opportunities = applyFilters(rankedAll, validatedFilters);
 
   return {
     opportunities,
