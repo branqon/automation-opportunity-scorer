@@ -22,7 +22,7 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         <button
           type="button"
           onClick={reset}
-          className="mt-6 inline-flex min-h-11 items-center rounded-full bg-foreground px-5 text-sm font-semibold text-background transition hover:scale-[1.01] hover:bg-accent-strong"
+          className="mt-6 inline-flex min-h-11 items-center bg-foreground px-5 text-sm font-semibold text-background transition hover:scale-[1.01] hover:bg-accent-strong"
         >
           Retry
         </button>
