@@ -3,7 +3,9 @@ import { expect, test } from "@playwright/test";
 test("loads with inline stats and opportunity table", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByText(/opportunities ·.*monthly ·.*annual savings ·.*quick wins/)).toBeVisible();
+  await expect(
+    page.getByText(/opportunities \|.*monthly \|.*annual savings \|.*quick wins/),
+  ).toBeVisible();
 
   await expect(page.getByText("Ranked opportunity table")).toBeVisible();
   await expect(page.locator("table").getByText("Password reset")).toBeVisible();

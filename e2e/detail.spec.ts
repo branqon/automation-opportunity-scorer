@@ -40,13 +40,15 @@ test("navigates between neighboring opportunities", async ({ page }) => {
   await page.goto("/");
   await page.locator("table tbody tr").first().getByRole("link", { name: /view/i }).click();
 
-  const firstName = await page.locator("h1").first().textContent();
+  const heading = page.locator("h1").first();
+  const firstName = (await heading.textContent()) ?? "";
+  const firstUrl = page.url();
   const rankedLowerLink = page.locator("a").filter({ has: page.getByText("Ranked lower") });
 
   if (await rankedLowerLink.count() > 0) {
     await rankedLowerLink.first().click();
-    const secondName = await page.locator("h1").first().textContent();
-    expect(secondName).not.toBe(firstName);
+    await expect(page).not.toHaveURL(firstUrl);
+    await expect(heading).not.toHaveText(firstName);
   }
 
   await page.getByRole("link", { name: /back to dashboard/i }).click();

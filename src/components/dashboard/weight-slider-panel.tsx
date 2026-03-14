@@ -43,15 +43,19 @@ export function WeightSliderPanel({
   }
 
   return (
-    <SurfaceCard className="w-full shrink-0 lg:w-72 xl:w-80">
+    <SurfaceCard className="w-full shrink-0 lg:sticky lg:top-24 lg:w-72 xl:w-80">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             What-if analysis
           </p>
           <h2 className="mt-1 text-base font-semibold text-foreground">
             Adjust scoring weights
           </h2>
+          <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
+            Rebalance factor importance, then carry the scenario into detail
+            views through the URL.
+          </p>
         </div>
         <button
           type="button"
@@ -63,9 +67,9 @@ export function WeightSliderPanel({
         </button>
       </div>
 
-      <div className="mt-4 space-y-4">
+      <div className="mt-5 space-y-4">
         {SLIDER_ORDER.map((key) => (
-          <div key={key}>
+          <div key={key} className="border border-line bg-surface-subtle p-3">
             <div className="flex items-baseline justify-between text-sm">
               <label
                 htmlFor={`weight-${key}`}
@@ -98,9 +102,9 @@ export function WeightSliderPanel({
         type="button"
         onClick={onReset}
         disabled={!isCustom}
-        className={`mt-4 inline-flex w-full items-center justify-center gap-2 border border-line bg-background px-3 py-2 text-sm font-medium transition ${
+        className={`mt-4 inline-flex w-full items-center justify-center gap-2 border border-line bg-surface-subtle px-3 py-2 text-sm font-medium transition ${
           isCustom
-            ? "text-muted-foreground hover:text-foreground"
+            ? "text-muted-foreground hover:border-accent/25 hover:text-foreground"
             : "cursor-default text-muted-foreground/40"
         }`}
       >

@@ -1,4 +1,5 @@
 import { formatPercent, formatScore } from "@/lib/formatters";
+import { SurfaceCard } from "@/components/ui/surface-card";
 import { getScoreColorClass } from "@/lib/opportunity-badges";
 import type { RankedOpportunity } from "@/lib/scoring";
 
@@ -8,9 +9,9 @@ type ScoreBreakdownProps = {
 
 export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
   return (
-    <div className="space-y-5">
+    <SurfaceCard className="space-y-5">
       <div>
-        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           Score breakdown
         </p>
         <h2 className="mt-1 text-lg font-semibold text-foreground">
@@ -22,7 +23,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
       </div>
 
       <div className="border border-line bg-surface-subtle p-4">
-        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           Composite score
         </p>
         <div className="mt-2 flex items-end gap-2">
@@ -37,7 +38,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
         {opportunity.scoreBreakdown.map((factor) => (
           <div
             key={factor.key}
-            className="border border-line bg-surface p-3"
+            className="border border-line bg-surface-subtle p-3"
           >
             <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
               <div className="max-w-xl">
@@ -63,7 +64,7 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
             </div>
 
             <div
-              className="mt-3 h-1 overflow-hidden bg-surface-subtle"
+              className="mt-3 h-1.5 overflow-hidden bg-background"
               role="progressbar"
               aria-label={`${factor.label} score contribution`}
               aria-valuemin={0}
@@ -72,13 +73,13 @@ export function ScoreBreakdown({ opportunity }: ScoreBreakdownProps) {
               aria-valuetext={`${Math.round(factor.normalizedScore * 100)} percent of factor range`}
             >
               <div
-                className="h-full bg-accent"
+                className="h-full bg-accent shadow-[0_0_24px_var(--accent-glow)]"
                 style={{ width: `${factor.normalizedScore * 100}%` }}
               />
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </SurfaceCard>
   );
 }

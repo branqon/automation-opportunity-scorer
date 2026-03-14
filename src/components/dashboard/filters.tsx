@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 
 import { AutomationType } from "@/generated/prisma/enums";
+import { SurfaceCard } from "@/components/ui/surface-card";
 import { applyImportanceSearchParams } from "@/lib/dashboard";
 import { FOCUS_OPTIONS, getAutomationTypeLabel } from "@/lib/metadata";
 import type { DashboardFilterState } from "@/lib/dashboard";
@@ -69,24 +70,27 @@ export function DashboardFilters({
   }
 
   return (
-    <div className="border-b border-line pb-4">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <SurfaceCard>
+      <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Filter the ranked view
           </p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <h2 className="mt-1 text-lg font-semibold text-foreground">
+            Slice the portfolio without losing the model context
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             Slice the model by team, automation pattern, or delivery effort
             and optionally carry a what-if weighting scenario into linked detail
             views.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-end gap-3">
-          <label className="flex min-w-[14rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="grid gap-3 md:grid-cols-2 xl:min-w-[40rem] xl:grid-cols-[repeat(3,minmax(0,1fr))_auto]">
+          <label className="flex min-w-0 flex-col gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Team
             <select
-              className="min-h-10 w-full border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-11 w-full border border-line bg-surface-subtle px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.team}
               onChange={(event) => updateFilter("team", event.target.value)}
             >
@@ -99,10 +103,10 @@ export function DashboardFilters({
             </select>
           </label>
 
-          <label className="flex min-w-[14rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <label className="flex min-w-0 flex-col gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Type
             <select
-              className="min-h-10 w-full border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-11 w-full border border-line bg-surface-subtle px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.automationType}
               onChange={(event) =>
                 updateFilter("automationType", event.target.value)
@@ -117,10 +121,10 @@ export function DashboardFilters({
             </select>
           </label>
 
-          <label className="flex min-w-[14rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <label className="flex min-w-0 flex-col gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Focus
             <select
-              className="min-h-10 w-full border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-11 w-full border border-line bg-surface-subtle px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
               value={filters.focus}
               onChange={(event) => updateFilter("focus", event.target.value)}
             >
@@ -135,17 +139,18 @@ export function DashboardFilters({
           <button
             type="button"
             onClick={onToggleSlider}
-            className={`inline-flex items-center gap-2 border px-3 py-2 text-sm font-medium transition ${
+            aria-label="Adjust weights"
+            className={`inline-flex min-h-11 items-center justify-center gap-2 border px-4 py-2 text-sm font-medium shadow-card transition ${
               sliderOpen
-                ? "border-accent bg-accent-soft text-accent-strong"
-                : "border-line bg-background text-muted-foreground hover:text-foreground"
+                ? "border-accent/40 bg-accent-soft text-accent-strong"
+                : "border-line bg-surface-subtle text-muted-foreground hover:border-accent/25 hover:text-foreground"
             }`}
           >
             <SlidersHorizontal className="h-4 w-4" />
-            <span className="hidden sm:inline">Adjust weights</span>
+            <span>Adjust weights</span>
           </button>
         </div>
       </div>
-    </div>
+    </SurfaceCard>
   );
 }

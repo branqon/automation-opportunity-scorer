@@ -2,35 +2,40 @@
 
 import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  BarChart3,
+  BriefcaseBusiness,
+  CircleDollarSign,
+  Clock3,
+} from "lucide-react";
 
 import { SavingsBarChart } from "@/components/charts/savings-bar-chart";
 import { ValueVsEffortChart } from "@/components/charts/value-vs-effort-chart";
 import { DashboardFilters } from "@/components/dashboard/filters";
 import { OpportunityTable } from "@/components/dashboard/opportunity-table";
 import { WeightSliderPanel } from "@/components/dashboard/weight-slider-panel";
+import { SurfaceCard } from "@/components/ui/surface-card";
 import {
   applyImportanceSearchParams,
   computeDashboardData,
   hasCustomImportance,
-  parseImportance,
   parseDashboardFilters,
+  parseImportance,
   type RawOpportunity,
   type RawTeam,
 } from "@/lib/dashboard";
-import {
-  compactCurrencyFormatter,
-  formatHours,
-} from "@/lib/formatters";
-import {
-  normalizeWeights,
-} from "@/lib/scoring";
+import { compactCurrencyFormatter, formatHours } from "@/lib/formatters";
+import { normalizeWeights } from "@/lib/scoring";
 
 type DashboardClientProps = {
   rawOpportunities: RawOpportunity[];
   teams: RawTeam[];
 };
 
-export function DashboardClient({ rawOpportunities, teams }: DashboardClientProps) {
+export function DashboardClient({
+  rawOpportunities,
+  teams,
+}: DashboardClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -92,10 +97,7 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
     });
   }
 
-  function handleImportanceChange(
-    key: keyof typeof importance,
-    value: number,
-  ) {
+  function handleImportanceChange(key: keyof typeof importance, value: number) {
     const nextImportance = {
       ...importanceRef.current,
       [key]: value,
@@ -117,16 +119,87 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
     syncImportance(nextImportance);
   }
 
+  const heroStats = [
+    {
+      label: "Ranked categories",
+      value: String(data.opportunities.length),
+      note: "current portfolio view",
+      icon: BriefcaseBusiness,
+    },
+    {
+      label: "Recoverable capacity",
+      value: formatHours(data.stats.totalMonthlyHoursSaved),
+      note: "monthly potential",
+      icon: Clock3,
+    },
+    {
+      label: "Annual savings",
+      value: compactCurrencyFormatter.format(data.stats.totalAnnualCostSavings),
+      note: "at the base labor rate",
+      icon: CircleDollarSign,
+    },
+    {
+      label: "Strategic bets",
+      value: String(data.stats.strategicBetCount),
+      note: "higher-effort investments",
+      icon: BarChart3,
+    },
+  ];
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          What should we automate next?
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {data.opportunities.length} opportunities · {formatHours(data.stats.totalMonthlyHoursSaved)} monthly · {compactCurrencyFormatter.format(data.stats.totalAnnualCostSavings)} annual savings · {data.stats.quickWinCount} quick wins
-        </p>
-      </div>
+      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
+        <SurfaceCard>
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent-strong">
+            Decision support dashboard
+          </p>
+          <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            What should we automate next?
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+            Rank recurring operational work by business value, delivery fit, and
+            explicit ROI assumptions without turning the product into a workflow
+            runner.
+          </p>
+          <p className="mt-5 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+            {data.opportunities.length} opportunities |{" "}
+            {formatHours(data.stats.totalMonthlyHoursSaved)} monthly |{" "}
+            {compactCurrencyFormatter.format(data.stats.totalAnnualCostSavings)}{" "}
+            annual savings | {data.stats.quickWinCount} quick wins
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <span className="border border-line bg-surface-subtle px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              Deterministic 9-factor model
+            </span>
+            <span className="border border-line bg-surface-subtle px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              Read-only portfolio surface
+            </span>
+            <span className="border border-line bg-surface-subtle px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+              Shareable what-if scenarios
+            </span>
+          </div>
+        </SurfaceCard>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {heroStats.map((stat) => (
+            <div
+              key={stat.label}
+              className="border border-line bg-surface px-4 py-4 shadow-card"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                  {stat.label}
+                </p>
+                <stat.icon className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <p className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">{stat.note}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
         {sliderOpen && (
@@ -158,13 +231,15 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
               />
 
               <details className="group">
-                <summary className="flex cursor-pointer items-center gap-2 list-none text-xs font-medium uppercase tracking-wider text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden">
-                  <span className="text-[10px] group-open:rotate-90 transition-transform">▶</span>
+                <summary className="inline-flex list-none cursor-pointer items-center gap-2 border border-line bg-surface px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground shadow-card hover:text-foreground [&::-webkit-details-marker]:hidden">
+                  <span className="text-[10px] transition-transform group-open:rotate-90">
+                    {">"}
+                  </span>
                   Analytics
                 </summary>
-                <div className="mt-4 grid gap-6 xl:grid-cols-2">
-                  <div className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <div className="mt-5 grid gap-6 xl:grid-cols-2">
+                  <SurfaceCard className="min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                       Quick wins vs higher effort
                     </p>
                     <h3 className="mt-1 text-lg font-semibold text-foreground">
@@ -173,10 +248,10 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
                     <div className="mt-4 min-w-0">
                       <ValueVsEffortChart data={data.charts.valueVsEffort} />
                     </div>
-                  </div>
+                  </SurfaceCard>
 
-                  <div className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  <SurfaceCard className="min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                       Savings concentration
                     </p>
                     <h3 className="mt-1 text-lg font-semibold text-foreground">
@@ -185,13 +260,13 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
                     <div className="mt-4 min-w-0">
                       <SavingsBarChart data={data.charts.savingsByOpportunity} />
                     </div>
-                  </div>
+                  </SurfaceCard>
                 </div>
               </details>
             </>
           ) : (
-            <div className="border border-line py-12 text-center">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            <SurfaceCard className="text-center">
+              <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                 No matches
               </p>
               <h2 className="mt-2 text-xl font-semibold text-foreground">
@@ -200,7 +275,7 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
               <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
                 Clear a filter to return to the full portfolio.
               </p>
-            </div>
+            </SurfaceCard>
           )}
         </div>
       </div>

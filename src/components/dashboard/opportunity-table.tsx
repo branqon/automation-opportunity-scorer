@@ -27,9 +27,9 @@ export function OpportunityTable({
   }
 
   return (
-    <div className="overflow-hidden">
-      <div className="border-b border-line px-4 py-3">
-        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+    <div className="overflow-hidden border border-line bg-surface shadow-card">
+      <div className="border-b border-line bg-surface-subtle/60 px-4 py-4 sm:px-5">
+        <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           Ranked opportunity table
         </p>
         <h2 className="mt-1 text-lg font-semibold text-foreground">
@@ -41,11 +41,11 @@ export function OpportunityTable({
         {opportunities.map((opportunity) => (
           <div
             key={opportunity.slug}
-            className="border-b border-line px-4 py-4 last:border-b-0"
+            className="border-b border-line bg-surface px-4 py-4 last:border-b-0"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
                   Rank #{opportunity.rank}
                 </p>
                 <h3 className="mt-1.5 text-base font-semibold text-foreground">
@@ -56,8 +56,8 @@ export function OpportunityTable({
                   {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
                 </p>
               </div>
-              <div className="bg-accent-soft px-3 py-2 text-right">
-                <p className="text-xs uppercase tracking-wider text-accent-strong">
+              <div className="border border-accent/15 bg-accent-soft px-3 py-2 text-right">
+                <p className="text-xs uppercase tracking-[0.14em] text-accent-strong">
                   Score
                 </p>
                 <p className={`text-xl font-semibold ${getScoreColorClass(opportunity.valueBand)}`}>
@@ -74,16 +74,16 @@ export function OpportunityTable({
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
-              <div className="bg-surface-subtle p-3">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              <div className="border border-line bg-surface-subtle p-3">
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   Monthly hours
                 </p>
                 <p className="mt-1 font-semibold text-foreground">
                   {formatHours(opportunity.monthlyHoursSaved)}
                 </p>
               </div>
-              <div className="bg-surface-subtle p-3">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              <div className="border border-line bg-surface-subtle p-3">
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   Annual savings
                 </p>
                 <p className="mt-1 font-semibold text-foreground">
@@ -94,6 +94,7 @@ export function OpportunityTable({
 
             <Link
               href={buildOpportunityHref(opportunity.slug)}
+              prefetch={false}
               className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent transition hover:text-accent-strong"
             >
               Open detail view
@@ -109,7 +110,7 @@ export function OpportunityTable({
             Ranked automation opportunities sorted by composite score
           </caption>
           <thead>
-            <tr className="border-b border-line bg-surface-subtle text-xs uppercase tracking-wider text-muted-foreground">
+            <tr className="border-b border-line bg-surface-subtle text-xs uppercase tracking-[0.14em] text-muted-foreground">
               <th scope="col" className="px-4 py-3 font-medium">Rank</th>
               <th scope="col" className="px-4 py-3 font-medium">Opportunity</th>
               <th scope="col" className="px-4 py-3 font-medium">Automation type</th>
@@ -124,10 +125,10 @@ export function OpportunityTable({
             {opportunities.map((opportunity) => (
               <tr
                 key={opportunity.slug}
-                className="border-b border-line transition hover:bg-surface-subtle"
+                className="border-b border-line transition hover:bg-surface-subtle/65"
               >
                 <td className="px-4 py-3 align-top">
-                  <span className="text-sm font-semibold text-foreground">
+                  <span className="inline-flex min-w-10 justify-center border border-line bg-surface-subtle px-2 py-1 text-sm font-semibold text-foreground">
                     #{opportunity.rank}
                   </span>
                 </td>
@@ -135,6 +136,7 @@ export function OpportunityTable({
                   <div className="max-w-[18rem]">
                     <Link
                       href={buildOpportunityHref(opportunity.slug)}
+                      prefetch={false}
                       className="font-semibold text-foreground transition hover:text-accent"
                     >
                       {opportunity.name}
@@ -166,6 +168,7 @@ export function OpportunityTable({
                 <td className="px-4 py-3 align-top">
                   <Link
                     href={buildOpportunityHref(opportunity.slug)}
+                    prefetch={false}
                     className="inline-flex items-center gap-1.5 font-medium text-accent transition hover:text-accent-strong"
                   >
                     View
