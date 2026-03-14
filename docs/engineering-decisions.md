@@ -4,7 +4,7 @@
 
 Next.js with the App Router keeps the project small while still feeling production-style.
 
-- Server components can read directly from Prisma without adding API route boilerplate.
+- Server components can read from Prisma at build time without adding route boilerplate.
 - Route-level loading, error, and not-found states are straightforward.
 - The app stays easy to explain and easy to run locally.
 
@@ -29,17 +29,17 @@ This v1 is intentionally focused on prioritization, so the seeded dataset models
 The point of the project is credibility and explainability.
 
 - Hidden or fake machine learning would weaken trust.
-- Fixed weights make the ranking inspectable.
+- Fixed default weights make the ranking inspectable.
 - The detail page can show exactly why an item ranked where it did.
 
-## Why the scoring model uses fixed weights with a what-if explorer
+## Why the weight slider is scoped to what-if analysis
 
-The base scoring model uses fixed weights in code so the ranking is deterministic and auditable. The dashboard includes a what-if weight slider for exploratory analysis — users can adjust factor importance and watch rankings shift in real time. This is framed as exploration, not configuration:
+The base scoring model uses fixed weights in code so the ranking is deterministic and auditable. The dashboard includes a what-if weight slider so users can adjust factor importance and watch rankings shift in real time, but it is intentionally scoped as scenario analysis rather than configuration.
 
 - The base case is always reproducible from code.
-- Detail pages always show the fixed-weight score.
-- Custom weights are not persisted or shared.
-- The slider demonstrates interactive data thinking without creating a configuration surface.
+- Active what-if weights carry through the URL so detail pages stay aligned with the dashboard scenario.
+- The app does not save custom profiles or expose org-level scoring administration.
+- The slider demonstrates interactive data thinking without turning the project into a scoring-governance product.
 
 ## Why there is no auth
 
@@ -64,18 +64,26 @@ It is not about:
 - simulating approvals
 - acting as an orchestration platform
 
+## Why static export
+
+The app is read-only and ships with seeded data. Static export is the honest deployment model for that scope.
+
+- Prisma and SQLite are used at build time, not runtime.
+- GitHub Pages deployment keeps hosting cost and operational overhead near zero.
+- The deployed artifact matches the portfolio use case: fast, safe, and easy to share.
+
 ## UI direction
 
 Visual direction: `Operational editorial`
 
-The interface uses clinical white with a purple accent, tight spacing, and internal-tool density rather than glossy AI branding. The layout is designed to read well in screenshots for public GitHub and interview walkthroughs.
+The interface uses a dark graphite default theme with a purple accent, tight spacing, and internal-tool density rather than glossy AI branding. The layout is designed to read well in screenshots for public GitHub and interview walkthroughs.
 
 ## Tradeoffs accepted in v1
 
 - Data is seeded, not imported.
 - Scoring caps are fixed benchmarks, not team-specific calibrations.
 - Savings are labor-based estimates, not full financial models.
-- Charts focus on clarity over configurability.
+- What-if weighting is exploratory, not a saved governance feature.
 - The app does not expose public write paths.
 
 ## Future extensions

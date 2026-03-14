@@ -25,7 +25,7 @@ type WeightSliderPanelProps = {
   importance: Record<ScoreFactorKey, number>;
   normalizedWeights: Record<ScoreFactorKey, number>;
   isCustom: boolean;
-  onImportanceChange: (importance: Record<ScoreFactorKey, number>) => void;
+  onImportanceChange: (key: ScoreFactorKey, value: number) => void;
   onReset: () => void;
   onClose: () => void;
 };
@@ -39,7 +39,7 @@ export function WeightSliderPanel({
   onClose,
 }: WeightSliderPanelProps) {
   function handleSliderChange(key: ScoreFactorKey, value: number) {
-    onImportanceChange({ ...importance, [key]: value });
+    onImportanceChange(key, value);
   }
 
   return (

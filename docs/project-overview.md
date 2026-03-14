@@ -14,6 +14,7 @@ Everything in the product supports that decision:
 
 - seeded recurring work categories
 - deterministic scoring
+- optional what-if weighting
 - visible ROI assumptions
 - actionable detail pages
 
@@ -31,7 +32,7 @@ The shipped scope is intentionally narrow.
 - One detail page per opportunity
 - A seeded aggregated dataset
 - A deterministic scoring engine
-- Read-only portfolio experience with Prisma and SQLite
+- Static export with build-time Prisma and SQLite data
 
 ## Seeded dataset
 
@@ -58,6 +59,7 @@ This project is designed to show strategic automation thinking, not just workflo
 - identifying repeatable operational work
 - estimating potential labor recovery
 - weighing business urgency against delivery complexity
+- stress-testing assumptions with what-if weighting
 - turning that analysis into concrete implementation next steps
 
 ## Non-goals
@@ -71,7 +73,7 @@ These were intentionally excluded from v1:
 - multi-tenant architecture
 - workflow execution
 - chatbot interfaces
-- configurable scoring from the UI
+- saved scoring profiles or policy management
 - background jobs
 
 ## Success criteria

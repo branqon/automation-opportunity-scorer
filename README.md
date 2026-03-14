@@ -6,6 +6,9 @@ Focused internal-tool style application that ranks recurring operational work an
 ![Opportunity detail](./docs/screenshots/opportunity-detail.png)
 ![Score breakdown](./docs/screenshots/score-breakdown.png)
 
+Demo target: [GitHub Pages](https://branqon.github.io/automation-opportunity-scorer/)
+This URL is the configured deployment target for pushes to `main`.
+
 ## Why this project matters
 
 Automation programs often jump straight into building workflows without a clear prioritization model. This project demonstrates the upstream skill that matters first: identifying recurring operational work, estimating ROI, and deciding where automation investment should go next.
@@ -21,7 +24,7 @@ The portfolio story is simple:
 - Dashboard with top candidates, quick wins vs strategic bets, charts, and a ranked table.
 - Opportunity detail pages with score breakdowns, implementation considerations, risk notes, and concrete next steps.
 - Interactive what-if weight slider for exploring how different factor priorities change the ranking.
-- Statically exported and deployed to GitHub Pages — no server required.
+- Statically exported and deployed to GitHub Pages with no runtime server required.
 - Read-only portfolio surface designed for screenshots, demos, and interview walkthroughs.
 
 ## How this differs from an automation platform
@@ -31,7 +34,9 @@ This repo is intentionally not a workflow runner, chatbot, ticketing system, or 
 - It does not ingest raw tickets.
 - It does not execute automations.
 - It does not simulate approvals.
-It is a prioritization product, not an execution product. The dashboard includes a what-if weight slider for exploratory analysis, but the base scoring model is fixed and auditable in code.
+- It does not provide saved scoring policies, admin-managed model changes, or workflow execution.
+
+It is a prioritization product, not an execution product. The dashboard includes a what-if weight slider for exploratory analysis, but the base scoring model remains fixed and auditable in code.
 
 ## Architecture overview
 
@@ -39,11 +44,10 @@ It is a prioritization product, not an execution product. The dashboard includes
 flowchart LR
     A[Seeded opportunity dataset] --> B[Prisma + SQLite]
     B --> C[Static export at build time]
-    C --> D[Deterministic scoring engine]
+    C --> D[Deterministic scoring engine + what-if weights]
     D --> E[Dashboard ranking]
     D --> F[Opportunity detail pages]
     E --> G[Charts + ranked table]
-    E --> I[What-if weight slider]
     F --> H[Score breakdown + next step]
 ```
 
@@ -80,12 +84,12 @@ Full methodology: [docs/scoring-methodology.md](./docs/scoring-methodology.md)
 2. Filter by team, automation pattern, or focus area.
 3. Open the what-if weight slider to explore how different factor priorities change the ranking.
 4. Review top candidates and the quick-win vs higher-effort chart.
-4. Review ranked opportunities by score, hours saved, and annual savings.
-5. Open a detail page to inspect the score breakdown, ROI assumptions, and recommended next step.
+5. Review ranked opportunities by score, hours saved, and annual savings.
+6. Open a detail page to inspect the score breakdown, ROI assumptions, and recommended next step.
 
 ## Local setup
 
-This repo ships with a seeded local SQLite file and generated Prisma client, so no separate database bootstrap is required for the default path.
+This repo ships with a seeded local SQLite file and generated Prisma client, so no separate database bootstrap is required for the default path. `npm run build` exports a static site, so deployment does not require a runtime database.
 
 ```bash
 npm install
@@ -118,6 +122,7 @@ Useful commands:
 
 ```bash
 npm run test
+npm run test:e2e
 npm run lint
 npm run build
 ```

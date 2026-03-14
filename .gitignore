@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/
@@ -48,3 +50,4 @@ yarn-error.log*
 next-env.d.ts
 /src/generated/prisma
 .superpowers/
+/docs/plans/

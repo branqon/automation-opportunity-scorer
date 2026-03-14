@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowUpRight,
   Calculator,
@@ -17,7 +17,10 @@ import { TopCandidates } from "@/components/dashboard/top-candidates";
 import { WeightSliderPanel } from "@/components/dashboard/weight-slider-panel";
 import { SurfaceCard } from "@/components/ui/surface-card";
 import {
+  applyImportanceSearchParams,
   computeDashboardData,
+  hasCustomImportance,
+  parseImportance,
   parseDashboardFilters,
   type RawOpportunity,
   type RawTeam,
@@ -28,10 +31,8 @@ import {
   formatScore,
 } from "@/lib/formatters";
 import {
-  DEFAULT_IMPORTANCE,
   HOURLY_RATE_USD,
   normalizeWeights,
-  type ScoreFactorKey,
 } from "@/lib/scoring";
 
 type DashboardClientProps = {
@@ -40,11 +41,25 @@ type DashboardClientProps = {
 };
 
 export function DashboardClient({ rawOpportunities, teams }: DashboardClientProps) {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [importance, setImportance] = useState<Record<ScoreFactorKey, number>>(
-    () => ({ ...DEFAULT_IMPORTANCE }),
-  );
+  const searchParamsKey = searchParams.toString();
+  const urlImportance = useMemo(() => parseImportance(searchParams), [searchParams]);
+  const [draftState, setDraftState] = useState(() => ({
+    sourceKey: searchParamsKey,
+    importance: urlImportance,
+  }));
+  const importance =
+    draftState.sourceKey === searchParamsKey
+      ? draftState.importance
+      : urlImportance;
+  const importanceRef = useRef(importance);
   const [sliderOpen, setSliderOpen] = useState(false);
+
+  useEffect(() => {
+    importanceRef.current = importance;
+  }, [importance]);
 
   const filters = useMemo(
     () => parseDashboardFilters(Object.fromEntries(searchParams.entries())),
@@ -52,14 +67,7 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
   );
 
   const customWeights = useMemo(() => normalizeWeights(importance), [importance]);
-
-  const isCustom = useMemo(
-    () =>
-      Object.entries(importance).some(
-        ([key, value]) => value !== DEFAULT_IMPORTANCE[key as ScoreFactorKey],
-      ),
-    [importance],
-  );
+  const isCustom = useMemo(() => hasCustomImportance(importance), [importance]);
 
   const data = useMemo(
     () =>
@@ -71,6 +79,53 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
       ),
     [rawOpportunities, teams, filters, customWeights, isCustom],
   );
+  const detailQuery = useMemo(
+    () =>
+      applyImportanceSearchParams(
+        new URLSearchParams(searchParams.toString()),
+        importance,
+      ).toString(),
+    [importance, searchParams],
+  );
+
+  function syncImportance(nextImportance: typeof importance) {
+    const nextParams = applyImportanceSearchParams(
+      new URLSearchParams(searchParams.toString()),
+      nextImportance,
+    );
+
+    startTransition(() => {
+      const query = nextParams.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
+    });
+  }
+
+  function handleImportanceChange(
+    key: keyof typeof importance,
+    value: number,
+  ) {
+    const nextImportance = {
+      ...importanceRef.current,
+      [key]: value,
+    };
+
+    setDraftState({
+      sourceKey: searchParamsKey,
+      importance: nextImportance,
+    });
+    syncImportance(nextImportance);
+  }
+
+  function resetImportance() {
+    const nextImportance = parseImportance(new URLSearchParams());
+    setDraftState({
+      sourceKey: searchParamsKey,
+      importance: nextImportance,
+    });
+    syncImportance(nextImportance);
+  }
 
   const summaryCards = [
     {
@@ -116,8 +171,8 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
             importance={importance}
             normalizedWeights={customWeights}
             isCustom={isCustom}
-            onImportanceChange={setImportance}
-            onReset={() => setImportance({ ...DEFAULT_IMPORTANCE })}
+            onImportanceChange={handleImportanceChange}
+            onReset={resetImportance}
             onClose={() => setSliderOpen(false)}
           />
         )}
@@ -127,6 +182,7 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
             filters={filters}
             teams={data.filterOptions.teams}
             automationTypes={data.filterOptions.automationTypes}
+            importance={importance}
             sliderOpen={sliderOpen}
             onToggleSlider={() => setSliderOpen((prev) => !prev)}
           />
@@ -149,7 +205,10 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
 
           {data.opportunities.length > 0 ? (
             <>
-              <TopCandidates opportunities={data.topCandidates} />
+              <TopCandidates
+                opportunities={data.topCandidates}
+                detailQuery={detailQuery}
+              />
 
               <section className="grid gap-6 xl:grid-cols-2">
                 <SurfaceCard className="min-w-0">
@@ -177,7 +236,10 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
                 </SurfaceCard>
               </section>
 
-              <OpportunityTable opportunities={data.opportunities} />
+              <OpportunityTable
+                opportunities={data.opportunities}
+                detailQuery={detailQuery}
+              />
             </>
           ) : (
             <SurfaceCard className="py-12 text-center">

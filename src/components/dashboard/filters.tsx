@@ -5,13 +5,16 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal } from "lucide-react";
 
 import { AutomationType } from "@/generated/prisma/enums";
+import { applyImportanceSearchParams } from "@/lib/dashboard";
 import { FOCUS_OPTIONS, getAutomationTypeLabel } from "@/lib/metadata";
 import type { DashboardFilterState } from "@/lib/dashboard";
+import type { ScoreFactorKey } from "@/lib/scoring";
 
 type DashboardFiltersProps = {
   filters: DashboardFilterState;
   teams: { id: string; slug: string; name: string }[];
   automationTypes: AutomationType[];
+  importance: Record<ScoreFactorKey, number>;
   sliderOpen: boolean;
   onToggleSlider: () => void;
 };
@@ -30,6 +33,7 @@ export function DashboardFilters({
   filters,
   teams,
   automationTypes,
+  importance,
   sliderOpen,
   onToggleSlider,
 }: DashboardFiltersProps) {
@@ -51,9 +55,16 @@ export function DashboardFilters({
       nextParams.set(key, value);
     }
 
+    const nextParamsWithImportance = applyImportanceSearchParams(
+      nextParams,
+      importance,
+    );
+
     startTransition(() => {
-      const query = nextParams.toString();
-      router.replace(query ? `${pathname}?${query}` : pathname);
+      const query = nextParamsWithImportance.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, {
+        scroll: false,
+      });
     });
   }
 
@@ -66,7 +77,8 @@ export function DashboardFilters({
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
             Slice the model by team, automation pattern, or delivery effort
-            while keeping the scoring logic fixed.
+            and optionally carry a what-if weighting scenario into linked detail
+            views.
           </p>
         </div>
 

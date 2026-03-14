@@ -1,5 +1,6 @@
 import { AutomationType } from "@/generated/prisma/enums";
 import {
+  DEFAULT_IMPORTANCE,
   enrichOpportunity,
   type EnrichedOpportunity,
   type RankedOpportunity,
@@ -45,9 +46,38 @@ export type RawOpportunity = {
 };
 
 type RawSearchParams = Record<string, string | string[] | undefined>;
+type SearchParamsReader = {
+  get(name: string): string | null;
+};
+
+const IMPORTANCE_PARAM_PREFIX = "w_";
+const IMPORTANCE_KEYS = Object.keys(DEFAULT_IMPORTANCE) as ScoreFactorKey[];
+const MIN_IMPORTANCE = 1;
+const MAX_IMPORTANCE = 20;
 
 function readValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
+}
+
+function clampImportance(value: number) {
+  return Math.min(Math.max(value, MIN_IMPORTANCE), MAX_IMPORTANCE);
+}
+
+function getImportanceParamKey(key: ScoreFactorKey) {
+  return `${IMPORTANCE_PARAM_PREFIX}${key}`;
+}
+
+function parseImportanceValue(value: string | null, fallback: number) {
+  if (value === null) {
+    return fallback;
+  }
+
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return fallback;
+  }
+
+  return clampImportance(Math.round(parsed));
 }
 
 export function parseDashboardFilters(searchParams: RawSearchParams): DashboardFilterState {
@@ -74,6 +104,45 @@ export function parseDashboardFilters(searchParams: RawSearchParams): DashboardF
         ? (requestedFocus as DashboardFocus)
         : "all",
   };
+}
+
+export function parseImportance(searchParams: SearchParamsReader) {
+  return IMPORTANCE_KEYS.reduce(
+    (importance, key) => {
+      importance[key] = parseImportanceValue(
+        searchParams.get(getImportanceParamKey(key)),
+        DEFAULT_IMPORTANCE[key],
+      );
+      return importance;
+    },
+    { ...DEFAULT_IMPORTANCE },
+  );
+}
+
+export function hasCustomImportance(importance: Record<ScoreFactorKey, number>) {
+  return IMPORTANCE_KEYS.some(
+    (key) => importance[key] !== DEFAULT_IMPORTANCE[key],
+  );
+}
+
+export function applyImportanceSearchParams(
+  searchParams: URLSearchParams,
+  importance: Record<ScoreFactorKey, number>,
+) {
+  const nextParams = new URLSearchParams(searchParams.toString());
+
+  for (const key of IMPORTANCE_KEYS) {
+    const value = clampImportance(importance[key]);
+    const paramKey = getImportanceParamKey(key);
+
+    if (value === DEFAULT_IMPORTANCE[key]) {
+      nextParams.delete(paramKey);
+    } else {
+      nextParams.set(paramKey, String(value));
+    }
+  }
+
+  return nextParams;
 }
 
 function sortByOpportunityScore(left: EnrichedOpportunity, right: EnrichedOpportunity) {

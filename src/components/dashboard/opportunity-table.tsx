@@ -14,9 +14,19 @@ import type { RankedOpportunity } from "@/lib/scoring";
 
 type OpportunityTableProps = {
   opportunities: RankedOpportunity[];
+  detailQuery?: string;
 };
 
-export function OpportunityTable({ opportunities }: OpportunityTableProps) {
+export function OpportunityTable({
+  opportunities,
+  detailQuery,
+}: OpportunityTableProps) {
+  function buildOpportunityHref(slug: string) {
+    return detailQuery
+      ? `/opportunities/${slug}?${detailQuery}`
+      : `/opportunities/${slug}`;
+  }
+
   return (
     <SurfaceCard className="overflow-hidden p-0">
       <div className="border-b border-line px-4 py-3">
@@ -84,7 +94,7 @@ export function OpportunityTable({ opportunities }: OpportunityTableProps) {
             </div>
 
             <Link
-              href={`/opportunities/${opportunity.slug}`}
+              href={buildOpportunityHref(opportunity.slug)}
               className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent transition hover:text-accent-strong"
             >
               Open detail view
@@ -150,7 +160,7 @@ export function OpportunityTable({ opportunities }: OpportunityTableProps) {
                 </td>
                 <td className="px-4 py-3 align-top">
                   <Link
-                    href={`/opportunities/${opportunity.slug}`}
+                    href={buildOpportunityHref(opportunity.slug)}
                     className="inline-flex items-center gap-1.5 font-medium text-accent transition hover:text-accent-strong"
                   >
                     View

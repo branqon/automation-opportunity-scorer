@@ -12,9 +12,16 @@ import type { RankedOpportunity } from "@/lib/scoring";
 
 type TopCandidatesProps = {
   opportunities: RankedOpportunity[];
+  detailQuery?: string;
 };
 
-export function TopCandidates({ opportunities }: TopCandidatesProps) {
+export function TopCandidates({ opportunities, detailQuery }: TopCandidatesProps) {
+  function buildOpportunityHref(slug: string) {
+    return detailQuery
+      ? `/opportunities/${slug}?${detailQuery}`
+      : `/opportunities/${slug}`;
+  }
+
   return (
     <div className="space-y-3">
       <div>
@@ -94,7 +101,7 @@ export function TopCandidates({ opportunities }: TopCandidatesProps) {
             </div>
 
             <Link
-              href={`/opportunities/${opportunity.slug}`}
+              href={buildOpportunityHref(opportunity.slug)}
               className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent transition hover:text-accent-strong"
             >
               View full breakdown

@@ -6,7 +6,7 @@ The scoring model is deterministic on purpose. The value of the project is not h
 
 ## Opportunity score
 
-Each opportunity receives a 100-point score built from these weighted factors:
+Each opportunity receives a 100-point score built from these default weighted factors:
 
 | Factor | Weight | Why it matters |
 | --- | ---: | --- |
@@ -43,6 +43,15 @@ score =
 ```
 
 The final score is shown on a 0-100 scale.
+
+## What-if weighting
+
+The dashboard includes an optional what-if panel that lets users adjust factor importance on a 1-20 scale.
+
+- Slider values are normalized back into percentage weights before scoring.
+- The documented weights above remain the default portfolio baseline.
+- Active weight overrides are carried in the URL so detail pages stay aligned with the dashboard scenario.
+- The app does not save custom profiles or expose organization-wide scoring administration.
 
 ## Value bands
 

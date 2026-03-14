@@ -1,39 +1,54 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("loads score breakdown and metrics", async ({ page }) => {
   await page.goto("/");
-
-  // Click first View link in the table
   await page.locator("table tbody tr").first().getByRole("link", { name: /view/i }).click();
 
-  // Key metric cards — use exact text in paragraph elements
   await expect(page.getByText("Opportunity score", { exact: true })).toBeVisible();
   await expect(page.getByText("Monthly hours saved", { exact: true })).toBeVisible();
   await expect(page.getByText("Annual cost savings", { exact: true })).toBeVisible();
-
-  // Score breakdown section — factor labels
   await expect(page.getByText("Monthly volume", { exact: true })).toBeVisible();
   await expect(page.getByText("Repeatability", { exact: true })).toBeVisible();
 });
 
-test("navigates between neighboring opportunities", async ({ page }) => {
+test("preserves active weight scenarios on detail pages", async ({ page }) => {
   await page.goto("/");
 
-  // Click first View link in the table
+  await page.getByRole("button", { name: /adjust weights/i }).click();
+  await page.getByLabel("SLA risk importance").fill("20");
+  await page.getByLabel("Volume importance").fill("1");
+
+  const firstRow = page.locator("table tbody tr").first();
+  const firstName = ((await firstRow.locator("td").nth(1).innerText()).split("\n")[0] ?? "").trim();
+  const firstScore = (await firstRow.locator("td").nth(3).innerText()).trim();
+
+  await firstRow.getByRole("link", { name: /view/i }).click();
+
+  await expect(page.getByText("What-if scenario active")).toBeVisible();
+  await expect(page.locator("h1").first()).toHaveText(firstName);
+  await expect(page).toHaveURL(/w_slaRisk=20/);
+  await expect(page).toHaveURL(/w_volume=1/);
+  await expect(page.getByText("Opportunity score", { exact: true }).locator("..")).toContainText(firstScore);
+
+  await page.getByRole("link", { name: /back to dashboard/i }).click();
+  await expect(page).toHaveURL(/w_slaRisk=20/);
+  await expect(page).toHaveURL(/w_volume=1/);
+  await expect(page.locator("table tbody tr").first().locator("td").nth(1)).toContainText(firstName);
+});
+
+test("navigates between neighboring opportunities", async ({ page }) => {
+  await page.goto("/");
   await page.locator("table tbody tr").first().getByRole("link", { name: /view/i }).click();
 
-  // Capture current page h1 text
   const firstName = await page.locator("h1").first().textContent();
-
-  // Find the "Ranked lower" link — it's an <a> tag when a lower neighbor exists
   const rankedLowerLink = page.locator("a").filter({ has: page.getByText("Ranked lower") });
+
   if (await rankedLowerLink.count() > 0) {
     await rankedLowerLink.first().click();
     const secondName = await page.locator("h1").first().textContent();
     expect(secondName).not.toBe(firstName);
   }
 
-  // Navigate back to dashboard via "Back to dashboard" link
   await page.getByRole("link", { name: /back to dashboard/i }).click();
   await expect(page.getByText("What should we automate next?")).toBeVisible();
 });
