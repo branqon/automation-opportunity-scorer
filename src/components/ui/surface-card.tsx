@@ -11,7 +11,7 @@ export function SurfaceCard({
 }: SurfaceCardProps) {
   return (
     <div
-      className={`rounded-xl border border-line bg-surface p-4 shadow-card ${className}`}
+      className={`border border-line bg-surface p-4 shadow-card ${className}`}
     >
       {children}
     </div>

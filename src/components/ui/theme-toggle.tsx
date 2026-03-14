@@ -27,7 +27,7 @@ export function ThemeToggle() {
   if (!mounted) {
     return (
       <button
-        className="flex items-center justify-center rounded-lg border border-line bg-surface p-1.5 text-muted-foreground"
+        className="flex items-center justify-center border border-line bg-surface p-1.5 text-muted-foreground"
         aria-label="Toggle theme"
       >
         {theme === "dark" ? (
@@ -42,7 +42,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="flex items-center justify-center rounded-lg border border-line bg-surface p-1.5 text-muted-foreground transition hover:text-foreground"
+      className="flex items-center justify-center border border-line bg-surface p-1.5 text-muted-foreground transition hover:text-foreground"
       aria-label="Toggle theme"
     >
       {theme === "dark" ? (
