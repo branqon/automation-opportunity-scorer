@@ -135,7 +135,7 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
           <YAxis
             type="number"
             dataKey="score"
-            domain={[40, 95]}
+            domain={[35, 95]}
             axisLine={false}
             tickLine={false}
             tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
