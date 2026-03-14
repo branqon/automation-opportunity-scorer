@@ -70,7 +70,7 @@ export function DashboardFilters({
   }
 
   return (
-    <SurfaceCard>
+    <SurfaceCard className="bg-surface-elevated">
       <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
         <div className="xl:max-w-sm">
           <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
@@ -90,7 +90,7 @@ export function DashboardFilters({
           <label className="flex min-w-0 flex-col gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Team
             <select
-              className="min-h-11 w-full border border-line bg-surface-subtle px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-11 w-full border border-line bg-surface px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent focus:bg-surface-elevated"
               value={filters.team}
               onChange={(event) => updateFilter("team", event.target.value)}
             >
@@ -106,7 +106,7 @@ export function DashboardFilters({
           <label className="flex min-w-0 flex-col gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Type
             <select
-              className="min-h-11 w-full border border-line bg-surface-subtle px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-11 w-full border border-line bg-surface px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent focus:bg-surface-elevated"
               value={filters.automationType}
               onChange={(event) =>
                 updateFilter("automationType", event.target.value)
@@ -124,7 +124,7 @@ export function DashboardFilters({
           <label className="flex min-w-0 flex-col gap-1.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
             Focus
             <select
-              className="min-h-11 w-full border border-line bg-surface-subtle px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              className="min-h-11 w-full border border-line bg-surface px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent focus:bg-surface-elevated"
               value={filters.focus}
               onChange={(event) => updateFilter("focus", event.target.value)}
             >
@@ -140,10 +140,10 @@ export function DashboardFilters({
             type="button"
             onClick={onToggleSlider}
             aria-label="Adjust weights"
-            className={`inline-flex min-h-11 items-center justify-center gap-2 self-end whitespace-nowrap border px-4 py-2 text-sm font-medium transition ${
+            className={`inline-flex min-h-11 items-center justify-center gap-2 self-end whitespace-nowrap border px-4 py-2 text-sm font-medium shadow-card transition ${
               sliderOpen
                 ? "border-accent/40 bg-accent-soft text-accent-strong"
-                : "border-line bg-surface-subtle text-muted-foreground hover:border-accent/25 hover:text-foreground"
+                : "border-line bg-surface text-muted-foreground hover:border-accent/25 hover:bg-surface-elevated hover:text-foreground"
             }`}
           >
             <SlidersHorizontal className="h-4 w-4" />

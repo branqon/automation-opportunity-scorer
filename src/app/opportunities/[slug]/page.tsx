@@ -33,6 +33,23 @@ export async function generateMetadata({
   return {
     title: detail.opportunity.name,
     description: detail.opportunity.summary,
+    openGraph: {
+      title: detail.opportunity.name,
+      description: detail.opportunity.summary,
+      images: [
+        {
+          url: "social-preview.png",
+          width: 1200,
+          height: 630,
+          alt: "Automation Opportunity Scorer dashboard preview",
+        },
+      ],
+    },
+    twitter: {
+      title: detail.opportunity.name,
+      description: detail.opportunity.summary,
+      images: ["social-preview.png"],
+    },
   };
 }
 

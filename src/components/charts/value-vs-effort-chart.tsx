@@ -55,7 +55,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   const dataPoint = payload[0].payload;
 
   return (
-    <div className="border border-line/80 bg-surface px-4 py-3 shadow-sm">
+    <div className="rounded-card border border-line/80 bg-surface px-4 py-3 shadow-sm">
       <p className="font-semibold text-foreground">{dataPoint.name}</p>
       <p className="mt-2 text-sm text-muted-foreground">
         Score {formatScore(dataPoint.score)} | Difficulty{" "}
@@ -85,7 +85,7 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
       aria-label="Scatter plot showing opportunity score against implementation difficulty"
       className="relative h-[320px] w-full min-w-0"
     >
-      <div className="pointer-events-none absolute right-4 top-3 z-10 hidden gap-3 border border-line bg-surface px-3 py-2 text-xs text-muted-foreground sm:flex">
+      <div className="pointer-events-none absolute right-4 top-3 z-10 hidden gap-3 rounded-pill border border-line bg-surface px-3 py-2 text-xs text-muted-foreground sm:flex">
         <span className="inline-flex items-center gap-2">
           <span
             className="h-2.5 w-2.5"
@@ -159,7 +159,7 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
           <Scatter data={strategicBets} fill={DOT_COLORS["Strategic bet"]} />
         </ScatterChart>
       ) : (
-        <div className="h-full w-full border border-line bg-surface-subtle" />
+        <div className="h-full w-full rounded-card border border-line bg-surface-subtle" />
       )}
     </div>
   );

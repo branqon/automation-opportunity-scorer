@@ -149,34 +149,50 @@ export function DashboardClient({
   return (
     <div className="space-y-6">
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
-        <SurfaceCard>
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent-strong">
-            Decision support dashboard
-          </p>
-          <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            What should we automate next?
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
-            Rank recurring operational work by business value, delivery fit, and
-            explicit ROI assumptions without turning the product into a workflow
-            runner.
-          </p>
-          <p className="mt-5 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-            {data.opportunities.length} opportunities |{" "}
-            {formatHours(data.stats.totalMonthlyHoursSaved)} monthly |{" "}
-            {compactCurrencyFormatter.format(data.stats.totalAnnualCostSavings)}{" "}
-            annual savings | {data.stats.quickWinCount} quick wins
-          </p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            <span className="border border-line bg-surface-subtle px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
-              Deterministic 9-factor model
-            </span>
-            <span className="border border-line bg-surface-subtle px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
-              Read-only portfolio surface
-            </span>
-            <span className="border border-line bg-surface-subtle px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
-              Shareable what-if scenarios
-            </span>
+        <SurfaceCard className="relative overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-90"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at top right, var(--ambient-primary) 0%, transparent 36%), linear-gradient(180deg, color-mix(in srgb, var(--surface-elevated) 86%, transparent) 0%, transparent 100%)",
+            }}
+          />
+
+          <div className="relative">
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-accent-strong">
+              Decision support dashboard
+            </p>
+            <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              What should we automate next?
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+              Rank recurring operational work by business value, delivery fit,
+              and explicit ROI assumptions without turning the product into a
+              workflow runner.
+            </p>
+            <p className="mt-5 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              {data.opportunities.length} opportunities |{" "}
+              {formatHours(data.stats.totalMonthlyHoursSaved)} monthly |{" "}
+              {compactCurrencyFormatter.format(data.stats.totalAnnualCostSavings)}{" "}
+              annual savings | {data.stats.quickWinCount} quick wins
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <span className="rounded-pill border border-line bg-surface px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Deterministic 9-factor model
+              </span>
+              <span className="rounded-pill border border-line bg-surface px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Read-only portfolio surface
+              </span>
+              <span className="rounded-pill border border-line bg-surface px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                Shareable what-if scenarios
+              </span>
+              {isCustom ? (
+                <span className="rounded-pill border border-accent/25 bg-accent-soft px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-accent-strong">
+                  Custom weighting active
+                </span>
+              ) : null}
+            </div>
           </div>
         </SurfaceCard>
 
@@ -184,7 +200,7 @@ export function DashboardClient({
           {heroStats.map((stat) => (
             <div
               key={stat.label}
-              className="border border-line bg-surface px-4 py-4 shadow-card"
+              className="rounded-card border border-line bg-surface-elevated px-4 py-4 shadow-card"
             >
               <div className="flex items-center justify-between gap-3">
                 <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
@@ -225,44 +241,45 @@ export function DashboardClient({
 
           {data.opportunities.length > 0 ? (
             <>
+              <section className="grid gap-5 xl:grid-cols-2">
+                <SurfaceCard className="min-w-0">
+                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                    Portfolio signals
+                  </p>
+                  <h2 className="mt-1 text-lg font-semibold text-foreground">
+                    Quick wins against delivery effort
+                  </h2>
+                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                    The top-right cluster shows the best near-term automation
+                    targets. Lower-left items are still useful, but they need
+                    more process work or integration effort first.
+                  </p>
+                  <div className="mt-4 min-w-0">
+                    <ValueVsEffortChart data={data.charts.valueVsEffort} />
+                  </div>
+                </SurfaceCard>
+
+                <SurfaceCard className="min-w-0">
+                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                    Savings concentration
+                  </p>
+                  <h2 className="mt-1 text-lg font-semibold text-foreground">
+                    Annual savings by top-ranked opportunity
+                  </h2>
+                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                    Savings are not evenly distributed. The first few categories
+                    recover a disproportionate share of analyst capacity.
+                  </p>
+                  <div className="mt-4 min-w-0">
+                    <SavingsBarChart data={data.charts.savingsByOpportunity} />
+                  </div>
+                </SurfaceCard>
+              </section>
+
               <OpportunityTable
                 opportunities={data.opportunities}
                 detailQuery={detailQuery}
               />
-
-              <details className="group">
-                <summary className="inline-flex list-none cursor-pointer items-center gap-2 border border-line bg-surface px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground shadow-card hover:text-foreground [&::-webkit-details-marker]:hidden">
-                  <span className="text-[10px] transition-transform group-open:rotate-90">
-                    {">"}
-                  </span>
-                  Analytics
-                </summary>
-                <div className="mt-5 grid gap-6 xl:grid-cols-2">
-                  <SurfaceCard className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-                      Quick wins vs higher effort
-                    </p>
-                    <h3 className="mt-1 text-lg font-semibold text-foreground">
-                      Score against delivery effort
-                    </h3>
-                    <div className="mt-4 min-w-0">
-                      <ValueVsEffortChart data={data.charts.valueVsEffort} />
-                    </div>
-                  </SurfaceCard>
-
-                  <SurfaceCard className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-                      Savings concentration
-                    </p>
-                    <h3 className="mt-1 text-lg font-semibold text-foreground">
-                      Annual savings by top-ranked opportunity
-                    </h3>
-                    <div className="mt-4 min-w-0">
-                      <SavingsBarChart data={data.charts.savingsByOpportunity} />
-                    </div>
-                  </SurfaceCard>
-                </div>
-              </details>
             </>
           ) : (
             <SurfaceCard className="text-center">

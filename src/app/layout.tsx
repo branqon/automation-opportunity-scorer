@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+const siteTitle = "Automation Opportunity Scorer";
+const siteDescription =
+  "Focused internal tool that ranks operational automation opportunities by business value and implementation fit.";
+const siteUrl = "https://branqon.github.io/automation-opportunity-scorer/";
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -9,12 +14,37 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  applicationName: siteTitle,
   title: {
-    default: "Automation Opportunity Scorer",
-    template: "%s | Automation Opportunity Scorer",
+    default: siteTitle,
+    template: `%s | ${siteTitle}`,
   },
-  description:
-    "Focused internal tool that ranks operational automation opportunities by business value and implementation fit.",
+  description: siteDescription,
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: siteTitle,
+    title: siteTitle,
+    description: siteDescription,
+    images: [
+      {
+        url: "social-preview.png",
+        width: 1200,
+        height: 630,
+        alt: "Automation Opportunity Scorer dashboard preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["social-preview.png"],
+  },
 };
 
 export default function RootLayout({
@@ -27,7 +57,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem("theme");if(!t)t="dark";document.documentElement.setAttribute("data-theme",t)})()`,
+            __html: `(function(){try{var stored=localStorage.getItem("theme");var prefersDark=window.matchMedia("(prefers-color-scheme: dark)").matches;var theme=stored||(prefersDark?"dark":"light");if(theme==="dark"){document.documentElement.setAttribute("data-theme","dark")}else{document.documentElement.removeAttribute("data-theme")}}catch(_){document.documentElement.removeAttribute("data-theme")}})()`,
           }}
         />
       </head>

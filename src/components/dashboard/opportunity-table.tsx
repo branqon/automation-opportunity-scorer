@@ -27,7 +27,7 @@ export function OpportunityTable({
   }
 
   return (
-    <div className="overflow-hidden border border-line bg-surface shadow-card">
+    <div className="overflow-hidden rounded-card border border-line bg-surface-elevated shadow-card">
       <div className="border-b border-line bg-surface-subtle/60 px-4 py-4 sm:px-5">
         <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           Ranked opportunity table
@@ -74,7 +74,7 @@ export function OpportunityTable({
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
-              <div className="border border-line bg-surface-subtle p-3">
+              <div className="rounded-card border border-line bg-surface-subtle p-3">
                 <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   Monthly hours
                 </p>
@@ -82,7 +82,7 @@ export function OpportunityTable({
                   {formatHours(opportunity.monthlyHoursSaved)}
                 </p>
               </div>
-              <div className="border border-line bg-surface-subtle p-3">
+              <div className="rounded-card border border-line bg-surface-subtle p-3">
                 <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   Annual savings
                 </p>
@@ -128,7 +128,7 @@ export function OpportunityTable({
                 className="border-b border-line transition hover:bg-surface-subtle/65"
               >
                 <td className="px-4 py-3 align-top">
-                  <span className="inline-flex min-w-10 justify-center border border-line bg-surface-subtle px-2 py-1 text-sm font-semibold text-foreground">
+                  <span className="inline-flex min-w-10 justify-center rounded-control border border-line bg-surface-subtle px-2 py-1 text-sm font-semibold text-foreground">
                     #{opportunity.rank}
                   </span>
                 </td>

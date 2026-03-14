@@ -45,7 +45,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   const dataPoint = payload[0].payload;
 
   return (
-    <div className="border border-line/80 bg-surface px-4 py-3 shadow-sm">
+    <div className="rounded-card border border-line/80 bg-surface px-4 py-3 shadow-sm">
       <p className="font-semibold text-foreground">{dataPoint.name}</p>
       <p className="mt-2 text-sm text-muted-foreground">
         {compactCurrencyFormatter.format(dataPoint.annualCostSavings)} annual
@@ -59,7 +59,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
 }
 
 function truncateLabel(name: string, max = 18) {
-  return name.length > max ? `${name.slice(0, max)}…` : name;
+  return name.length > max ? `${name.slice(0, max)}...` : name;
 }
 
 export function SavingsBarChart({ data }: SavingsBarChartProps) {
@@ -96,9 +96,14 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
             axisLine={false}
             tickLine={false}
             tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
-            tickFormatter={(value) => compactCurrencyFormatter.format(Number(value))}
+            tickFormatter={(value) =>
+              compactCurrencyFormatter.format(Number(value))
+            }
           />
-          <Tooltip cursor={{ fill: CHART_COLORS.cursorFill }} content={<CustomTooltip />} />
+          <Tooltip
+            cursor={{ fill: CHART_COLORS.cursorFill }}
+            content={<CustomTooltip />}
+          />
           <Bar
             dataKey="annualCostSavings"
             fill="url(#savingsGradient)"
@@ -113,7 +118,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           </defs>
         </BarChart>
       ) : (
-        <div className="h-full w-full border border-line bg-surface-subtle" />
+        <div className="h-full w-full rounded-card border border-line bg-surface-subtle" />
       )}
     </div>
   );

@@ -43,7 +43,7 @@ export function WeightSliderPanel({
   }
 
   return (
-    <SurfaceCard className="w-full shrink-0 lg:sticky lg:top-24 lg:w-72 xl:w-80">
+    <SurfaceCard className="w-full shrink-0 bg-surface-elevated lg:sticky lg:top-24 lg:w-72 xl:w-80">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
@@ -69,7 +69,7 @@ export function WeightSliderPanel({
 
       <div className="mt-5 space-y-4">
         {SLIDER_ORDER.map((key) => (
-          <div key={key} className="border border-line bg-surface-subtle p-3">
+          <div key={key} className="rounded-card border border-line bg-surface p-3">
             <div className="flex items-baseline justify-between text-sm">
               <label
                 htmlFor={`weight-${key}`}
@@ -102,9 +102,9 @@ export function WeightSliderPanel({
         type="button"
         onClick={onReset}
         disabled={!isCustom}
-        className={`mt-4 inline-flex w-full items-center justify-center gap-2 border border-line bg-surface-subtle px-3 py-2 text-sm font-medium transition ${
+        className={`mt-4 inline-flex w-full items-center justify-center gap-2 border border-line bg-surface px-3 py-2 text-sm font-medium transition ${
           isCustom
-            ? "text-muted-foreground hover:border-accent/25 hover:text-foreground"
+            ? "text-muted-foreground hover:border-accent/25 hover:bg-surface-elevated hover:text-foreground"
             : "cursor-default text-muted-foreground/40"
         }`}
       >

@@ -7,8 +7,8 @@ test("loads score breakdown and metrics", async ({ page }) => {
   await expect(page.getByText("Opportunity score", { exact: true })).toBeVisible();
   await expect(page.getByText("Monthly hours saved", { exact: true })).toBeVisible();
   await expect(page.getByText("Annual cost savings", { exact: true })).toBeVisible();
-  await expect(page.getByText("Monthly volume", { exact: true })).toBeVisible();
-  await expect(page.getByText("Repeatability", { exact: true })).toBeVisible();
+  await expect(page.getByText("Monthly volume", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Repeatability", { exact: true }).first()).toBeVisible();
 });
 
 test("preserves active weight scenarios on detail pages", async ({ page }) => {
