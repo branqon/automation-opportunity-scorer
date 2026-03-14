@@ -120,64 +120,68 @@ export function OpportunityDetailClient({
       ) : null}
 
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.75fr)] xl:items-start">
-        <SurfaceCard>
-          <div className="flex flex-wrap gap-1.5">
-            <Badge variant="neutral">{opportunity.team.name}</Badge>
-            <Badge variant="accent">
-              {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
-            </Badge>
-            <Badge variant={getEffortBadgeVariant(opportunity.effortTier)}>
-              {opportunity.effortTier}
-            </Badge>
-          </div>
-
-          <h1 className="mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            {opportunity.name}
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            {opportunity.summary}
-          </p>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl border border-line bg-surface-subtle p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Opportunity score
-              </p>
-              <p className="mt-2 text-2xl font-semibold text-foreground">
-                {formatScore(opportunity.score)}
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {opportunity.valueBand}
-              </p>
+        <div className="space-y-5">
+          <SurfaceCard>
+            <div className="flex flex-wrap gap-1.5">
+              <Badge variant="neutral">{opportunity.team.name}</Badge>
+              <Badge variant="accent">
+                {getAutomationTypeLabel(opportunity.suggestedAutomationType)}
+              </Badge>
+              <Badge variant={getEffortBadgeVariant(opportunity.effortTier)}>
+                {opportunity.effortTier}
+              </Badge>
             </div>
 
-            <div className="rounded-xl border border-line bg-surface-subtle p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Monthly hours saved
-              </p>
-              <p className="mt-2 text-2xl font-semibold text-foreground">
-                {formatHours(opportunity.monthlyHoursSaved)}
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {formatHours(opportunity.laborHoursPerMonth)} current load
-              </p>
-            </div>
+            <h1 className="mt-4 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              {opportunity.name}
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              {opportunity.summary}
+            </p>
 
-            <div className="rounded-xl border border-line bg-surface-subtle p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Annual cost savings
-              </p>
-              <p className="mt-2 text-2xl font-semibold text-foreground">
-                {compactCurrencyFormatter.format(opportunity.annualCostSavings)}
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Based on{" "}
-                {compactCurrencyFormatter.format(HOURLY_RATE_USD).replace(".0", "")}
-                /hr
-              </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Opportunity score
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-foreground">
+                  {formatScore(opportunity.score)}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {opportunity.valueBand}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Monthly hours saved
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-foreground">
+                  {formatHours(opportunity.monthlyHoursSaved)}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {formatHours(opportunity.laborHoursPerMonth)} current load
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-line bg-surface-subtle p-4">
+                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  Annual cost savings
+                </p>
+                <p className="mt-2 text-2xl font-semibold text-foreground">
+                  {compactCurrencyFormatter.format(opportunity.annualCostSavings)}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Based on{" "}
+                  {compactCurrencyFormatter.format(HOURLY_RATE_USD).replace(".0", "")}
+                  /hr
+                </p>
+              </div>
             </div>
-          </div>
-        </SurfaceCard>
+          </SurfaceCard>
+
+          <ScoreBreakdown opportunity={opportunity} />
+        </div>
 
         <SurfaceCard className="space-y-4">
           <div>
@@ -277,7 +281,6 @@ export function OpportunityDetailClient({
       </section>
 
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.05fr)_minmax(340px,0.95fr)] xl:items-start">
-        <ScoreBreakdown opportunity={opportunity} />
 
         <div className="space-y-5">
           <SurfaceCard className="space-y-4">

@@ -58,6 +58,10 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   );
 }
 
+function truncateLabel(name: string, max = 18) {
+  return name.length > max ? `${name.slice(0, max)}…` : name;
+}
+
 export function SavingsBarChart({ data }: SavingsBarChartProps) {
   const { containerRef, size } = useChartSize();
   const isReady = size.width > 0 && size.height > 0;
@@ -72,7 +76,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           data={data}
           width={size.width}
           height={size.height}
-          margin={{ top: 8, right: 12, left: 0, bottom: 8 }}
+          margin={{ top: 8, right: 12, left: 0, bottom: 24 }}
         >
           <CartesianGrid stroke={CHART_COLORS.grid} vertical={false} />
           <XAxis
@@ -80,10 +84,11 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
             tickLine={false}
             dataKey="name"
             tick={{ fill: CHART_COLORS.axis, fontSize: 12 }}
+            tickFormatter={(name: string) => truncateLabel(name)}
             interval={0}
             angle={-24}
             textAnchor="end"
-            height={70}
+            height={80}
           />
           <YAxis
             axisLine={false}
@@ -96,6 +101,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
             dataKey="annualCostSavings"
             fill="url(#savingsGradient)"
             radius={[6, 6, 0, 0]}
+            maxBarSize={80}
           />
           <defs>
             <linearGradient id="savingsGradient" x1="0" x2="0" y1="0" y2="1">
@@ -105,9 +111,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           </defs>
         </BarChart>
       ) : (
-        <div className="flex h-full w-full items-center justify-center rounded-xl border border-line bg-surface-subtle text-sm text-muted-foreground">
-          Loading savings view...
-        </div>
+        <div className="h-full w-full rounded-xl border border-line bg-surface-subtle" />
       )}
     </div>
   );

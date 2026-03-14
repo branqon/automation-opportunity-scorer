@@ -157,9 +157,7 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
           <Scatter data={strategicBets} fill={DOT_COLORS["Strategic bet"]} />
         </ScatterChart>
       ) : (
-        <div className="flex h-full w-full items-center justify-center rounded-xl border border-line bg-surface-subtle text-sm text-muted-foreground">
-          Loading opportunity map...
-        </div>
+        <div className="h-full w-full rounded-xl border border-line bg-surface-subtle" />
       )}
     </div>
   );

@@ -82,57 +82,55 @@ export function DashboardFilters({
           </p>
         </div>
 
-        <div className="flex items-end gap-3">
-          <div className="grid flex-1 gap-3 sm:grid-cols-[1fr_1fr_auto]">
-            <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Team
-              <select
-                className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
-                value={filters.team}
-                onChange={(event) => updateFilter("team", event.target.value)}
-              >
-                <option value="all">All teams</option>
-                {teams.map((team) => (
-                  <option key={team.slug} value={team.slug}>
-                    {team.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+        <div className="flex flex-wrap items-end gap-3">
+          <label className="flex min-w-[10rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Team
+            <select
+              className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              value={filters.team}
+              onChange={(event) => updateFilter("team", event.target.value)}
+            >
+              <option value="all">All teams</option>
+              {teams.map((team) => (
+                <option key={team.slug} value={team.slug}>
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
-            <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Automation type
-              <select
-                className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
-                value={filters.automationType}
-                onChange={(event) =>
-                  updateFilter("automationType", event.target.value)
-                }
-              >
-                <option value="all">All patterns</option>
-                {automationTypeOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+          <label className="flex min-w-[10rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Type
+            <select
+              className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              value={filters.automationType}
+              onChange={(event) =>
+                updateFilter("automationType", event.target.value)
+              }
+            >
+              <option value="all">All patterns</option>
+              {automationTypeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
 
-            <label className="flex flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              Focus
-              <select
-                className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
-                value={filters.focus}
-                onChange={(event) => updateFilter("focus", event.target.value)}
-              >
-                {FOCUS_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+          <label className="flex min-w-[10rem] flex-1 flex-col gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Focus
+            <select
+              className="min-h-10 w-full rounded-lg border border-line bg-background px-3 py-2 text-sm text-foreground outline-none transition focus:border-accent"
+              value={filters.focus}
+              onChange={(event) => updateFilter("focus", event.target.value)}
+            >
+              {FOCUS_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
 
           <button
             type="button"

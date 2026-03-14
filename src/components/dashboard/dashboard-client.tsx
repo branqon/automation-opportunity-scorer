@@ -140,12 +140,12 @@ export function DashboardClient({ rawOpportunities, teams }: DashboardClientProp
     },
     {
       label: "Quick wins",
-      value: `${data.stats.quickWinCount}`,
+      value: `${data.stats.quickWinCount} opportunities`,
       icon: ArrowUpRight,
     },
     {
       label: "Strategic bets",
-      value: `${data.stats.strategicBetCount}`,
+      value: `${data.stats.strategicBetCount} opportunities`,
       icon: Layers3,
     },
   ];
