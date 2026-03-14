@@ -13,8 +13,6 @@
   --accent: #5f83a3;
   --accent-soft: rgba(95, 131, 163, 0.12);
   --accent-strong: #294764;
-  --ambient-primary: rgba(95, 131, 163, 0.18);
-  --ambient-secondary: rgba(195, 146, 74, 0.1);
   --shadow-card-soft: 0 18px 40px rgba(20, 36, 58, 0.08), 0 5px 14px rgba(20, 36, 58, 0.05);
   --shadow-card-strong-base: 0 28px 60px rgba(20, 36, 58, 0.12), 0 10px 24px rgba(20, 36, 58, 0.08);
   --motion-fast: 150ms;
@@ -46,9 +44,9 @@
 [data-theme="dark"] {
   --background: #0c1118;
   --background-strong: #090d13;
-  --surface: rgba(18, 24, 34, 0.88);
-  --surface-subtle: rgba(14, 19, 28, 0.88);
-  --surface-elevated: rgba(22, 29, 40, 0.96);
+  --surface: #121822;
+  --surface-subtle: #0e131c;
+  --surface-elevated: #161d28;
   --foreground: #eef3f8;
   --muted-foreground: #93a0b2;
   --line: rgba(152, 167, 189, 0.18);
@@ -56,8 +54,6 @@
   --accent: #86a7c7;
   --accent-soft: rgba(134, 167, 199, 0.14);
   --accent-strong: #e2ebf5;
-  --ambient-primary: rgba(134, 167, 199, 0.18);
-  --ambient-secondary: rgba(239, 188, 65, 0.1);
   --shadow-card-soft: 0 20px 46px rgba(0, 0, 0, 0.28), 0 8px 18px rgba(0, 0, 0, 0.2);
   --shadow-card-strong-base: 0 28px 70px rgba(0, 0, 0, 0.34), 0 12px 28px rgba(0, 0, 0, 0.22);
   --semantic-success-bg: rgba(74, 222, 128, 0.12);

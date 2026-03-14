@@ -241,45 +241,53 @@ export function DashboardClient({
 
           {data.opportunities.length > 0 ? (
             <>
-              <section className="grid gap-5 xl:grid-cols-2">
-                <SurfaceCard className="min-w-0">
-                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-                    Portfolio signals
-                  </p>
-                  <h2 className="mt-1 text-lg font-semibold text-foreground">
-                    Quick wins against delivery effort
-                  </h2>
-                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                    The top-right cluster shows the best near-term automation
-                    targets. Lower-left items are still useful, but they need
-                    more process work or integration effort first.
-                  </p>
-                  <div className="mt-4 min-w-0">
-                    <ValueVsEffortChart data={data.charts.valueVsEffort} />
-                  </div>
-                </SurfaceCard>
-
-                <SurfaceCard className="min-w-0">
-                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-                    Savings concentration
-                  </p>
-                  <h2 className="mt-1 text-lg font-semibold text-foreground">
-                    Annual savings by top-ranked opportunity
-                  </h2>
-                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                    Savings are not evenly distributed. The first few categories
-                    recover a disproportionate share of analyst capacity.
-                  </p>
-                  <div className="mt-4 min-w-0">
-                    <SavingsBarChart data={data.charts.savingsByOpportunity} />
-                  </div>
-                </SurfaceCard>
-              </section>
-
               <OpportunityTable
                 opportunities={data.opportunities}
                 detailQuery={detailQuery}
               />
+
+              <details className="group">
+                <summary className="inline-flex list-none cursor-pointer items-center gap-2 border border-line bg-surface px-4 py-2.5 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground shadow-card hover:text-foreground [&::-webkit-details-marker]:hidden">
+                  <span className="text-[10px] transition-transform group-open:rotate-90">
+                    {">"}
+                  </span>
+                  Analytics
+                </summary>
+                <div className="mt-5 grid gap-5 xl:grid-cols-2">
+                  <SurfaceCard className="min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                      Portfolio signals
+                    </p>
+                    <h2 className="mt-1 text-lg font-semibold text-foreground">
+                      Quick wins against delivery effort
+                    </h2>
+                    <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                      The top-right cluster shows the best near-term automation
+                      targets. Lower-left items are still useful, but they need
+                      more process work or integration effort first.
+                    </p>
+                    <div className="mt-4 min-w-0">
+                      <ValueVsEffortChart data={data.charts.valueVsEffort} />
+                    </div>
+                  </SurfaceCard>
+
+                  <SurfaceCard className="min-w-0">
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                      Savings concentration
+                    </p>
+                    <h2 className="mt-1 text-lg font-semibold text-foreground">
+                      Annual savings by top-ranked opportunity
+                    </h2>
+                    <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                      Savings are not evenly distributed. The first few categories
+                      recover a disproportionate share of analyst capacity.
+                    </p>
+                    <div className="mt-4 min-w-0">
+                      <SavingsBarChart data={data.charts.savingsByOpportunity} />
+                    </div>
+                  </SurfaceCard>
+                </div>
+              </details>
             </>
           ) : (
             <SurfaceCard className="text-center">
