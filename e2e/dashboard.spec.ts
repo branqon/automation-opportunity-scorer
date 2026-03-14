@@ -1,15 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-test("loads with summary cards and opportunity table", async ({ page }) => {
+test("loads with inline stats and opportunity table", async ({ page }) => {
   await page.goto("/");
 
-  const metricLabel = (text: string) =>
-    page.getByRole("paragraph").filter({ hasText: new RegExp(`^${text}$`) });
-
-  await expect(metricLabel("Monthly hours saved")).toBeVisible();
-  await expect(metricLabel("Annual cost savings")).toBeVisible();
-  await expect(metricLabel("Quick wins")).toBeVisible();
-  await expect(metricLabel("Strategic bets")).toBeVisible();
+  await expect(page.getByText(/opportunities ·.*monthly ·.*annual savings ·.*quick wins/)).toBeVisible();
 
   await expect(page.getByText("Ranked opportunity table")).toBeVisible();
   await expect(page.locator("table").getByText("Password reset")).toBeVisible();
