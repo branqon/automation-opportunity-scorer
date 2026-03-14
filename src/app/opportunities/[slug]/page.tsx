@@ -18,6 +18,8 @@ type OpportunityPageProps = {
   }>;
 };
 
+const siteUrl = "https://branqon.github.io/automation-opportunity-scorer/";
+
 export async function generateMetadata({
   params,
 }: OpportunityPageProps): Promise<Metadata> {
@@ -30,12 +32,18 @@ export async function generateMetadata({
     };
   }
 
+  const pageUrl = `${siteUrl}opportunities/${slug}`;
+
   return {
     title: detail.opportunity.name,
     description: detail.opportunity.summary,
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
       title: detail.opportunity.name,
       description: detail.opportunity.summary,
+      url: pageUrl,
       images: [
         {
           url: "social-preview.png",
