@@ -94,16 +94,19 @@ export function WeightSliderPanel({
         ))}
       </div>
 
-      {isCustom && (
-        <button
-          type="button"
-          onClick={onReset}
-          className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-line bg-background px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-        >
-          <RotateCcw className="h-3.5 w-3.5" />
-          Reset to defaults
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={onReset}
+        disabled={!isCustom}
+        className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-line bg-background px-3 py-2 text-sm font-medium transition ${
+          isCustom
+            ? "text-muted-foreground hover:text-foreground"
+            : "cursor-default text-muted-foreground/40"
+        }`}
+      >
+        <RotateCcw className="h-3.5 w-3.5" />
+        Reset to defaults
+      </button>
     </SurfaceCard>
   );
 }

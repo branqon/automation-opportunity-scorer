@@ -69,6 +69,8 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
   return (
     <div
       ref={containerRef}
+      role="img"
+      aria-label="Bar chart showing annual cost savings by top-ranked opportunity"
       className="h-[320px] w-full min-w-0 rounded-xl"
     >
       {isReady ? (

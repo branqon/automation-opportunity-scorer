@@ -81,6 +81,8 @@ export function ValueVsEffortChart({ data }: ValueVsEffortChartProps) {
   return (
     <div
       ref={containerRef}
+      role="img"
+      aria-label="Scatter plot showing opportunity score against implementation difficulty"
       className="relative h-[320px] w-full min-w-0 rounded-xl"
     >
       <div className="pointer-events-none absolute right-4 top-3 z-10 hidden gap-3 rounded-lg border border-line bg-surface px-3 py-2 text-xs text-muted-foreground sm:flex">

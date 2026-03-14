@@ -106,16 +106,19 @@ export function OpportunityTable({
 
       <div className="hidden overflow-x-auto md:block">
         <table className="min-w-full border-collapse text-left text-sm">
+          <caption className="sr-only">
+            Ranked automation opportunities sorted by composite score
+          </caption>
           <thead>
             <tr className="border-b border-line bg-surface-subtle text-xs uppercase tracking-wider text-muted-foreground">
-              <th className="px-4 py-3 font-medium">Rank</th>
-              <th className="px-4 py-3 font-medium">Opportunity</th>
-              <th className="px-4 py-3 font-medium">Automation type</th>
-              <th className="px-4 py-3 font-medium">Score</th>
-              <th className="px-4 py-3 font-medium">Monthly hours</th>
-              <th className="px-4 py-3 font-medium">Annual savings</th>
-              <th className="px-4 py-3 font-medium">Effort</th>
-              <th className="px-4 py-3 font-medium">Detail</th>
+              <th scope="col" className="px-4 py-3 font-medium">Rank</th>
+              <th scope="col" className="px-4 py-3 font-medium">Opportunity</th>
+              <th scope="col" className="px-4 py-3 font-medium">Automation type</th>
+              <th scope="col" className="px-4 py-3 font-medium">Score</th>
+              <th scope="col" className="px-4 py-3 font-medium">Monthly hours</th>
+              <th scope="col" className="px-4 py-3 font-medium">Annual savings</th>
+              <th scope="col" className="px-4 py-3 font-medium">Effort</th>
+              <th scope="col" className="px-4 py-3 font-medium">Detail</th>
             </tr>
           </thead>
           <tbody>
@@ -131,9 +134,12 @@ export function OpportunityTable({
                 </td>
                 <td className="px-4 py-3 align-top">
                   <div className="max-w-[18rem]">
-                    <p className="font-semibold text-foreground">
+                    <Link
+                      href={buildOpportunityHref(opportunity.slug)}
+                      className="font-semibold text-foreground transition hover:text-accent"
+                    >
                       {opportunity.name}
-                    </p>
+                    </Link>
                     <p className="mt-0.5 text-xs text-muted-foreground">
                       {opportunity.team.name}
                     </p>

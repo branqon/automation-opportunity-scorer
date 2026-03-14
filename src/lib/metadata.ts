@@ -27,6 +27,7 @@ export const AUTOMATION_TYPE_DESCRIPTIONS: Record<AutomationType, string> = {
 export const FOCUS_OPTIONS = [
   { value: "all", label: "All opportunities" },
   { value: "quick-wins", label: "Quick wins" },
+  { value: "foundation-builds", label: "Foundation builds" },
   { value: "strategic-bets", label: "Strategic bets" },
 ] as const;
 

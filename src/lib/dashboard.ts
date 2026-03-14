@@ -7,7 +7,7 @@ import {
   type ScoreFactorKey,
 } from "@/lib/scoring";
 
-export type DashboardFocus = "all" | "quick-wins" | "strategic-bets";
+export type DashboardFocus = "all" | "quick-wins" | "foundation-builds" | "strategic-bets";
 
 export type DashboardFilterState = {
   team: string;
@@ -89,6 +89,7 @@ export function parseDashboardFilters(searchParams: RawSearchParams): DashboardF
   const validFocus = new Set<DashboardFocus>([
     "all",
     "quick-wins",
+    "foundation-builds",
     "strategic-bets",
   ]);
 
@@ -181,6 +182,13 @@ function applyFilters(
     }
 
     if (filters.focus === "quick-wins" && opportunity.effortTier !== "Quick win") {
+      return false;
+    }
+
+    if (
+      filters.focus === "foundation-builds" &&
+      opportunity.effortTier !== "Foundation build"
+    ) {
       return false;
     }
 

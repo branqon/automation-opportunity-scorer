@@ -244,11 +244,11 @@ export function OpportunityDetailClient({
                 </p>
               </Link>
             ) : (
-              <div className="rounded-xl border border-line bg-surface-subtle/60 p-3">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              <div className="rounded-xl border border-dashed border-line bg-surface-subtle/40 p-3">
+                <p className="text-xs uppercase tracking-wider text-muted-foreground/60">
                   Ranked higher
                 </p>
-                <p className="mt-1 text-sm font-semibold text-foreground">
+                <p className="mt-1 text-sm text-muted-foreground/60">
                   Highest-ranked opportunity
                 </p>
               </div>
@@ -267,11 +267,11 @@ export function OpportunityDetailClient({
                 </p>
               </Link>
             ) : (
-              <div className="rounded-xl border border-line bg-surface-subtle/60 p-3">
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">
+              <div className="rounded-xl border border-dashed border-line bg-surface-subtle/40 p-3">
+                <p className="text-xs uppercase tracking-wider text-muted-foreground/60">
                   Ranked lower
                 </p>
-                <p className="mt-1 text-sm font-semibold text-foreground">
+                <p className="mt-1 text-sm text-muted-foreground/60">
                   End of ranked list
                 </p>
               </div>
