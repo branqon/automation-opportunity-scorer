@@ -23,8 +23,7 @@ export function useClientSearchParams(initialSearch = "") {
   const [searchString, setSearchString] = useState(initialSearch);
 
   useEffect(() => {
-    // Sync with the real URL once we're in the browser.
-    setSearchString(window.location.search.replace(/^\?/, ""));
+    setSearchString(window.location.search.replace(/^\?/, "")); // eslint-disable-line react-hooks/set-state-in-effect -- sync with real URL after hydration
 
     function onPopState() {
       setSearchString(window.location.search.replace(/^\?/, ""));
