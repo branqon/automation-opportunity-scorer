@@ -45,7 +45,7 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   const dataPoint = payload[0].payload;
 
   return (
-    <div className="rounded-lg border border-line/80 bg-surface px-4 py-3 shadow-sm">
+    <div className="border border-line/80 bg-surface px-4 py-3 shadow-sm">
       <p className="font-semibold text-foreground">{dataPoint.name}</p>
       <p className="mt-2 text-sm text-muted-foreground">
         {compactCurrencyFormatter.format(dataPoint.annualCostSavings)} annual
@@ -71,7 +71,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
       ref={containerRef}
       role="img"
       aria-label="Bar chart showing annual cost savings by top-ranked opportunity"
-      className="h-[320px] w-full min-w-0 rounded-xl"
+      className="h-[320px] w-full min-w-0"
     >
       {isReady ? (
         <BarChart
@@ -102,7 +102,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           <Bar
             dataKey="annualCostSavings"
             fill="url(#savingsGradient)"
-            radius={[6, 6, 0, 0]}
+            radius={[0, 0, 0, 0]}
             maxBarSize={80}
           />
           <defs>
@@ -113,7 +113,7 @@ export function SavingsBarChart({ data }: SavingsBarChartProps) {
           </defs>
         </BarChart>
       ) : (
-        <div className="h-full w-full rounded-xl border border-line bg-surface-subtle" />
+        <div className="h-full w-full border border-line bg-surface-subtle" />
       )}
     </div>
   );
